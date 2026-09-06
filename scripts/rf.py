@@ -347,7 +347,7 @@ def cmd_route(a):
         die("no generation backend is usable right now — see candidates above", 2)
 
 
-GEMINI_DEFAULT_MODEL = os.environ.get("RF_GEMINI_MODEL", "gemini-3-pro-image-preview")
+GEMINI_DEFAULT_MODEL = os.environ.get("RF_GEMINI_MODEL", "gemini-3-pro-image")
 
 
 def gemini_key() -> str:
@@ -401,6 +401,11 @@ def gemini_generate(prompt: str, aspect: str, model: str) -> tuple[bytes, str]:
         payload = _gemini_call(model, prompt, aspect, key)
     except urllib.error.HTTPError as e:
         detail = e.read().decode("utf-8", "replace")
+        if e.code == 429 and "limit: 0" in detail:
+            die("gemini image models have no free-tier quota on this key "
+                "(limit: 0). enable billing on the key's Google Cloud project "
+                "at https://aistudio.google.com/apikey — image generation is "
+                "billed per image. text models still work on the free tier.")
         if e.code not in (400, 404):
             die(f"gemini HTTP {e.code}: {detail[:600]}")
         available = gemini_image_models(key)
