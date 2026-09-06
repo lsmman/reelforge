@@ -135,9 +135,24 @@
       "score": 91,
       "critique": "헤드라인 SEOUL FILM WEEK, 날짜 22 - 28 OCTOBER, 하단 SEOUL CINEMA CENTER 세 블록 모두 철자가 정확하고 잘림이 없다. 3색 제한을 지켰고 콘덴스드 그로테스크의 크기 대비로 계층이 명확하다. 감점은 중앙 그래픽 — 필름 스프로킷을 의도했으나 형태가 뭉개져 무엇인지 읽히지 않는 추상 덩어리가 됐다.",
       "fix": "중앙 도형을 'a single strip of film with four evenly spaced square sprocket holes down each side'로 구체화하고 도형 수를 줄일 것."
+    },
+    {
+      "n": 2,
+      "backend": "gemini",
+      "model": "gemini-3-pro-image",
+      "prompt": "A printed poster for a film festival, Swiss international typographic style, flat screen-printed shapes and no photography.\nThe headline reads exactly \"SEOUL FILM WEEK\", set in a heavy condensed grotesque across two lines and filling the top third.\nA second line reads exactly \"22 - 28 OCTOBER\". A small block reads exactly \"SEOUL CINEMA CENTER\".\nVertical format with wide even margins, headline at the top, caption block at the bottom left, and as the only graphic element a single vertical strip of film running down the middle of the poster with four evenly spaced square sprocket holes along each of its two edges, instantly recognisable as film.\nPrinted in exactly these colors and no others: bone #FAF3A3, brick red #B2352C, near-black #1A0F0E.\nEvery word appears exactly as quoted, correctly spelled, fully inside the margins, and clear of the graphics. The color count is exactly the number listed. Ink sits flat on the paper the way a screen print does.\n",
+      "aspect": "2:3",
+      "size": "2K",
+      "refs_attached": 3,
+      "file": "out/attempt-02.png",
+      "bytes": 1732433,
+      "created_at": "2026-09-06T17:59:22+09:00",
+      "score": 93,
+      "critique": "v2 재생성. 1차에서 무엇인지 안 읽히던 중앙 그래픽이 좌우 스프로킷 구멍이 뚫린 필름 스트립으로 명확히 읽힌다. 텍스트 세 블록 모두 철자 정확하고 3색 제한도 지켰다. 헤드라인의 크기 대비가 커져 계층이 더 선명하다. 감점은 스트립이 하단에서 잘려 마감이 어정쩡하고, 오른쪽 마진이 왼쪽보다 좁아 균형이 흔들린다는 점.",
+      "fix": "스트립 아래에 여백을 줘 온전히 담고, 좌우 마진을 같게 맞출 것."
     }
   ],
-  "final": "out/attempt-01.png",
+  "final": "out/attempt-02.png",
   "status": "done",
   "reference_query": "film festival poster typography minimal graphic design poster typography"
 }

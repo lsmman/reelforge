@@ -3,20 +3,39 @@
 # Kling 방식: 먼저 장르를 판별하고, 그 장르를 가장 잘 만드는 모델·프리셋을 고른다.
 # 이 파일은 사람이 고치라고 있는 파일이다. 모델을 바꾸고 싶으면 여기만 고친다.
 #
+# v2 — 구글의 Gemini 이미지 모델 가이드를 반영해 세 가지를 바꿨다.
+#
+#   1. 네거티브 프롬프트를 없앴다. Gemini 계열은 확산 모델의 negativePrompt 같은
+#      별도 경로가 없어서, "X 하지 마"라고 쓰면 그 X 를 프롬프트 안에 심는 꼴이 된다.
+#      대신 `guardrails` 에 같은 실패를 **긍정문**으로 적는다.
+#      "misspelled text 금지" -> "every word spelled exactly as quoted".
+#   2. `ref_roles` 를 넣었다. 3단계에서 모은 핀터레스트 레퍼런스를 텍스트로만 쓰지
+#      않고 생성 요청에 직접 붙인다. 구글 권장은 2~4장, **한 장에 한 역할**.
+#      장르마다 레퍼런스에서 훔쳐야 할 것이 다르므로 역할도 장르별로 다르다.
+#   3. `prompt_template` 을 키워드 나열에서 문장형 브리프로 바꿨다. 모델이
+#      태그 수프보다 크리에이티브 디렉터의 짧은 브리프에 훨씬 잘 반응한다.
+#
 # 필드
 #   label             한국어 표시명
 #   match             AI 가 장르를 고를 때 참고하는 힌트
 #   pinterest_suffix  검색어에 덧붙일 말. 레퍼런스 품질을 좌우한다
+#   ref_roles         레퍼런스 이미지에 붙일 역할. 순서대로 1장씩 배정된다
 #   primary/fallback  backend + model + params
 #   prompt_template   최종 프롬프트 뼈대. {} 자리를 AI 가 채운다
-#   negative          피할 것
+#   guardrails        그 장르에서 자주 터지는 실패를 긍정문으로 못박은 문장
 #   upscale           마무리 업스케일 (선택)
 
 defaults:
   aspect: "3:2"
-  ref_count: 10
+  ref_count: 10          # 핀터레스트에서 받아올 장수
+  ref_attach: 3          # 그중 생성 요청에 실제로 붙일 장수 (구글 권장 2~4)
+  image_size: "2K"       # 미지정 시 1K 로 떨어진다. 2K 가 기본값이어야 한다
   score_threshold: 80
   max_attempts: 3
+  ref_roles:
+    - "Reference A — take only its lighting from this image: the direction, hardness and color temperature of the light, and how shadows fall. Ignore its subject."
+    - "Reference B — take only its color palette and material finishes from this image. Ignore its subject and composition."
+    - "Reference C — take only its composition from this image: camera height, framing and how space is divided. Ignore its subject and colors."
   upscale: { backend: higgsfield, model: bytedance_image_upscale, params: { resolution: "4k" } }
 
 genres:
@@ -25,140 +44,239 @@ genres:
     label: 인물 / 포트레이트
     match: 사람 얼굴·상반신이 주인공. 프로필, 패션, UGC, 에디토리얼
     pinterest_suffix: portrait photography lighting editorial
+    ref_roles:
+      - "Reference A — take only its lighting from this image: where the key light sits relative to the face, how soft it is, and how the shadow side is filled. Ignore the person."
+      - "Reference B — take only its skin rendering and color grade from this image: how much texture survives, the warmth of the tones. Ignore the person."
+      - "Reference C — take only its framing from this image: crop, headroom, and where the subject sits in the frame. Ignore the person."
     primary:  { backend: higgsfield, model: soul_2,   params: { quality: "2k" } }
     fallback: { backend: gemini,     model: default }
     prompt_template: |
-      {shot_type} portrait of {subject}, {styling}.
-      Lighting: {lighting}. Lens: {lens}. Mood: {mood}.
-      Skin texture natural and unretouched, sharp focus on eyes.
-      Color palette: {palette}. Background: {background}.
-    negative: plastic skin, over-smoothed face, extra fingers, warped hands, uncanny eyes, heavy HDR
+      A {shot_type} portrait of {subject}, {styling}.
+      {lighting}, so the face reads {mood}.
+      Shot on {lens}, with {background} falling away behind them.
+      The skin keeps its own texture — pores, fine hair, the small irregularities
+      a real face has — and the eyes carry the sharpest focus in the frame.
+      The palette stays within {palette}.
+    guardrails: >
+      Skin is photographed, not retouched: pores and fine hair remain visible.
+      Hands, if they appear, have exactly five fingers in a natural resting pose.
+      Both eyes look alive and point the same direction.
 
   cinematic_still:
     label: 시네마틱 스틸
     match: 영화 한 장면 같은 컷. 드라마틱한 조명과 색보정이 핵심
     pinterest_suffix: cinematic film still color grading
+    ref_roles:
+      - "Reference A — take only its lighting and color grade from this image: the key-to-fill ratio, where the highlights sit, how the blacks are lifted or crushed. Ignore the story."
+      - "Reference B — take only its atmosphere from this image: haze, rain, dust, practical lights in frame. Ignore the subject."
+      - "Reference C — take only its blocking from this image: how large the figure sits in the frame and where the horizon or vanishing point falls."
     primary:  { backend: higgsfield, model: cinematic_studio_2_5, params: { resolution: "2k" } }
     fallback: { backend: gemini,     model: default }
     prompt_template: |
-      Cinematic film still, {scene}. {subject} {action}.
-      Anamorphic {lens}, {lighting}, {time_of_day}.
-      Color grade: {palette}. Film grain, shallow depth of field.
-      Framing: {composition}.
-    negative: flat lighting, video game render, oversaturated, watermark, text overlay
+      A single frame from a film. {scene}. {subject} {action}.
+      Shot on {lens} at {time_of_day}, with {lighting} carrying the whole image.
+      {composition}.
+      Graded toward {palette}, with film grain in the shadows and a shallow
+      plane of focus that leaves the background soft.
+    guardrails: >
+      Every light in the frame has a source you could point at.
+      The atmosphere is photographic — haze and grain sit in the air, not on top
+      of the picture. Any signage stays soft enough to read as texture.
 
   product:
     label: 제품 / 커머스
     match: 물건이 주인공. 광고 컷, 패키지샷, 커머스 썸네일
     pinterest_suffix: product photography studio commercial
+    ref_roles:
+      - "Reference A — take only its lighting from this image: the number and placement of sources, the shape of the specular highlights, how long the contact shadow is."
+      - "Reference B — take only its surface and background treatment from this image: the sweep or slab the object sits on, and the tonal separation between object and ground."
+      - "Reference C — take only its staging from this image: how large the object sits in the frame, its angle, and how many props are allowed."
     primary:  { backend: higgsfield, model: marketing_studio_image, params: { resolution: "2k" } }
     fallback: { backend: gemini,     model: default }
     prompt_template: |
-      Commercial product photograph of {subject} on {surface}.
-      {lighting} studio lighting, {background} background.
-      Crisp edges, accurate material rendering ({material}).
-      Composition: {composition}. Palette: {palette}.
-    negative: distorted logo, unreadable label text, floating shadow, dirty surface, cluttered background
+      A commercial photograph of {subject}, resting on {surface}.
+      {lighting} rakes across it so {material} reads exactly as itself,
+      and the edges stay crisp against a {background} ground.
+      {composition}, filling roughly three quarters of the frame.
+      The palette holds to {palette}.
+    guardrails: >
+      The scene runs edge to edge with no border, frame or inset panel.
+      Surfaces are clean: no fingerprints, no dust, no stray reflections of the
+      studio. The object carries no brand name or logotype.
+      Object and background separate clearly in tone.
 
   food:
     label: 음식
     match: 요리, 음료, 베이커리, 식탁 스타일링
     pinterest_suffix: food photography styling overhead
+    ref_roles:
+      - "Reference A — take only its lighting from this image: direction, softness, and how the food's moisture catches it."
+      - "Reference B — take only its palette and surfaces from this image: the tabletop, the linen, the ceramic or metal of the vessel."
+      - "Reference C — take only its plating geometry and camera angle from this image: how the food is arranged in the vessel and how far the camera sits above it."
     primary:  { backend: higgsfield, model: kling_omni_image, params: { resolution: "2k" } }
     fallback: { backend: gemini,     model: default }
     prompt_template: |
-      Food photograph of {subject}, {plating}.
-      {angle} angle, {lighting}, shallow depth of field.
-      Fresh textures, visible steam/moisture where natural.
-      Props: {props}. Palette: {palette}.
-    negative: plastic-looking food, wrong utensils, melted mess, artificial gloss, dull colors
+      A food photograph of {subject}, {plating}.
+      Seen from {angle} under {lighting}, with a shallow plane of focus.
+      Everything is freshly made: {texture} still holds its moisture,
+      and the props stay to {props}.
+      The palette sits in {palette}.
+    guardrails: >
+      The food looks edible and freshly plated, with the moisture and steam a
+      real dish has. The vessels and utensils belong to this cuisine.
+      Colors stay true to the ingredients.
 
   landscape:
     label: 풍경 / 자연
     match: 자연 경관, 하늘, 바다, 산, 도시 스카이라인
     pinterest_suffix: landscape photography golden hour
+    ref_roles:
+      - "Reference A — take only its light from this image: the sun's altitude, the direction of the backlight, and how the sky graduates."
+      - "Reference B — take only its atmosphere from this image: haze, cloud texture, and how contrast drops with distance."
+      - "Reference C — take only its composition from this image: where the horizon sits and how the foreground leads in."
     primary:  { backend: higgsfield, model: soul_location, params: {} }
     fallback: { backend: gemini,     model: default }
     prompt_template: |
-      Wide landscape photograph of {location} during {time_of_day}.
-      {weather}, {lighting}. Foreground: {foreground}.
-      Atmospheric depth, natural color. Palette: {palette}.
-    negative: fake HDR halo, oversaturated sky, tilted horizon, watermark
+      A wide photograph of {location} at {time_of_day}.
+      {weather}, with {lighting} raking across the scene.
+      {foreground} anchors the bottom of the frame, and contrast falls away
+      with distance so the far ground reads as pale silhouette.
+      Natural color, held to {palette}.
+    guardrails: >
+      The horizon runs level. Contrast is carried by the light itself rather
+      than by local edits, so the sky keeps clean gradients and the highlights
+      hold detail.
 
   architecture:
     label: 건축 / 인테리어
     match: 건물 외관, 실내 공간, 카페·매장 인테리어
     pinterest_suffix: interior architecture photography
+    ref_roles:
+      - "Reference A — take only its daylight from this image: where the openings are, how hard the sunlight lands on surfaces, and the shape of the light pools."
+      - "Reference B — take only its materials and palette from this image: the finish of the walls, floor and joinery."
+      - "Reference C — take only its perspective from this image: camera height, whether it is one- or two-point, and how much empty floor is left."
     primary:  { backend: higgsfield, model: nano_banana_pro, params: { resolution: "2k" } }
     fallback: { backend: gemini,     model: default }
     prompt_template: |
-      Architectural photograph of {space}. {style} style.
-      Materials: {material}. Lighting: {lighting}.
-      Straight vertical lines, {lens} perspective.
-      Palette: {palette}. Composition: {composition}.
-    negative: warped verticals, impossible geometry, fisheye distortion, clutter, blown highlights
+      An architectural photograph of {space}, built in {style}.
+      {material} throughout, lit by {lighting}.
+      Shot on {lens} with the camera level, so every vertical in the frame
+      stands perfectly straight.
+      {composition}. The palette holds to {palette}.
+    guardrails: >
+      All verticals stand straight and parallel; the perspective is corrected
+      as an architectural photographer would.
+      The space stays uncluttered and the bright surfaces keep their texture.
+      Any people present read as soft motion, not as portraits.
 
   anime_illustration:
     label: 애니 / 일러스트
     match: 2D 애니메이션풍, 만화, 디지털 페인팅
     pinterest_suffix: anime illustration concept art
+    ref_roles:
+      - "Reference A — take only its shading system from this image: how many tones per surface, how hard the terminator is between light and shadow."
+      - "Reference B — take only its line quality and palette from this image: weight, evenness, and the colors used."
+      - "Reference C — take only its staging from this image: where the figure sits and how the background is layered behind it."
     primary:  { backend: higgsfield, model: seedream_v4_5, params: { quality: basic } }
     fallback: { backend: gemini,     model: default }
     prompt_template: |
-      {style} illustration of {subject}, {action}.
-      Line quality: {line}. Shading: {shading}.
-      Palette: {palette}. Background: {background}. Mood: {mood}.
-    negative: photorealistic face, 3d render, muddy colors, broken anatomy, extra limbs
+      A {style} illustration of {subject}, {action}.
+      Drawn with {line}, and painted with {shading} — every surface carries a
+      lit tone and a shadow tone with a hard edge between them.
+      {background} sits behind, {mood}.
+      The palette holds to {palette}.
+    guardrails: >
+      The drawing stays drawn: flat painted tones with a visible shadow
+      terminator on the face and under the clothing, in the tradition of hand
+      inked animation. Anatomy is sound — the limb count and joint directions
+      are those of a real body.
 
   concept_art:
     label: 컨셉 아트 / 3D
     match: 게임·영화 컨셉, 크리처, 메카, 3D 렌더 느낌
     pinterest_suffix: concept art environment design
+    ref_roles:
+      - "Reference A — take only its lighting and value structure from this image: how the light separates the near forms from the far ones."
+      - "Reference B — take only its palette and surface treatment from this image: the material story, weathering, and brush economy."
+      - "Reference C — take only its scale staging from this image: how the small element establishes the size of the large one."
     primary:  { backend: higgsfield, model: soul_cinematic, params: { quality: "2k" } }
     fallback: { backend: gemini,     model: default }
     prompt_template: |
-      Concept art of {subject}. {style}, {medium}.
-      Scale reference: {scale}. Lighting: {lighting}.
-      Detail density high on {focus}, loose elsewhere. Palette: {palette}.
-    negative: flat lighting, stock photo look, unreadable silhouette, symmetrical mush
+      Concept art of {subject}, painted as {medium} in a {style} register.
+      {scale} sits in the frame to give the size away.
+      {lighting}, with aerial perspective washing the far ground pale.
+      Detail is dense on {focus} and loose everywhere else.
+      The palette holds to {palette}.
+    guardrails: >
+      The main form reads as a clear silhouette against its background even
+      when the picture is squinted at.
+      Detail is spent where the eye lands and left loose elsewhere.
 
   typography_poster:
     label: 타이포 / 포스터
     match: 글자가 주인공. 포스터, 배너, 앨범 커버, 썸네일
     pinterest_suffix: graphic design poster typography
+    ref_roles:
+      - "Reference A — take only its typographic hierarchy from this image: the size jump between headline and caption, and how tightly the type is set."
+      - "Reference B — take only its palette and ink treatment from this image: how many colors, and how flat they sit on the paper."
+      - "Reference C — take only its layout grid from this image: margins, where the headline sits, and where the graphic element is placed."
     primary:  { backend: higgsfield, model: openai_hazel, params: { quality: high } }
     fallback: { backend: gemini,     model: default }
     prompt_template: |
-      Graphic design poster. Headline text reads exactly "{headline}".
-      Typeface feel: {type_style}. Layout: {layout}.
-      Palette: {palette}. Graphic elements: {elements}.
-      Text must be spelled correctly and fully legible.
-    negative: misspelled text, garbled letters, cropped words, cluttered hierarchy
+      A printed poster, {type_style}.
+      The headline reads exactly "{headline}", set in a {type_weight} and
+      filling the {headline_position}.
+      A second line reads exactly "{subline}". A small block reads exactly "{caption}".
+      {layout}, with {elements} as the only graphic element.
+      Printed in exactly these colors and no others: {palette}.
+    guardrails: >
+      Every word appears exactly as quoted, correctly spelled, fully inside the
+      margins, and clear of the graphics.
+      The color count is exactly the number listed.
+      Ink sits flat on the paper the way a screen print does.
 
   logo_icon:
     label: 로고 / 아이콘
     match: 심볼, 앱 아이콘, 브랜드 마크, 벡터풍 그래픽
     pinterest_suffix: logo design minimal mark
+    ref_roles:
+      - "Reference A — take only its stroke discipline from this image: line weight, how few strokes the mark spends, and how the curves terminate."
+      - "Reference B — take only its palette and figure-to-ground balance from this image."
+      - "Reference C — take only its margin from this image: how much empty field surrounds the mark."
     primary:  { backend: higgsfield, model: recraft_v4_1, params: { model_type: vector, resolution: "1k" } }
     fallback: { backend: gemini,     model: default }
     prompt_template: |
-      Minimal {kind} mark for {subject}. {style} style.
-      Geometry: {geometry}. Flat solid colors: {palette}.
-      Centered on plain {background} background, generous margin.
-    negative: gradient mesh, photographic texture, tiny illegible detail, drop shadow, mockup context
+      A single logo mark for {subject}, drawn in a {style} register.
+      {geometry} — and nothing else.
+      Flat solid color: {palette}.
+      Centered on a plain field with wide even margin on all four sides.
+    guardrails: >
+      The mark says one thing and says it instantly: a viewer names it in under
+      a second at thumbnail size.
+      It is built from a countable number of strokes of even weight that meet
+      cleanly. The field around it stays empty.
 
   diagram:
     label: 다이어그램 / 인포그래픽
     match: 구조도, 흐름도, 설명 그림, 차트가 들어간 이미지
     pinterest_suffix: infographic diagram design
+    ref_roles:
+      - "Reference A — take only its layout rhythm from this image: node spacing, alignment, and how the eye is led along the flow."
+      - "Reference B — take only its palette and stroke weight from this image."
+      - "Reference C — take only its label treatment from this image: type size relative to the nodes and how captions attach."
     primary:  { backend: higgsfield, model: nano_banana_pro, params: { resolution: "2k" } }
     fallback: { backend: gemini,     model: default }
     prompt_template: |
-      Clean infographic diagram explaining {topic}.
-      Elements: {elements}. Flow direction: {flow}.
-      All labels spelled correctly: {labels}.
-      Palette: {palette}. Plenty of whitespace, consistent stroke weight.
-    negative: gibberish text, overlapping labels, rainbow colors, 3d bevel, drop shadow
+      A clean diagram explaining {topic}, drawn as flat vector on white.
+      {elements}, connected {flow}.
+      The labels read exactly, in order: {labels}.
+      Uniform stroke weight, one accent color from {palette}, and generous
+      whitespace between every element.
+    guardrails: >
+      Every label appears exactly as listed, correctly spelled, sitting inside
+      its own node with clear space around it.
+      Node widths are sized so each label fits on one line.
+      Arrows are equal in length and the whole flow reads in one direction.
 
   general:
     label: 일반 (분류 실패 폴백)
@@ -167,9 +285,12 @@ genres:
     primary:  { backend: higgsfield, model: nano_banana_pro, params: { resolution: "2k" } }
     fallback: { backend: gemini,     model: default }
     prompt_template: |
-      {subject}, {style}. Lighting: {lighting}. Mood: {mood}.
-      Composition: {composition}. Palette: {palette}.
-    negative: watermark, text overlay, low resolution, jpeg artifacts
+      {subject}, {style}.
+      {lighting}, {mood}.
+      {composition}, with the palette held to {palette}.
+    guardrails: >
+      The image is a clean photograph in its own right — full frame, in focus
+      where it matters, and free of overlaid marks or lettering.
 
 # ---------------------------------------------------------------------------
 # 영상 라우팅
@@ -202,3 +323,5 @@ video:
     logo_icon: 움직이지 않는다. 획이 그려지는 듯한 미세한 리빌만
     diagram: 움직이지 않는다. 화살표를 따라가는 미세한 강조만
     general: 아주 느린 푸시인. 광원과 그림자만 서서히 이동한다
+    # Veo 는 카메라 무브를 명시하지 않으면 정적이거나 미세한 핸드헬드로 떨어진다.
+    # 한 줄에 카메라 무브 하나 + 움직이는 요소 2~3개가 가장 안정적이다.

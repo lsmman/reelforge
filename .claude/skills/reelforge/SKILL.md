@@ -74,8 +74,21 @@ Higgsfield를 쓰려면 먼저 MCP `balance` 도구로 크레딧을 확인하고
 ### 6. prompt — 프롬프트를 쓴다
 
 `route` 출력의 `prompt_template` 의 `{}` 자리를 무드보드와 브리프로 채운다.
-템플릿 밖의 문장을 새로 지어내지 마라 — 장르별로 검증된 뼈대다.
-`negative`는 그대로 쓰되 무드보드의 `avoid`를 덧붙인다.
+템플릿 밖의 문장 구조를 새로 지어내지 마라 — 장르별로 검증된 뼈대다.
+마지막에 `guardrails` 를 그대로 이어 붙인다.
+
+**절대 부정문을 쓰지 마라.** Gemini 계열은 확산 모델의 negativePrompt 같은 별도
+경로가 없다. "no cars" 라고 쓰면 프롬프트 안에 car 를 심는 꼴이 된다.
+피하고 싶은 게 있으면 **있어야 할 것을 서술해라.**
+
+    나쁨: "no text, no watermark, not blurry"
+    좋음: "a clean photograph, sharp where it matters, its surface unmarked"
+
+무드보드의 `avoid` 도 같은 방식으로 뒤집어서 넣는다.
+
+**태그를 나열하지 마라.** `cafe, warm, 4k, cinematic` 같은 키워드 수프보다
+크리에이티브 디렉터가 쓴 짧은 브리프 문장이 훨씬 잘 먹는다. 템플릿이 이미
+문장형인 이유다.
 
 프롬프트는 파일로 저장한다. 셸 인용 지옥을 피한다.
 
@@ -91,6 +104,15 @@ PROMPT
 ```bash
 ./scripts/rf.py gen SLUG --prompt-file runs/SLUG/prompt-01.txt
 ```
+
+이때 **3단계에서 모은 레퍼런스 이미지가 자동으로 요청에 붙는다.** 장르별
+`ref_roles` 에 따라 한 장에 한 역할씩("A는 조명만, B는 팔레트만, C는 구도만")
+배정된다. 텍스트로 옮겨 적은 무드보드보다 원본 이미지가 훨씬 정확하다.
+
+- 레퍼런스가 결과를 너무 끌고 간다 싶으면 `--refs 1` 또는 `--refs 0`
+- 해상도는 라우팅 기본값 2K. 인쇄물이면 `--size 4K`
+- 어려운 컷은 `--variants 3` 으로 세 번 뽑아 그중 제일 나은 걸 고른다.
+  이때 셋 다 8단계에서 채점하고 최고점을 `final` 로 잡는다
 
 백엔드가 `higgsfield`면 MCP `generate_image` 를 호출하고, 결과 URL을 편입한다:
 ```bash
@@ -172,6 +194,8 @@ ffmpeg -v error -i runs/SLUG/out/video-01.mp4 \
 - 생성 이미지를 안 보고 점수 매기기
 - `route`가 막혔는데 다른 백엔드를 몰래 시도하기
 - 라우팅 표에 없는 모델 id 를 즉석에서 만들어내기
+- 프롬프트에 부정문("no ...", "avoid ...") 쓰기
+- 키워드를 쉼표로 나열하기
 - 3회를 넘겨 계속 재생성하기 (비용이 든다)
 - 이미지가 임계값을 못 넘었는데 영상으로 넘어가기
 - 프레임을 안 뽑아보고 영상을 채점하기

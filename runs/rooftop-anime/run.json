@@ -135,9 +135,24 @@
       "score": 87,
       "critique": "옥상 난간, 급수탑, 철망 펜스, 배기관, 해질녘 그라데이션 하늘과 도시 원경까지 배경 구성은 레퍼런스와 정확히 맞다. 16:9 구도와 인물의 왼쪽 3분의 1 배치도 지시대로. 감점은 스타일 — 90년대 셀 애니를 요구했는데 음영이 거의 없는 균일한 선의 현대 벡터 일러스트로 나왔다. 2단 셀 셰이딩이 실종됐고 무릎 아래 다리 형태가 어색하다.",
       "fix": "'two-tone cel shading with a hard shadow terminator on the face, uniform under-shadow on the skirt and legs'를 명시하고, 'vector-flat, no shading'을 네거티브에 추가할 것."
+    },
+    {
+      "n": 2,
+      "backend": "gemini",
+      "model": "gemini-3-pro-image",
+      "prompt": "A 1990s cel animation illustration of a high-school student in uniform leaning on a rooftop railing, looking out over the city at dusk.\nDrawn with bold even black outlines in a hand-inked register, and painted with flat two-tone cel shading — every surface carries a lit tone and a shadow tone with a hard edge between them, including a clear shadow terminator across the face and a solid under-shadow on the skirt and legs.\nA rooftop water tank, chain-link fence and vent pipes sit behind in silhouette, with the city skyline receding into a graduated dusk sky, quiet and end-of-day.\nThe palette holds to dusk slate #343E49, pale sky #B8C6C4, cream #E1DAD1, steel blue #426A84, warm grey #7F756C, muted silver #99A0A5.\nThe drawing stays drawn: flat painted tones with a visible shadow terminator on the face and under the clothing, in the tradition of hand inked animation. Anatomy is sound — the limb count and joint directions are those of a real body.\n",
+      "aspect": "16:9",
+      "size": "2K",
+      "refs_attached": 3,
+      "file": "out/attempt-02.png",
+      "bytes": 1975931,
+      "created_at": "2026-09-06T17:58:53+09:00",
+      "score": 93,
+      "critique": "v2 재생성. 1차에서 실종됐던 2단 셀 셰이딩이 실제로 들어왔다. 얼굴에 그림자 터미네이터가 서고 치마와 다리에 단색 언더섀도가 깔리며 난간 그림자가 바닥에 떨어진다. 선 굵기에 변주가 생겨 벡터 느낌이 사라졌고 해부학도 정상. 세일러 교복, 급수탑, 철망, 배기관, 도시 원경 모두 유지. 감점은 다리 아래가 프레임에서 잘려 발이 안 보이고, 인물 그림자와 난간 그림자의 방향이 미세하게 어긋나는 점.",
+      "fix": "크롭을 넓혀 발까지 담고, 광원 방향을 한 번 더 명시해 그림자 각도를 통일할 것."
     }
   ],
-  "final": "out/attempt-01.png",
+  "final": "out/attempt-02.png",
   "status": "done",
   "reference_query": "90s cel anime school rooftop illustration anime illustration concept art"
 }

@@ -135,9 +135,24 @@
       "score": 90,
       "critique": "창가 역광과 얇은 커튼 확산, 머리카락 림라이트, 리넨 셔츠 결까지 무드보드 지시가 그대로 들어갔다. 피부에 모공과 잔털이 살아있고 눈에 초점이 맞아 포트레이트로서 결함이 없다. 감점은 브리프 이탈 — 20대로 지시했으나 20대 후반에서 30대 초반으로 읽힌다. 헤드룸이 과하고 시선 방향 앞 공간이 좁아 답답하다.",
       "fix": "나이대를 'early twenties'로 명시하고, 크롭을 내려 헤드룸을 줄이면서 시선 방향 왼쪽에 여백을 더 줄 것."
+    },
+    {
+      "n": 2,
+      "backend": "gemini",
+      "model": "gemini-3-pro-image",
+      "prompt": "A waist-up portrait of a woman in her early twenties standing beside a tall window, in a loose white linen shirt.\nBacklit window daylight comes through a sheer curtain and wraps her, a rim of it catching the loose hair at her crown, the shadow side opened by soft bounce, so the face reads calm and unposed.\nShot on an 85mm at f/1.8, with the pale interior wall falling away behind her into a smooth blur.\nFramed with the subject on the right third and the window light filling the left, little headroom, open space in the direction she looks.\nThe skin keeps its own texture — pores, fine hair, the small irregularities a real face has — and the eyes carry the sharpest focus in the frame.\nThe palette stays within cream #E4E1DA, warm sand #A19481, soft taupe #C8C1B3, walnut #775D46 and deep umber #241911.\nSkin is photographed, not retouched: pores and fine hair remain visible. Hands, if they appear, have exactly five fingers in a natural resting pose. Both eyes look alive and point the same direction.\n",
+      "aspect": "4:5",
+      "size": "2K",
+      "refs_attached": 3,
+      "file": "out/attempt-02.png",
+      "bytes": 2183910,
+      "created_at": "2026-09-06T17:59:14+09:00",
+      "score": 95,
+      "critique": "v2 재생성. 나이대가 브리프대로 20대 초중반으로 맞았고, 1차에서 지적한 헤드룸 과다도 해소돼 시선 방향으로 공간이 열렸다. 머리카락 림라이트가 훨씬 뚜렷해지고 피부의 모공·주근깨·잔털이 그대로 살아있다. 리넨 셔츠의 결과 창밖 확산광의 부드러움이 레퍼런스와 정확히 맞는다. 감점은 인물이 오른쪽으로 더 치우쳐 시선 앞 여백이 여전히 아쉽고, 하단 셔츠 면적이 넓다는 점.",
+      "fix": "크롭을 왼쪽으로 밀어 시선 앞 공간을 늘리고 아래를 잘라 상반신 비중을 키울 것."
     }
   ],
-  "final": "out/attempt-01.png",
+  "final": "out/attempt-02.png",
   "status": "done",
   "reference_query": "natural light female portrait window soft portrait photography lighting editorial"
 }

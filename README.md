@@ -114,6 +114,39 @@ https://github.com/lsmman/reelforge/raw/main/docs/examples/neon-alley.mp4
 | 11 | animate | 최종 이미지를 첫 프레임으로 image-to-video |
 | 12 | critique | 프레임을 뽑아 실제로 보고 채점 |
 
+## v2 — 외부 조사로 올린 성능
+
+구글의 Gemini 이미지 모델 가이드와 Nano Banana Pro 프롬프팅 문서를 뒤져
+v1이 틀리게 하고 있던 것 네 가지를 찾았다. 전부 근거를 API로 실측한 뒤 반영했다.
+
+| 발견 | v1이 하던 것 | v2 |
+|---|---|---|
+| **Gemini에는 네거티브 프롬프트가 없다** | 장르마다 `negative:` 를 두고 "Avoid: misspelled text…" 를 덧붙임 | 같은 실패를 **긍정문** `guardrails:` 로 서술. 부정문은 그 개념을 프롬프트에 심는 꼴 |
+| **레퍼런스를 직접 넣을 수 있다** | 핀터레스트 10장을 모아 **텍스트 묘사로만** 사용 | 3장을 **역할 지정해** 요청에 첨부 (A는 조명만, B는 팔레트만, C는 구도만) |
+| **`imageSize` 기본값이 1K** | 파라미터를 안 보내 전부 1K | 기본 2K, 인쇄물은 `--size 4K` |
+| **태그 나열보다 브리프 문장** | `Materials: … Lighting: …` 키워드 목록 | 크리에이티브 디렉터가 쓰는 문장형 템플릿 |
+
+### 실제로 얼마나 올랐나
+
+기존 23런에서 점수가 가장 낮았던 4건을 v2로 다시 돌렸다. 프롬프트의 의도는
+그대로 두고 형식만 v2 규칙으로 바꿨다.
+
+| 런 | v1 | v2 | 달라진 점 |
+|---|---:|---:|---|
+| `anime_illustration` | 87 | **93** | 실종됐던 2단 셀 셰이딩이 들어옴 |
+| `product` | 88 | **94** | 배경·제품 톤 분리, 제품이 프레임의 3/4 |
+| `portrait` | 90 | **95** | 나이대·크롭·림라이트 모두 교정 |
+| `typography_poster` | 91 | **93** | 중앙 그래픽이 필름 스트립으로 읽힘 |
+
+**평균 89.0 → 93.8.** 전체 23런 최종 평균은 94.0.
+
+| v1 | v2 |
+|---|---|
+| <img src="docs/examples/earbuds-v1.png" width="330"> | <img src="docs/examples/earbuds-v2.png" width="330"> |
+| 88 — 배경과 제품이 같은 베이지라 엣지가 죽고, 제품이 작아 썸네일에서 뭉갬 | **94** — 배경이 여러 스톱 어두워 무광·유광·금속이 각각 읽힌다 |
+| <img src="docs/examples/rooftop-anime-v1.png" width="330"> | <img src="docs/examples/rooftop-anime-v2.png" width="330"> |
+| 87 — 음영 없는 현대 벡터 일러스트. 셀 애니 지시가 안 먹음 | **93** — 얼굴 터미네이터, 치마 언더섀도, 난간 그림자 |
+
 ## 장르 라우팅
 
 Kling 이 하는 방식 — 뭘 만드는지에 따라 다른 모델을 쓴다.
@@ -123,6 +156,9 @@ Kling 이 하는 방식 — 뭘 만드는지에 따라 다른 모델을 쓴다.
 음식 `kling_omni_image` · 풍경 `soul_location` · 건축 `nano_banana_pro` ·
 애니 `seedream_v4_5` · 컨셉아트 `soul_cinematic` · 타이포 `openai_hazel` ·
 로고 `recraft_v4_1` · 다이어그램 `nano_banana_pro` · 일반 `nano_banana_pro`
+
+`guardrails` 는 부정문이 아니라 긍정문이다. `ref_roles` 는 레퍼런스 이미지에
+붙일 역할이고, 장르마다 훔쳐야 할 것이 달라서 내용도 다르다.
 
 영상도 같은 발상이다. `video.motion` 에 장르별 기본 카메라 무브가 한 줄씩 있다 —
 인물은 거의 정지, 시네마틱은 느린 트래킹, 타이포·로고·다이어그램은 움직이지 않는다.

@@ -356,8 +356,10 @@ def cmd_route(a):
     run["genre"] = {**(run.get("genre") or {}), "id": gid,
                     "label": g["label"]}
     run["route"] = {"chosen": chosen, "candidates": tried,
-                    "negative": g["negative"],
+                    "guardrails": g["guardrails"],
                     "prompt_template": g["prompt_template"],
+                    "ref_roles": g.get("ref_roles") or routing["defaults"]["ref_roles"],
+                    "image_size": routing["defaults"].get("image_size", "2K"),
                     "upscale": g.get("upscale") or routing["defaults"].get("upscale")}
     run["status"] = "route" if chosen else "blocked_no_backend"
     save_run(a.slug, run)
@@ -395,13 +397,18 @@ def gemini_image_models(key: str) -> list[str]:
     return names
 
 
-def _gemini_call(model: str, prompt: str, aspect: str, key: str):
+def _gemini_call(model: str, prompt: str, aspect: str, key: str,
+                 size: str = "2K", ref_parts: list[dict] | None = None):
     url = (f"https://generativelanguage.googleapis.com/v1beta/models/"
            f"{model}:generateContent")
+    # References first, then the brief — the model reads the roles before it
+    # is told what to build.
+    parts = list(ref_parts or []) + [{"text": prompt}]
     body = json.dumps({
-        "contents": [{"parts": [{"text": prompt}]}],
+        "contents": [{"parts": parts}],
         "generationConfig": {"responseModalities": ["IMAGE"],
-                             "imageConfig": {"aspectRatio": aspect}},
+                             "imageConfig": {"aspectRatio": aspect,
+                                             "imageSize": size}},
     }).encode()
     req = urllib.request.Request(url, data=body, headers={
         "content-type": "application/json", "x-goog-api-key": key})
@@ -409,7 +416,8 @@ def _gemini_call(model: str, prompt: str, aspect: str, key: str):
         return json.loads(r.read())
 
 
-def gemini_generate(prompt: str, aspect: str, model: str) -> tuple[bytes, str]:
+def gemini_generate(prompt: str, aspect: str, model: str, size: str = "2K",
+                    ref_parts: list[dict] | None = None) -> tuple[bytes, str]:
     key = gemini_key()
     if model in (None, "", "default"):
         model = GEMINI_DEFAULT_MODEL
@@ -417,7 +425,7 @@ def gemini_generate(prompt: str, aspect: str, model: str) -> tuple[bytes, str]:
     # A wrong or retired model id is the most common failure here, so ask the
     # API which image models the key can reach rather than guessing again.
     try:
-        payload = _gemini_call(model, prompt, aspect, key)
+        payload = _gemini_call(model, prompt, aspect, key, size, ref_parts)
     except urllib.error.HTTPError as e:
         detail = e.read().decode("utf-8", "replace")
         if e.code == 429 and "limit: 0" in detail:
@@ -435,7 +443,7 @@ def gemini_generate(prompt: str, aspect: str, model: str) -> tuple[bytes, str]:
         print(f"  '{model}' rejected ({e.code}); falling back to '{alt}'", file=sys.stderr)
         model = alt
         try:
-            payload = _gemini_call(model, prompt, aspect, key)
+            payload = _gemini_call(model, prompt, aspect, key, size, ref_parts)
         except urllib.error.HTTPError as e2:
             die(f"gemini HTTP {e2.code} on '{model}': "
                 f"{e2.read().decode('utf-8', 'replace')[:600]}\n"
@@ -447,6 +455,34 @@ def gemini_generate(prompt: str, aspect: str, model: str) -> tuple[bytes, str]:
             if inline and inline.get("data"):
                 return base64.b64decode(inline["data"]), model
     die(f"gemini returned no image: {json.dumps(payload)[:600]}")
+
+
+def reference_parts(run: dict, slug: str, roles: list[str], count: int) -> list[dict]:
+    """Attach a few references as role-labelled image parts.
+
+    Google's guidance is two to four references, each with one job — more only
+    dilutes. Images are downscaled first: the model does not need 4MP to read
+    lighting off a photograph, and the request stays small.
+    """
+    import io
+
+    from PIL import Image
+
+    refs = (run.get("references") or [])[:count]
+    parts = []
+    for ref, role in zip(refs, roles):
+        path = run_dir(slug) / ref["file"]
+        if not path.exists():
+            continue
+        with Image.open(path) as im:
+            im = im.convert("RGB")
+            im.thumbnail((1024, 1024))
+            buf = io.BytesIO()
+            im.save(buf, "JPEG", quality=88)
+        parts.append({"text": role})
+        parts.append({"inlineData": {"mimeType": "image/jpeg",
+                                     "data": base64.b64encode(buf.getvalue()).decode()}})
+    return parts
 
 
 def next_attempt(run: dict) -> int:
@@ -466,20 +502,41 @@ def cmd_gen(a):
         die("pass --prompt or --prompt-file")
     aspect = a.aspect or run["brief"].get("aspect") or "3:2"
 
-    n = next_attempt(run)
-    blob, used_model = gemini_generate(prompt, aspect, route.get("model"))
-    rel = f"out/attempt-{n:02d}.png"
-    (run_dir(a.slug) / rel).write_bytes(blob)
-    run.setdefault("attempts", []).append({
-        "n": n, "backend": "gemini", "model": used_model,
-        "prompt": prompt, "aspect": aspect, "file": rel,
-        "bytes": len(blob), "created_at": now(),
-        "score": None, "critique": None, "fix": None,
-    })
+    routing = load_routing()
+    defaults = routing["defaults"]
+    size = a.size or defaults.get("image_size", "2K")
+    gid = (run.get("genre") or {}).get("id") or "general"
+    genre = routing["genres"].get(gid, {})
+
+    ref_count = defaults.get("ref_attach", 3) if a.refs is None else a.refs
+    ref_parts = []
+    if ref_count:
+        roles = genre.get("ref_roles") or defaults.get("ref_roles", [])
+        ref_parts = reference_parts(run, a.slug, roles, ref_count)
+
+    variants = max(1, a.variants)
+    made = []
+    for _ in range(variants):
+        n = next_attempt(run)
+        blob, used_model = gemini_generate(prompt, aspect, route.get("model"),
+                                           size, ref_parts)
+        rel = f"out/attempt-{n:02d}.png"
+        (run_dir(a.slug) / rel).write_bytes(blob)
+        run.setdefault("attempts", []).append({
+            "n": n, "backend": "gemini", "model": used_model,
+            "prompt": prompt, "aspect": aspect, "size": size,
+            "refs_attached": len(ref_parts) // 2,
+            "file": rel, "bytes": len(blob), "created_at": now(),
+            "score": None, "critique": None, "fix": None,
+        })
+        made.append({"attempt": n, "file": rel, "bytes": len(blob)})
+        save_run(a.slug, run)
+
     run["status"] = "generated"
     save_run(a.slug, run)
-    print(json.dumps({"ok": True, "attempt": n, "file": rel, "bytes": len(blob)},
-                     ensure_ascii=False))
+    print(json.dumps({"ok": True, "size": size,
+                      "refs_attached": len(ref_parts) // 2,
+                      "made": made}, ensure_ascii=False))
 
 
 def cmd_adopt(a):
@@ -728,6 +785,12 @@ def main():
 
     p = sub.add_parser("gen"); p.add_argument("slug")
     p.add_argument("--prompt"); p.add_argument("--prompt-file"); p.add_argument("--aspect")
+    p.add_argument("--size", choices=["1K", "2K", "4K"],
+                   help="output resolution (default from routing.yaml)")
+    p.add_argument("--refs", type=int,
+                   help="how many references to attach (0 disables)")
+    p.add_argument("--variants", type=int, default=1,
+                   help="generate N takes of the same prompt, each its own attempt")
     p.set_defaults(fn=cmd_gen)
 
     p = sub.add_parser("adopt"); p.add_argument("slug"); p.add_argument("source")
