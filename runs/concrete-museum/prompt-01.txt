@@ -1,0 +1,8 @@
+Architectural photograph of the entrance hall of a concrete art museum. Brutalist minimalist style.
+Materials: board-formed exposed concrete with visible form-tie holes, polished terrazzo floor holding a soft reflection, frameless glass balustrade, one pale timber bench.
+Lighting: a slit skylight dropping a hard band of daylight that rakes across the concrete wall and reveals its texture, everything else in cool ambient shade.
+Straight vertical lines, 24mm perspective, no distortion, eye-level one-point perspective down the length of the hall.
+Palette: concrete grey #928D87, light grey #AAA7A3, pale #C7C5C1, mid grey #636261, warm timber #7C6E60, shadow #443E38.
+Composition: hall receding to a vanishing point, lit wall on the right, generous empty floor.
+
+Avoid: warped verticals, impossible geometry, fisheye distortion, clutter, blown highlights, recognizable faces, signage text.

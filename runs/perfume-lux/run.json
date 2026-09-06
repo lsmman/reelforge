@@ -1,0 +1,155 @@
+{
+  "slug": "perfume-lux",
+  "created_at": "2026-09-06T15:42:37+09:00",
+  "brief": {
+    "request": "향수병 럭셔리 광고 컷",
+    "aspect": "4:5",
+    "mood": []
+  },
+  "genre": {
+    "confidence": 0.9,
+    "id": "product",
+    "label": "제품 / 커머스"
+  },
+  "references": [
+    {
+      "file": "refs/ref-01.png",
+      "pin_id": "660621839135691480",
+      "source": "https://www.pinterest.com/pin/660621839135691480/",
+      "dominant_color": "#64492e",
+      "alt": "Luxury Perfume Product Photography | AI Commercial Visual",
+      "bytes": 1845824
+    },
+    {
+      "file": "refs/ref-02.jpg",
+      "pin_id": "232076187048012765",
+      "source": "https://www.pinterest.com/pin/232076187048012765/",
+      "dominant_color": "#7c5b3b",
+      "alt": "Vanishing Perfume | Surreal Luxury Photography",
+      "bytes": 176478
+    },
+    {
+      "file": "refs/ref-03.jpg",
+      "pin_id": "351912466604882",
+      "source": "https://www.pinterest.com/pin/351912466604882/",
+      "dominant_color": "#ad5f14",
+      "alt": "an empty glass bottle sitting on top of a table",
+      "bytes": 464965
+    },
+    {
+      "file": "refs/ref-04.png",
+      "pin_id": "433260426680443013",
+      "source": "https://www.pinterest.com/pin/433260426680443013/",
+      "dominant_color": "#163354",
+      "alt": "Luxury blue perfume bottle emerging through torn blue paper surrounded by fresh citrus leaves, wh...",
+      "bytes": 2078435
+    },
+    {
+      "file": "refs/ref-05.jpg",
+      "pin_id": "5770305768504269",
+      "source": "https://www.pinterest.com/pin/5770305768504269/",
+      "dominant_color": "#8e7753",
+      "alt": "a bottle of perfume sitting on top of a piece of driftwood next to a tree branch",
+      "bytes": 62023
+    },
+    {
+      "file": "refs/ref-06.webp",
+      "pin_id": "4644405860342534",
+      "source": "https://www.pinterest.com/pin/4644405860342534/",
+      "dominant_color": "#977c68",
+      "alt": "a bottle of sandal troufle sitting on top of a piece of driftwood",
+      "bytes": 81542
+    },
+    {
+      "file": "refs/ref-07.jpg",
+      "pin_id": "2533343538168264",
+      "source": "https://www.pinterest.com/pin/2533343538168264/",
+      "dominant_color": "#d97985",
+      "alt": "a bottle of perfume sitting on top of a glass table next to drops of water",
+      "bytes": 49751
+    },
+    {
+      "file": "refs/ref-08.jpg",
+      "pin_id": "6122149488398882",
+      "source": "https://www.pinterest.com/pin/6122149488398882/",
+      "dominant_color": "#dbdad8",
+      "alt": "two bottles of perfume sitting next to each other",
+      "bytes": 54414
+    }
+  ],
+  "moodboard": {
+    "palette": [
+      "#1B242F",
+      "#B08463",
+      "#CFB199",
+      "#90593C",
+      "#5A321C",
+      "#E8E2DB"
+    ],
+    "lighting": "뒤에서 오는 링 형태 백라이트가 유리를 관통해 캐스틱을 만든다. 앰버 골드 톤",
+    "composition": "세로 4:5. 병 하나가 중앙보다 약간 아래, 위쪽에 광원 링. 대리석 또는 유목 받침",
+    "texture": "두꺼운 유리의 굴절과 모서리 반사, 금속 캡, 거친 석재나 유목 표면",
+    "avoid": "읽히는 브랜드명, 물방울 과다, 배경 소품 남발, 차가운 형광"
+  },
+  "route": {
+    "chosen": {
+      "backend": "gemini",
+      "model": "default",
+      "slot": "fallback"
+    },
+    "candidates": [
+      {
+        "slot": "primary",
+        "backend": "higgsfield",
+        "model": "marketing_studio_image",
+        "available": false,
+        "why": "higgsfield credits unconfirmed (set RF_HIGGSFIELD_READY=1 after checking the MCP balance tool)"
+      },
+      {
+        "slot": "fallback",
+        "backend": "gemini",
+        "model": "default",
+        "available": true,
+        "why": "GEMINI_API_KEY set"
+      }
+    ],
+    "negative": "distorted logo, unreadable label text, floating shadow, dirty surface, cluttered background",
+    "prompt_template": "Commercial product photograph of {subject} on {surface}.\n{lighting} studio lighting, {background} background.\nCrisp edges, accurate material rendering ({material}).\nComposition: {composition}. Palette: {palette}.\n",
+    "upscale": {
+      "backend": "higgsfield",
+      "model": "bytedance_image_upscale",
+      "params": {
+        "resolution": "4k"
+      }
+    }
+  },
+  "attempts": [
+    {
+      "n": 1,
+      "backend": "gemini",
+      "model": "gemini-3-pro-image",
+      "prompt": "Luxury advertising still life of an unbranded rectangular glass perfume bottle standing on a rough travertine slab.\nLighting: a circular backlight behind the bottle drives caustics through the thick glass, warm amber gold, deep falloff to a dark surround, one hard edge highlight on the metal cap.\nCrisp edges, accurate material rendering: heavy refracting glass, faceted corners, brushed metal cap, porous stone.\nComposition: single bottle centered slightly below middle of a vertical frame, glowing ring above and behind it, wide dark margins.\nPalette: amber #B08463, warm sand #CFB199, bronze #90593C, deep espresso #5A321C, midnight blue #1B242F, bone highlight #E8E2DB.\n\nAvoid: distorted logo, readable brand text, floating shadow, cluttered background, excessive water droplets, cold fluorescent cast.",
+      "aspect": "4:5",
+      "file": "out/attempt-01.png",
+      "bytes": 594599,
+      "score": 70,
+      "critique": "실패. 이미지 안에 또 하나의 이미지가 들어가 액자 속 액자가 됐다. 짙은 남색 테두리가 사방을 두르고 그 안쪽에만 실제 컷이 렌더링됐다. 광고컷으로 그대로 쓸 수 없다. 유리의 굴절과 캐스틱, 링 백라이트, 트래버틴 질감 자체는 레퍼런스 수준으로 좋다.",
+      "fix": "프롬프트에서 배경 팔레트로 준 midnight blue가 테두리로 해석된 것이 원인. 배경색 지정을 빼고 'full-bleed frame, the scene fills the entire image edge to edge, no border, no inset panel'을 명시할 것."
+    },
+    {
+      "n": 2,
+      "backend": "gemini",
+      "model": "gemini-3-pro-image",
+      "prompt": "Luxury advertising still life of an unbranded rectangular glass perfume bottle standing on a rough travertine slab.\nFull-bleed photograph: the scene fills the entire image edge to edge. No border, no frame, no inset panel, no matte, no letterboxing.\nLighting: a circular backlight behind the bottle drives caustics through the thick glass, warm amber gold, deep falloff into darkness at the corners, one hard edge highlight on the metal cap.\nCrisp edges, accurate material rendering: heavy refracting glass, faceted corners, brushed metal cap, porous stone.\nComposition: single bottle centered slightly below the middle of a vertical frame, the glowing ring rising behind it and bleeding off the top edge, dark surround running all the way to every edge of the picture.\nPalette: amber #B08463, warm sand #CFB199, bronze #90593C, deep espresso #5A321C, bone highlight #E8E2DB.\n\nAvoid: border, frame within the frame, inset image, matte edge, letterbox bars, distorted logo, readable brand text, floating shadow, cluttered background, excessive water droplets, cold fluorescent cast.\n",
+      "aspect": "4:5",
+      "file": "out/attempt-02.png",
+      "bytes": 694704,
+      "score": 95,
+      "critique": "액자 속 액자가 사라졌다. 장면이 네 변까지 꽉 차고 링 백라이트가 병 뒤에서 온전한 후광을 만든다. 두꺼운 유리의 굴절과 바닥으로 떨어지는 캐스틱, 트래버틴의 다공질 질감, 금속 캡의 하드 하이라이트 모두 레퍼런스 수준. 광고컷으로 그대로 쓸 수 있다. 감점은 링이 상단에서 잘려 나가라는 지시와 달리 프레임 안에 온전히 들어와 다소 도식적이라는 점.",
+      "fix": "링을 15퍼센트 키워 상단 모서리 밖으로 흘려보내면 화면이 덜 도식적이 된다."
+    }
+  ],
+  "final": "out/attempt-02.png",
+  "status": "done",
+  "reference_query": "luxury perfume bottle advertising still life product photography studio commercial"
+}

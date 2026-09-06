@@ -1,0 +1,143 @@
+{
+  "slug": "earbuds",
+  "created_at": "2026-09-06T15:42:29+09:00",
+  "brief": {
+    "request": "무선 이어폰 커머스 상세컷",
+    "aspect": "1:1",
+    "mood": []
+  },
+  "genre": {
+    "confidence": 0.9,
+    "id": "product",
+    "label": "제품 / 커머스"
+  },
+  "references": [
+    {
+      "file": "refs/ref-01.png",
+      "pin_id": "615937686581064571",
+      "source": "https://www.pinterest.com/pin/615937686581064571/",
+      "dominant_color": "#f3f3f3",
+      "alt": "Premium Wireless Earbuds – US Ad Style 🎧",
+      "bytes": 1559077
+    },
+    {
+      "file": "refs/ref-02.jpg",
+      "pin_id": "866450415832965195",
+      "source": "https://www.pinterest.com/pin/866450415832965195/",
+      "dominant_color": "#404248",
+      "alt": "Minimal studio airpods product visual in soft light",
+      "bytes": 21517
+    },
+    {
+      "file": "refs/ref-03.png",
+      "pin_id": "1113585445395572127",
+      "source": "https://www.pinterest.com/pin/1113585445395572127/",
+      "dominant_color": "#8b5023",
+      "alt": "Premium Black Wireless Earbuds on a Warm Background",
+      "bytes": 1694558
+    },
+    {
+      "file": "refs/ref-04.png",
+      "pin_id": "872924340301937495",
+      "source": "https://www.pinterest.com/pin/872924340301937495/",
+      "dominant_color": "#f6eee8",
+      "alt": "Luxury Sound, Minimal Design 🎧✨",
+      "bytes": 1387391
+    },
+    {
+      "file": "refs/ref-05.png",
+      "pin_id": "1044905551070517042",
+      "source": "https://www.pinterest.com/pin/1044905551070517042/",
+      "dominant_color": "#7e7267",
+      "alt": "Minimalist Wireless Earbuds Aesthetic 🤍🎧",
+      "bytes": 1953197
+    },
+    {
+      "file": "refs/ref-06.png",
+      "pin_id": "228417012346236455",
+      "source": "https://www.pinterest.com/pin/228417012346236455/",
+      "dominant_color": "#fa5d01",
+      "alt": "White Wallpaper",
+      "bytes": 130856
+    },
+    {
+      "file": "refs/ref-07.jpg",
+      "pin_id": "1101411652647498495",
+      "source": "https://www.pinterest.com/pin/1101411652647498495/",
+      "dominant_color": "#dfd3d0",
+      "alt": "Apple AirPods Pro 3 Wireless Earbuds with ANC, Live Translation & Heart Rate Sensing",
+      "bytes": 80041
+    },
+    {
+      "file": "refs/ref-08.jpg",
+      "pin_id": "256001560065543831",
+      "source": "https://www.pinterest.com/pin/256001560065543831/",
+      "dominant_color": "#141415",
+      "alt": "two airpods sitting on top of each other with water droplets all over them,",
+      "bytes": 226220
+    }
+  ],
+  "moodboard": {
+    "palette": [
+      "#222121",
+      "#F8F6F6",
+      "#F0EBE8",
+      "#A06137",
+      "#84472B",
+      "#C6B6A9"
+    ],
+    "lighting": "스튜디오 소프트박스 두 개. 제품 엣지에 또렷한 스펙큘러 하이라이트, 그림자는 짧고 부드럽다",
+    "composition": "정사각 중앙 배치. 케이스를 열고 이어버드 한 쌍이 3/4 각으로 떠 있는 구성. 배경은 그라디언트 무지",
+    "texture": "무광 폴리카보네이트 바디, 유광 스템, 금속 접점, 먼지 하나 없는 표면",
+    "avoid": "브랜드 로고, 지문, 어수선한 소품, 반사에 비친 스튜디오"
+  },
+  "route": {
+    "chosen": {
+      "backend": "gemini",
+      "model": "default",
+      "slot": "fallback"
+    },
+    "candidates": [
+      {
+        "slot": "primary",
+        "backend": "higgsfield",
+        "model": "marketing_studio_image",
+        "available": false,
+        "why": "higgsfield credits unconfirmed (set RF_HIGGSFIELD_READY=1 after checking the MCP balance tool)"
+      },
+      {
+        "slot": "fallback",
+        "backend": "gemini",
+        "model": "default",
+        "available": true,
+        "why": "GEMINI_API_KEY set"
+      }
+    ],
+    "negative": "distorted logo, unreadable label text, floating shadow, dirty surface, cluttered background",
+    "prompt_template": "Commercial product photograph of {subject} on {surface}.\n{lighting} studio lighting, {background} background.\nCrisp edges, accurate material rendering ({material}).\nComposition: {composition}. Palette: {palette}.\n",
+    "upscale": {
+      "backend": "higgsfield",
+      "model": "bytedance_image_upscale",
+      "params": {
+        "resolution": "4k"
+      }
+    }
+  },
+  "attempts": [
+    {
+      "n": 1,
+      "backend": "gemini",
+      "model": "gemini-3-pro-image",
+      "prompt": "Commercial product photograph of a pair of unbranded wireless earbuds resting in their open charging case, on a seamless gradient backdrop.\nTwo-softbox studio lighting, crisp specular highlights along every edge, short soft contact shadow, clean neutral white balance.\nCrisp edges, accurate material rendering: matte polycarbonate case, glossy earbud stems, brushed metal charging contacts, spotless surfaces.\nComposition: centered in a square frame, case open at a three-quarter angle, earbuds angled toward camera, generous negative space.\nPalette: off-white #F8F6F6, warm grey #C6B6A9, graphite #222121, copper accent #A06137.\n\nAvoid: distorted logo, unreadable label text, any brand name, fingerprints, dust, floating shadow, cluttered background, studio reflected in the surface.",
+      "aspect": "1:1",
+      "file": "out/attempt-01.png",
+      "bytes": 437615,
+      "score": 88,
+      "critique": "형태와 재질 묘사는 정확하다. 무광 폴리카보네이트 바디와 유광 스템, 구리 접점이 구분되고 지문·먼지가 없으며 로고도 없다. 1:1 비율과 짧은 접촉 그림자도 지시대로. 감점은 커머스 임팩트 — 배경과 제품이 모두 베이지 단색이라 대비가 거의 없고, 제품이 프레임 대비 작아 썸네일로 축소하면 뭉갠다.",
+      "fix": "제품을 프레임의 75퍼센트까지 키우고, 배경을 제품과 명도 대비가 나는 톤으로 바꿔 엣지가 살아나게 할 것."
+    }
+  ],
+  "final": "out/attempt-01.png",
+  "status": "done",
+  "reference_query": "wireless earbuds product photography minimal product photography studio commercial"
+}

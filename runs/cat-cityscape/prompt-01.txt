@@ -1,0 +1,9 @@
+Hand-painted 2D animation background illustration: a cat sitting on a rooftop parapet at night, looking down over a dense city.
+Line quality: soft brushed outlines that break and thin, visible painterly edges.
+Shading: gouache-like flat washes with soft blending, no airbrush.
+Palette: night violet #2F2F47, deep navy #121F34, dusty plum #603644, cool grey #81838D, sage highlight #B4C4A0, muted mauve #645A6E.
+Background: stacked low-rise rooftops, tangled wires, hundreds of small warm orange windows as the only light source, distant towers fading into haze.
+Mood: still, solitary, late.
+Composition: cat on the lower third of a vertical frame in near-silhouette, city sprawling upward behind it.
+
+Avoid: photorealistic face, 3d render, muddy colors, broken anatomy, extra limbs, vector-smooth surfaces, photographic elements.

@@ -1,0 +1,143 @@
+{
+  "slug": "desk-stilllife",
+  "created_at": "2026-09-06T15:43:59+09:00",
+  "brief": {
+    "request": "책상 위 정물, 공부하는 분위기",
+    "aspect": "4:5",
+    "mood": []
+  },
+  "genre": {
+    "confidence": 0.9,
+    "id": "general",
+    "label": "일반 (분류 실패 폴백)"
+  },
+  "references": [
+    {
+      "file": "refs/ref-01.png",
+      "pin_id": "1113092864254404662",
+      "source": "https://www.pinterest.com/pin/1113092864254404662/",
+      "dominant_color": "#91714c",
+      "alt": "You Finally Get Your Life Together 📚✨",
+      "bytes": 1472584
+    },
+    {
+      "file": "refs/ref-02.jpg",
+      "pin_id": "859061697720309818",
+      "source": "https://www.pinterest.com/pin/859061697720309818/",
+      "dominant_color": "#a5692e",
+      "alt": "a table with books and a lamp on it",
+      "bytes": 118363
+    },
+    {
+      "file": "refs/ref-03.png",
+      "pin_id": "1130896156510380001",
+      "source": "https://www.pinterest.com/pin/1130896156510380001/",
+      "dominant_color": "#7e5e38",
+      "alt": "Warm Wood Desk Decor Ideas | Cozy Home Office with Brass Desk Lamp & Natural Styling",
+      "bytes": 2473087
+    },
+    {
+      "file": "refs/ref-04.png",
+      "pin_id": "1131388737695350621",
+      "source": "https://www.pinterest.com/pin/1131388737695350621/",
+      "dominant_color": "#512d09",
+      "alt": "Cozy Study Desk Aesthetic 🌅📚 | Sunset Study Inspiration",
+      "bytes": 1966064
+    },
+    {
+      "file": "refs/ref-05.jpg",
+      "pin_id": "985231165810978",
+      "source": "https://www.pinterest.com/pin/985231165810978/",
+      "dominant_color": "#5d4724",
+      "alt": "aesthetic  desk",
+      "bytes": 112411
+    },
+    {
+      "file": "refs/ref-06.jpg",
+      "pin_id": "12384967723883431",
+      "source": "https://www.pinterest.com/pin/12384967723883431/",
+      "dominant_color": "#67523b",
+      "alt": "an open notebook sitting on top of a wooden desk next to a laptop and pen",
+      "bytes": 212792
+    },
+    {
+      "file": "refs/ref-07.jpg",
+      "pin_id": "318559373665949230",
+      "source": "https://www.pinterest.com/pin/318559373665949230/",
+      "dominant_color": "#52311d",
+      "alt": "Creative Desk Setup Ideas with Golden Hour Lighting",
+      "bytes": 115036
+    },
+    {
+      "file": "refs/ref-08.jpg",
+      "pin_id": "9007268003178137",
+      "source": "https://www.pinterest.com/pin/9007268003178137/",
+      "dominant_color": "#4a220f",
+      "alt": "an apple, pencils, calculator and other office supplies on a table",
+      "bytes": 133960
+    }
+  ],
+  "moodboard": {
+    "palette": [
+      "#24160B",
+      "#8D633B",
+      "#B68D5F",
+      "#683D1E",
+      "#472D17",
+      "#D6BE9C"
+    ],
+    "lighting": "책상 스탠드가 주광원, 창밖은 어스름. 따뜻한 텅스텐 웅덩이 하나와 주변의 짙은 그늘",
+    "composition": "세로 4:5, 45도 하이앵글. 스탠드가 오른쪽 위, 펼친 노트가 중앙, 머그가 왼쪽 앞",
+    "texture": "",
+    "avoid": "차가운 조명, 워터마크, 브랜드 로고, 어수선한 소품 과다"
+  },
+  "route": {
+    "chosen": {
+      "backend": "gemini",
+      "model": "default",
+      "slot": "fallback"
+    },
+    "candidates": [
+      {
+        "slot": "primary",
+        "backend": "higgsfield",
+        "model": "nano_banana_pro",
+        "available": false,
+        "why": "higgsfield credits unconfirmed (set RF_HIGGSFIELD_READY=1 after checking the MCP balance tool)"
+      },
+      {
+        "slot": "fallback",
+        "backend": "gemini",
+        "model": "default",
+        "available": true,
+        "why": "GEMINI_API_KEY set"
+      }
+    ],
+    "negative": "watermark, text overlay, low resolution, jpeg artifacts",
+    "prompt_template": "{subject}, {style}. Lighting: {lighting}. Mood: {mood}.\nComposition: {composition}. Palette: {palette}.\n",
+    "upscale": {
+      "backend": "higgsfield",
+      "model": "bytedance_image_upscale",
+      "params": {
+        "resolution": "4k"
+      }
+    }
+  },
+  "attempts": [
+    {
+      "n": 1,
+      "backend": "gemini",
+      "model": "gemini-3-pro-image",
+      "prompt": "A study desk still life at dusk, warm and quiet. Photographic, natural style.\nLighting: an angled desk lamp is the main light, laying one warm tungsten pool across an open notebook, everything beyond it falling into deep shadow; a cold blue window in the background, out of focus.\nMood: late, focused, solitary.\nComposition: vertical 4:5, 45-degree high angle, lamp entering top right, open notebook with a pen centered in the light, a ceramic mug and a small stack of books at the front left, wide dark margins.\nPalette: lamp gold #D6BE9C, oak #B68D5F, tan #8D633B, rust #683D1E, walnut #472D17, near-black #24160B.\n\nAvoid: watermark, text overlay, low resolution, jpeg artifacts, brand logos, readable text on the page, cluttered props, cold light.",
+      "aspect": "4:5",
+      "file": "out/attempt-01.png",
+      "bytes": 647809,
+      "score": 93,
+      "critique": "스탠드가 만든 따뜻한 텅스텐 웅덩이와 창밖의 차가운 푸른빛 대비가 무드보드 그대로다. 펼친 노트, 펜, 머그, 낡은 책의 배치와 45도 하이앵글도 지시대로이고 어두운 여백이 집중감을 만든다. 감점은 펜에 읽히지 않는 글자가 남아 네거티브를 살짝 어겼고, 머그가 왼쪽 프레임에 잘린 점.",
+      "fix": "펜을 무지 표면으로 지정하고, 크롭을 오른쪽으로 밀어 머그가 온전히 들어오게 할 것."
+    }
+  ],
+  "final": "out/attempt-01.png",
+  "status": "done",
+  "reference_query": "study desk still life warm photography"
+}

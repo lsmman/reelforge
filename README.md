@@ -44,18 +44,53 @@ claude
 
 ## 실제 결과
 
-세 장르를 같은 파이프라인으로 돌린 것. 프롬프트는 장르별 템플릿에서 나왔고,
-점수는 파이프라인이 결과물을 직접 보고 매긴 것이다.
+12개 장르 전체를 같은 파이프라인으로 23회 돌렸다. 프롬프트는 장르별 템플릿에서
+나왔고, 점수는 파이프라인이 결과물을 직접 보고 매긴 것이다.
 
 | | | |
 |---|---|---|
-| <img src="docs/examples/hongdae-cafe.png" width="260"> | <img src="docs/examples/ceramic-mug.png" width="260"> | <img src="docs/examples/jazz-poster.png" width="260"> |
-| `architecture` · 89점 | `product` · 92점 | `typography_poster` · 95점 |
-| "홍대 감성 카페 인테리어" | "핸드메이드 세라믹 머그 썸네일" | "재즈 바 포스터, MIDNIGHT SET" |
+| <img src="docs/examples/rag-diagram.png" width="250"> | <img src="docs/examples/concrete-museum.png" width="250"> | <img src="docs/examples/mecha-ruins.png" width="250"> |
+| `diagram` · **97** | `architecture` · **96** | `concept_art` · **96** |
+| <img src="docs/examples/foggy-pines.png" width="250"> | <img src="docs/examples/hanok-yard.png" width="250"> | <img src="docs/examples/portrait-chef-bw.png" width="250"> |
+| `landscape` · **96** | `architecture` · **95** | `portrait` · **95** |
+| <img src="docs/examples/desert-road.png" width="250"> | <img src="docs/examples/neon-alley.png" width="250"> | <img src="docs/examples/makguksu.png" width="250"> |
+| `cinematic_still` · **95** | `cinematic_still` · **92** | `food` · **93** |
+| <img src="docs/examples/jazz-poster.png" width="250"> | <img src="docs/examples/film-week.png" width="250"> | <img src="docs/examples/roastery-mark.png" width="250"> |
+| `typography_poster` · **95** | `typography_poster` · **91** | `logo_icon` · **93** (2차) |
 
-포스터의 세 줄(`MIDNIGHT SET` / `LIVE AT THE BLUE ROOM` / `FRIDAY 11PM`)이
-전부 정확히 나온 건 우연이 아니라 `typography_poster` 템플릿이 헤드라인을
-따옴표로 고정하고 네거티브에 철자 오류를 넣기 때문이다.
+**1차 평균 91.1 · 재생성 후 93.1 · 23런 전부 임계값 통과.**
+
+### 재생성 루프가 실제로 한 일
+
+23런 중 2건이 1차에서 80점을 못 넘겼고, 파이프라인이 원인을 짚어 프롬프트를
+고친 뒤 다시 만들었다.
+
+| | 1차 | 진단 | 2차 |
+|---|---|---|---|
+| `logo_icon` | **72** — 콩도 김도 아닌 정체불명 도형 | "콩이면서 동시에 김"이라는 이중 의미 요구가 형태를 무너뜨림. 의미를 하나로 줄이고 획을 셋으로 제한 | **93** |
+| `product` | **70** — 액자 속 액자가 생김 | 배경색으로 준 midnight blue를 테두리로 해석. 배경색 지정을 빼고 full-bleed 명시 | **95** |
+
+이건 사람이 개입한 게 아니라 8단계 `critique` 가 이미지를 보고 적어둔
+`fix` 를 9단계가 그대로 반영한 결과다.
+
+### 텍스트가 살아남는 이유
+
+`typography_poster` 와 `diagram` 은 생성 이미지가 가장 잘 망가지는 장르다.
+그런데 두 포스터의 여섯 줄(`MIDNIGHT SET` / `LIVE AT THE BLUE ROOM` / `FRIDAY 11PM` /
+`SEOUL FILM WEEK` / `22 - 28 OCTOBER` / `SEOUL CINEMA CENTER`)과 다이어그램의
+라벨 여섯 개가 전부 정확히 나왔다. 우연이 아니라 해당 템플릿이 문구를 따옴표로
+고정하고 네거티브에 철자 오류를 넣기 때문이다.
+
+### 영상
+
+이미지가 통과한 뒤에만 움직인다. 최종 스틸을 첫 프레임으로 써서 Veo 3.1로
+image-to-video. 장르마다 어울리는 카메라 무브가 `config/routing.yaml` 의
+`video.motion` 에 한 줄씩 들어있다.
+
+https://github.com/lsmman/reelforge/raw/main/docs/examples/neon-alley.mp4
+
+`cinematic_still` · 88점 · 8초 · 느린 돌리인. 스틸의 색과 비, 네온 반사가
+유지된 채 인물이 멀어진다.
 
 ## 9단계
 
@@ -71,6 +106,14 @@ claude
 | 8 | critique | 결과물을 실제로 보고 0~100 채점 |
 | 9 | refine | 80점 미만이면 고쳐서 재생성 (최대 3회) |
 
+영상까지 원할 때만 이어서:
+
+| # | 단계 | 하는 일 |
+|---|---|---|
+| 10 | motion | 장르별 카메라 무브 결정 |
+| 11 | animate | 최종 이미지를 첫 프레임으로 image-to-video |
+| 12 | critique | 프레임을 뽑아 실제로 보고 채점 |
+
 ## 장르 라우팅
 
 Kling 이 하는 방식 — 뭘 만드는지에 따라 다른 모델을 쓴다.
@@ -80,6 +123,15 @@ Kling 이 하는 방식 — 뭘 만드는지에 따라 다른 모델을 쓴다.
 음식 `kling_omni_image` · 풍경 `soul_location` · 건축 `nano_banana_pro` ·
 애니 `seedream_v4_5` · 컨셉아트 `soul_cinematic` · 타이포 `openai_hazel` ·
 로고 `recraft_v4_1` · 다이어그램 `nano_banana_pro` · 일반 `nano_banana_pro`
+
+영상도 같은 발상이다. `video.motion` 에 장르별 기본 카메라 무브가 한 줄씩 있다 —
+인물은 거의 정지, 시네마틱은 느린 트래킹, 타이포·로고·다이어그램은 움직이지 않는다.
+
+## 테스트
+
+```bash
+python3 scripts/test_rf.py
+```
 
 ## 문서
 

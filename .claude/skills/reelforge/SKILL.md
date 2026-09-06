@@ -124,7 +124,47 @@ PROMPT
 ./scripts/rf.py index
 ```
 
-마지막에 `viewer/index.html` 경로를 사용자에게 알려준다.
+사용자가 영상까지 원하면 10단계로 간다. 아니면 여기서 `viewer/index.html`
+경로를 알려주고 끝낸다.
+
+### 10. motion — 움직임을 정한다
+
+영상은 **이미지가 통과한 다음에만** 만든다. 나쁜 스틸을 움직여도 나쁜 영상이다.
+
+`config/routing.yaml` 의 `video.motion` 에 장르별 기본 무브가 있다. 그대로 쓰거나,
+브리프에 맞게 `--motion` 으로 덮어쓴다. **화려한 무브를 넣지 마라** — 생성 영상은
+카메라가 많이 움직일수록 형태가 무너진다.
+
+### 11. animate — 만든다
+
+```bash
+./scripts/rf.py video SLUG --prompt "장면을 한 문장으로"
+```
+
+최종 이미지를 그대로 첫 프레임으로 써서 image-to-video 로 넘어간다.
+Veo 는 16:9 와 9:16 만 받으므로 원본이 가로면 16:9, 세로면 9:16 으로 자동 매핑된다.
+**21:9 나 4:5 원본은 잘린다.** 영상까지 갈 계획이면 1단계에서 비율을 16:9 나 9:16 으로
+잡아두는 편이 낫다.
+
+비용을 아끼려면 `--cheap` 을 붙여 fast 모델을 쓴다.
+
+### 12. critique — 영상을 본다
+
+프레임을 뽑아서 **실제로 봐라.**
+
+```bash
+ffmpeg -v error -i runs/SLUG/out/video-01.mp4 \
+  -vf "select='eq(n\,0)+eq(n\,60)+eq(n\,120)+eq(n\,179)',scale=480:-1,tile=2x2" \
+  -frames:v 1 -y /tmp/frames.jpg
+```
+
+볼 것: 스틸의 색과 구도가 유지되는가 · 형태가 무너지는 구간이 없는가 ·
+무브가 지시대로인가 · 8초 내내 쓸 만한가.
+
+```bash
+./scripts/rf.py set SLUG videos.0.score=88 videos.0.critique='"..."' videos.0.fix='"..."'
+./scripts/rf.py index
+```
 
 ## 하지 말 것
 
@@ -133,6 +173,8 @@ PROMPT
 - `route`가 막혔는데 다른 백엔드를 몰래 시도하기
 - 라우팅 표에 없는 모델 id 를 즉석에서 만들어내기
 - 3회를 넘겨 계속 재생성하기 (비용이 든다)
+- 이미지가 임계값을 못 넘었는데 영상으로 넘어가기
+- 프레임을 안 뽑아보고 영상을 채점하기
 
 ## 상세 참조
 

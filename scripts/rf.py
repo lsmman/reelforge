@@ -12,6 +12,8 @@ This script does the deterministic work: HTTP, files, run state.
     rf.py adopt <slug> <url|path>             take an image made elsewhere (Higgsfield MCP)
     rf.py set <slug> <dotted.path=json> ...   patch run.json
     rf.py show <slug>                         print run.json
+    rf.py palette <slug>                      dominant colors of its references
+    rf.py video <slug> --motion "..."         animate the final image with Veo
     rf.py index                               rebuild viewer/data.js
 """
 from __future__ import annotations
@@ -196,6 +198,16 @@ def best_image(pin: dict) -> str | None:
     return None
 
 
+def readable_image(path: Path) -> bool:
+    try:
+        from PIL import Image
+        with Image.open(path) as im:
+            im.verify()
+        return True
+    except Exception:
+        return False
+
+
 def download(url: str, dest: Path) -> int:
     req = urllib.request.Request(url, headers={"User-Agent": UA,
                                                "referer": "https://www.pinterest.com/"})
@@ -257,6 +269,13 @@ def cmd_refs(a):
             print(f"  skip {url}: {e}", file=sys.stderr)
             continue
         if size < 3000:          # placeholder / error image
+            (refs_dir / name).unlink(missing_ok=True)
+            continue
+        # Pinterest serves some pins as HEIC, which neither Pillow nor the
+        # orchestrator's image reader can open. A reference nobody can look
+        # at is worse than one fewer reference.
+        if not readable_image(refs_dir / name):
+            print(f"  skip {name}: not a readable image", file=sys.stderr)
             (refs_dir / name).unlink(missing_ok=True)
             continue
         refs.append({
@@ -494,16 +513,19 @@ def set_path(obj, dotted: str, value):
     keys = dotted.split(".")
     cur = obj
     for k in keys[:-1]:
-        if k.isdigit() and isinstance(cur, list):
+        if isinstance(cur, list):
             cur = cur[int(k)]
             continue
-        # A key can exist holding null (a fresh run.json has genre: null),
-        # so setdefault is not enough — replace anything that is not a dict.
-        if not isinstance(cur.get(k), dict):
+        nxt = cur.get(k)
+        # A key can exist holding null (a fresh run.json has genre: null), so
+        # setdefault is not enough. Replace only what cannot be walked into —
+        # replacing a list here silently destroyed the attempts history once.
+        if not isinstance(nxt, (dict, list)):
             cur[k] = {}
-        cur = cur[k]
+            nxt = cur[k]
+        cur = nxt
     last = keys[-1]
-    if last.isdigit() and isinstance(cur, list):
+    if isinstance(cur, list):
         cur[int(last)] = value
     else:
         cur[last] = value
@@ -526,6 +548,143 @@ def cmd_set(a):
 
 def cmd_show(a):
     print(json.dumps(load_run(a.slug), ensure_ascii=False, indent=2))
+
+
+VEO_POLL_SECONDS = 10
+VEO_TIMEOUT_SECONDS = 900
+
+
+def veo_generate(prompt: str, image: Path, aspect: str, model: str,
+                 duration: int, resolution: str, audio: bool) -> bytes:
+    """Image-to-video through Veo. Submits a long-running op, then polls.
+
+    Veo only accepts 16:9 and 9:16, so a run's own aspect is mapped to the
+    nearer of the two rather than passed through.
+    """
+    key = gemini_key()
+    params = {"aspectRatio": aspect, "durationSeconds": duration,
+              "resolution": resolution}
+    # Not every Veo variant accepts generateAudio, and sending it as false is
+    # still rejected — so only send it when audio is actually wanted.
+    if audio:
+        params["generateAudio"] = True
+    body = json.dumps({
+        "instances": [{
+            "prompt": prompt,
+            "image": {"bytesBase64Encoded":
+                      base64.b64encode(image.read_bytes()).decode(),
+                      "mimeType": "image/png"},
+        }],
+        "parameters": params,
+    }).encode()
+    req = urllib.request.Request(
+        f"https://generativelanguage.googleapis.com/v1beta/models/"
+        f"{model}:predictLongRunning",
+        data=body, headers={"content-type": "application/json",
+                            "x-goog-api-key": key})
+    try:
+        with urllib.request.urlopen(req, timeout=180) as r:
+            op = json.loads(r.read())["name"]
+    except urllib.error.HTTPError as e:
+        detail = e.read().decode("utf-8", "replace")
+        if e.code == 429 and "limit: 0" in detail:
+            die("veo has no free-tier quota on this key (limit: 0). enable "
+                "billing on the key's Google Cloud project.")
+        die(f"veo HTTP {e.code}: {detail[:600]}")
+
+    print(f"  submitted {op}, polling…", file=sys.stderr)
+    waited = 0
+    while waited < VEO_TIMEOUT_SECONDS:
+        time.sleep(VEO_POLL_SECONDS)
+        waited += VEO_POLL_SECONDS
+        poll = urllib.request.Request(
+            f"https://generativelanguage.googleapis.com/v1beta/{op}",
+            headers={"x-goog-api-key": key})
+        with urllib.request.urlopen(poll, timeout=60) as r:
+            d = json.loads(r.read())
+        if not d.get("done"):
+            continue
+        if d.get("error"):
+            die(f"veo failed: {json.dumps(d['error'])[:400]}")
+        samples = (d.get("response", {})
+                    .get("generateVideoResponse", {})
+                    .get("generatedSamples", []))
+        if not samples:
+            die(f"veo returned no video: {json.dumps(d.get('response'))[:400]}")
+        uri = samples[0]["video"]["uri"]
+        dl = urllib.request.Request(uri, headers={"x-goog-api-key": key})
+        with urllib.request.urlopen(dl, timeout=300) as r:
+            return r.read()
+    die(f"veo timed out after {VEO_TIMEOUT_SECONDS}s; operation {op}")
+
+
+def cmd_video(a):
+    run = load_run(a.slug)
+    routing = load_routing()
+    vid = routing["video"]
+    gid = (run.get("genre") or {}).get("id")
+
+    src = a.image or run.get("final")
+    if not src:
+        die("no final image. set run.final first, or pass --image")
+    image = run_dir(a.slug) / src
+    if not image.exists():
+        die(f"no such image: {image}")
+
+    from PIL import Image
+    with Image.open(image) as im:
+        aspect = "16:9" if im.width >= im.height else "9:16"
+
+    motion = a.motion or vid["motion"].get(gid) or vid["motion"]["general"]
+    prompt = f"{a.prompt or run['brief'].get('subject') or ''}. Camera: {motion}."
+    model = a.model or (vid["defaults"]["cheap_model"] if a.cheap
+                        else vid["defaults"]["model"])
+
+    n = len(run.get("videos", [])) + 1
+    blob = veo_generate(prompt, image, aspect, model,
+                        a.duration or vid["defaults"]["duration"],
+                        vid["defaults"]["resolution"],
+                        vid["defaults"]["generate_audio"])
+    rel = f"out/video-{n:02d}.mp4"
+    (run_dir(a.slug) / rel).write_bytes(blob)
+    run.setdefault("videos", []).append({
+        "n": n, "backend": "gemini", "model": model, "from": src,
+        "prompt": prompt, "motion": motion, "aspect": aspect,
+        "file": rel, "bytes": len(blob), "created_at": now(),
+        "score": None, "critique": None, "fix": None,
+    })
+    save_run(a.slug, run)
+    print(json.dumps({"ok": True, "video": n, "file": rel,
+                      "bytes": len(blob), "model": model, "aspect": aspect},
+                     ensure_ascii=False))
+
+
+def cmd_palette(a):
+    """Dominant colors across a run's references, as hex.
+
+    Saves the orchestrator from eyeballing colors it cannot measure. The
+    qualitative half of the moodboard is still a judgement call.
+    """
+    from PIL import Image
+
+    run = load_run(a.slug)
+    files = [run_dir(a.slug) / r["file"] for r in run.get("references", [])]
+    files = [f for f in files if f.exists()]
+    if not files:
+        die(f"no reference images in {run_dir(a.slug) / 'refs'}")
+
+    # Downsample hard, then quantize — exact colors do not matter, groups do.
+    files = [f for f in files if readable_image(f)]
+    if not files:
+        die(f"no readable reference images in {run_dir(a.slug) / 'refs'}")
+    merged = Image.new("RGB", (64 * len(files), 64))
+    for i, f in enumerate(files):
+        im = Image.open(f).convert("RGB").resize((64, 64))
+        merged.paste(im, (i * 64, 0))
+    q = merged.quantize(colors=a.n, method=Image.MEDIANCUT).convert("RGB")
+    counts = sorted(q.getcolors(q.width * q.height), reverse=True)
+    hexes = ["#%02X%02X%02X" % c for _, c in counts[:a.n]]
+    print(json.dumps({"palette": hexes, "from": len(files)}, ensure_ascii=False))
 
 
 def cmd_index(a):
@@ -580,6 +739,16 @@ def main():
     p.set_defaults(fn=cmd_set)
 
     p = sub.add_parser("show"); p.add_argument("slug"); p.set_defaults(fn=cmd_show)
+    p = sub.add_parser("video"); p.add_argument("slug")
+    p.add_argument("--image"); p.add_argument("--motion"); p.add_argument("--prompt")
+    p.add_argument("--model"); p.add_argument("--duration", type=int)
+    p.add_argument("--cheap", action="store_true")
+    p.set_defaults(fn=cmd_video)
+
+    p = sub.add_parser("palette"); p.add_argument("slug")
+    p.add_argument("-n", type=int, default=6)
+    p.set_defaults(fn=cmd_palette)
+
     p = sub.add_parser("index"); p.set_defaults(fn=cmd_index)
 
     args = ap.parse_args()

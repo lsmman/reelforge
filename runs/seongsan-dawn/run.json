@@ -1,0 +1,143 @@
+{
+  "slug": "seongsan-dawn",
+  "created_at": "2026-09-06T15:42:55+09:00",
+  "brief": {
+    "request": "제주 성산일출봉 새벽 풍경",
+    "aspect": "16:9",
+    "mood": []
+  },
+  "genre": {
+    "confidence": 0.9,
+    "id": "landscape",
+    "label": "풍경 / 자연"
+  },
+  "references": [
+    {
+      "file": "refs/ref-01.jpg",
+      "pin_id": "914441899359033796",
+      "source": "https://www.pinterest.com/pin/914441899359033796/",
+      "dominant_color": "#50453f",
+      "alt": "Golden hour magic over the dramatic cliffs 🌅🌊✨",
+      "bytes": 219497
+    },
+    {
+      "file": "refs/ref-02.jpg",
+      "pin_id": "713398397269592166",
+      "source": "https://www.pinterest.com/pin/713398397269592166/",
+      "dominant_color": "#665144",
+      "alt": "sunrise over Pantai Kasap hill",
+      "bytes": 335537
+    },
+    {
+      "file": "refs/ref-03.jpg",
+      "pin_id": "128845239335459874",
+      "source": "https://www.pinterest.com/pin/128845239335459874/",
+      "dominant_color": "#ac764d",
+      "alt": "the sun is setting over an ocean with cliffs and grass on either side, as seen from above",
+      "bytes": 195339
+    },
+    {
+      "file": "refs/ref-04.png",
+      "pin_id": "88946161386834692",
+      "source": "https://www.pinterest.com/pin/88946161386834692/",
+      "dominant_color": "#5b462e",
+      "alt": "Portrait Photography - Golden Hour Beauty on Volcanic Sands: Aeolian Islands",
+      "bytes": 4301980
+    },
+    {
+      "file": "refs/ref-05.jpg",
+      "pin_id": "107523509848668461",
+      "source": "https://www.pinterest.com/pin/107523509848668461/",
+      "dominant_color": "#715350",
+      "alt": "birds flying over the ocean at sunset with cliffs in the foreground and flowers growing on the beach",
+      "bytes": 106138
+    },
+    {
+      "file": "refs/ref-06.png",
+      "pin_id": "71072500370875970",
+      "source": "https://www.pinterest.com/pin/71072500370875970/",
+      "dominant_color": "#64772a",
+      "alt": "Azores Golden Hour - Azores Volcanoes Meet the Atlantic",
+      "bytes": 2065425
+    },
+    {
+      "file": "refs/ref-07.jpg",
+      "pin_id": "125115695895061982",
+      "source": "https://www.pinterest.com/pin/125115695895061982/",
+      "dominant_color": "#513e3f",
+      "alt": "the sun is setting over an ocean with rocks and grass on either side of it",
+      "bytes": 227981
+    },
+    {
+      "file": "refs/ref-08.jpg",
+      "pin_id": "465278205261757917",
+      "source": "https://www.pinterest.com/pin/465278205261757917/",
+      "dominant_color": "#5c5642",
+      "alt": "the sun is setting over some rocks and water",
+      "bytes": 293086
+    }
+  ],
+  "moodboard": {
+    "palette": [
+      "#212222",
+      "#7F675A",
+      "#47342A",
+      "#B68C66",
+      "#6D4028",
+      "#E4BA7A"
+    ],
+    "lighting": "수평선 바로 위에서 뜨는 해의 강한 역광. 하늘은 주황에서 보라로, 바다는 반짝이는 하이라이트",
+    "composition": "16:9 원경. 화산 분화구를 낀 해안 절벽이 오른쪽 3분의 1을 차지하고 왼쪽으로 바다와 해가 열린다",
+    "texture": "현무암 절벽의 거친 결, 파도 포말, 새벽 대기의 습기",
+    "avoid": "가짜 HDR 후광, 채도 과다, 기운 수평선, 워터마크"
+  },
+  "route": {
+    "chosen": {
+      "backend": "gemini",
+      "model": "default",
+      "slot": "fallback"
+    },
+    "candidates": [
+      {
+        "slot": "primary",
+        "backend": "higgsfield",
+        "model": "soul_location",
+        "available": false,
+        "why": "higgsfield credits unconfirmed (set RF_HIGGSFIELD_READY=1 after checking the MCP balance tool)"
+      },
+      {
+        "slot": "fallback",
+        "backend": "gemini",
+        "model": "default",
+        "available": true,
+        "why": "GEMINI_API_KEY set"
+      }
+    ],
+    "negative": "fake HDR halo, oversaturated sky, tilted horizon, watermark",
+    "prompt_template": "Wide landscape photograph of {location} during {time_of_day}.\n{weather}, {lighting}. Foreground: {foreground}.\nAtmospheric depth, natural color. Palette: {palette}.\n",
+    "upscale": {
+      "backend": "higgsfield",
+      "model": "bytedance_image_upscale",
+      "params": {
+        "resolution": "4k"
+      }
+    }
+  },
+  "attempts": [
+    {
+      "n": 1,
+      "backend": "gemini",
+      "model": "gemini-3-pro-image",
+      "prompt": "Wide landscape photograph of a volcanic tuff cone rising from the sea cliffs of a Korean coastline at dawn.\nTime: the sun breaking the horizon.\nWeather: clear with low sea haze. Lighting: strong backlight from the rising sun, sky graduating from ember orange at the horizon to violet overhead, glittering specular path across the water.\nForeground: dark basalt cliff edge and coastal grass, in silhouette.\nAtmospheric depth, natural color, level horizon.\nPalette: sunrise gold #E4BA7A, amber #B68C66, rust #6D4028, warm shadow #7F675A, basalt #212222.\n\nAvoid: fake HDR halo, oversaturated sky, tilted horizon, watermark, people, buildings.",
+      "aspect": "16:9",
+      "file": "out/attempt-01.png",
+      "bytes": 722106,
+      "score": 94,
+      "critique": "수평선 위로 막 뜬 해의 역광, 수면의 반짝이는 하이라이트 경로, 실루엣으로 떨어진 전경 현무암과 해안 풀이 landscape 장르의 요구를 모두 충족했다. 수평선도 수평. 감점은 하늘에 구름 디테일이 거의 없어 상단 1/3이 밋밋하고, 분화구 형태가 실제 성산일출봉의 왕관형 능선과는 다르다는 점.",
+      "fix": "하늘에 'thin altocumulus catching the sunrise'를 추가하고, 분화구를 'crown-shaped rim with jagged peaks'로 구체화할 것."
+    }
+  ],
+  "final": "out/attempt-01.png",
+  "status": "done",
+  "reference_query": "volcanic crater coast sunrise landscape landscape photography golden hour"
+}

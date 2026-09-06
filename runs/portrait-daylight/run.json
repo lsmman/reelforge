@@ -1,0 +1,143 @@
+{
+  "slug": "portrait-daylight",
+  "created_at": "2026-09-06T15:42:05+09:00",
+  "brief": {
+    "request": "20대 여성 프로필 사진, 창가 자연광",
+    "aspect": "4:5",
+    "mood": []
+  },
+  "genre": {
+    "confidence": 0.9,
+    "id": "portrait",
+    "label": "인물 / 포트레이트"
+  },
+  "references": [
+    {
+      "file": "refs/ref-01.jpg",
+      "pin_id": "4081455908117698",
+      "source": "https://www.pinterest.com/pin/4081455908117698/",
+      "dominant_color": "#8b8265",
+      "alt": "a woman sitting in a chair with the sun shining through her window and light coming from behind her",
+      "bytes": 88595
+    },
+    {
+      "file": "refs/ref-02.jpg",
+      "pin_id": "1125968743558671",
+      "source": "https://www.pinterest.com/pin/1125968743558671/",
+      "dominant_color": "#2e1a0d",
+      "alt": "a woman standing next to a window with her hand on the curtain and looking into the distance",
+      "bytes": 71403
+    },
+    {
+      "file": "refs/ref-03.jpg",
+      "pin_id": "21251429487671434",
+      "source": "https://www.pinterest.com/pin/21251429487671434/",
+      "dominant_color": "#50402d",
+      "alt": "Whisper of Fabric",
+      "bytes": 88598
+    },
+    {
+      "file": "refs/ref-04.jpg",
+      "pin_id": "271623421272014079",
+      "source": "https://www.pinterest.com/pin/271623421272014079/",
+      "dominant_color": "#cccac7",
+      "alt": "a woman with long hair standing in front of a curtain and looking at the camera",
+      "bytes": 98587
+    },
+    {
+      "file": "refs/ref-05.jpg",
+      "pin_id": "8022105582708199",
+      "source": "https://www.pinterest.com/pin/8022105582708199/",
+      "dominant_color": "#a9a399",
+      "alt": "a woman with long hair wearing a white shirt looking at the camera while standing in front of a window",
+      "bytes": 138991
+    },
+    {
+      "file": "refs/ref-06.png",
+      "pin_id": "31947478604917109",
+      "source": "https://www.pinterest.com/pin/31947478604917109/",
+      "dominant_color": "#927c66",
+      "alt": "a woman sitting on a chair next to a window",
+      "bytes": 1985056
+    },
+    {
+      "file": "refs/ref-07.webp",
+      "pin_id": "925278685973483657",
+      "source": "https://www.pinterest.com/pin/925278685973483657/",
+      "dominant_color": "#6d5944",
+      "alt": "Create More Natural Portraits With Eco Friendly Lighting",
+      "bytes": 68408
+    },
+    {
+      "file": "refs/ref-08.jpg",
+      "pin_id": "1196337405584539",
+      "source": "https://www.pinterest.com/pin/1196337405584539/",
+      "dominant_color": "#3c332b",
+      "alt": "Peace That Stays",
+      "bytes": 50942
+    }
+  ],
+  "moodboard": {
+    "palette": [
+      "#241911",
+      "#A19481",
+      "#775D46",
+      "#C8C1B3",
+      "#4A3F31",
+      "#E4E1DA"
+    ],
+    "lighting": "창을 등진 역광에 얇은 커튼이 빛을 확산시킨다. 머리카락 가장자리에 림라이트가 걸리고 얼굴 그늘은 반사광으로 살짝 열린다. 웜 화이트밸런스",
+    "composition": "세로 4:5 반신. 인물이 프레임 한쪽으로 치우치고 반대편에 창과 여백. 눈높이, 얕은 심도로 배경 완전히 뭉갬",
+    "texture": "얇은 리넨·코튼 셔츠 결, 자연스러운 피부 질감과 잔털, 고운 필름 그레인",
+    "avoid": "플라스틱 피부, 과보정, 어색한 손, 차가운 조명, 배경 잡동사니"
+  },
+  "route": {
+    "chosen": {
+      "backend": "gemini",
+      "model": "default",
+      "slot": "fallback"
+    },
+    "candidates": [
+      {
+        "slot": "primary",
+        "backend": "higgsfield",
+        "model": "soul_2",
+        "available": false,
+        "why": "higgsfield credits unconfirmed (set RF_HIGGSFIELD_READY=1 after checking the MCP balance tool)"
+      },
+      {
+        "slot": "fallback",
+        "backend": "gemini",
+        "model": "default",
+        "available": true,
+        "why": "GEMINI_API_KEY set"
+      }
+    ],
+    "negative": "plastic skin, over-smoothed face, extra fingers, warped hands, uncanny eyes, heavy HDR",
+    "prompt_template": "{shot_type} portrait of {subject}, {styling}.\nLighting: {lighting}. Lens: {lens}. Mood: {mood}.\nSkin texture natural and unretouched, sharp focus on eyes.\nColor palette: {palette}. Background: {background}.\n",
+    "upscale": {
+      "backend": "higgsfield",
+      "model": "bytedance_image_upscale",
+      "params": {
+        "resolution": "4k"
+      }
+    }
+  },
+  "attempts": [
+    {
+      "n": 1,
+      "backend": "gemini",
+      "model": "gemini-3-pro-image",
+      "prompt": "Waist-up portrait of a woman in her twenties standing beside a tall window, wearing a loose white linen shirt.\nLighting: backlit by soft window daylight through a sheer curtain, rim light along her hair, shadow side opened by gentle bounce, warm white balance.\nLens: 85mm at f/1.8, very shallow depth of field, background fully dissolved.\nMood: calm, quiet, unposed.\nNatural skin texture with visible pores and fine hair, sharp focus on the eyes, fine film grain.\nColor palette: cream #E4E1DA, warm sand #A19481, soft taupe #C8C1B3, walnut #775D46, deep umber #241911.\nBackground: pale interior wall and window frame, unreadable.\n\nAvoid: plastic skin, over-smoothed face, extra fingers, warped hands, uncanny eyes, heavy HDR, cold light, cluttered background.",
+      "aspect": "4:5",
+      "file": "out/attempt-01.png",
+      "bytes": 654606,
+      "score": 90,
+      "critique": "창가 역광과 얇은 커튼 확산, 머리카락 림라이트, 리넨 셔츠 결까지 무드보드 지시가 그대로 들어갔다. 피부에 모공과 잔털이 살아있고 눈에 초점이 맞아 포트레이트로서 결함이 없다. 감점은 브리프 이탈 — 20대로 지시했으나 20대 후반에서 30대 초반으로 읽힌다. 헤드룸이 과하고 시선 방향 앞 공간이 좁아 답답하다.",
+      "fix": "나이대를 'early twenties'로 명시하고, 크롭을 내려 헤드룸을 줄이면서 시선 방향 왼쪽에 여백을 더 줄 것."
+    }
+  ],
+  "final": "out/attempt-01.png",
+  "status": "done",
+  "reference_query": "natural light female portrait window soft portrait photography lighting editorial"
+}

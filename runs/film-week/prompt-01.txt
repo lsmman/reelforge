@@ -1,0 +1,10 @@
+Graphic design poster for a film festival, Swiss international typographic style, flat vector shapes, no photography.
+Headline text reads exactly "SEOUL FILM WEEK", set in a heavy condensed grotesque, two lines, filling the top third.
+A secondary line reads exactly "22 - 28 OCTOBER". A small block at the bottom left reads exactly "SEOUL CINEMA CENTER".
+Typeface feel: heavy condensed grotesque for the headline, small tight uppercase sans for the caption, strong size contrast.
+Layout: vertical 2:3, headline top, one large flat geometric shape suggesting a film frame sprocket in the middle, caption block bottom left, wide even margins.
+Palette: exactly three colors — bone #FAF3A3, brick red #B2352C, near-black #1A0F0E.
+Graphic elements: flat solid shapes only, no outlines, no shading.
+Text must be spelled correctly and fully legible.
+
+Avoid: misspelled text, garbled letters, cropped words, cluttered hierarchy, gradients, 3d bevel, drop shadow, photographic elements, overlapping text.

@@ -1,0 +1,143 @@
+{
+  "slug": "rooftop-anime",
+  "created_at": "2026-09-06T15:43:16+09:00",
+  "brief": {
+    "request": "교복 소녀 옥상, 90년대 셀 애니메이션",
+    "aspect": "16:9",
+    "mood": []
+  },
+  "genre": {
+    "confidence": 0.9,
+    "id": "anime_illustration",
+    "label": "애니 / 일러스트"
+  },
+  "references": [
+    {
+      "file": "refs/ref-01.jpg",
+      "pin_id": "492649953394989",
+      "source": "https://www.pinterest.com/pin/492649953394989/",
+      "dominant_color": "#7e8eb8",
+      "alt": "an anime scene with two people standing on the roof and one person holding a camera",
+      "bytes": 211901
+    },
+    {
+      "file": "refs/ref-02.jpg",
+      "pin_id": "80150068367040337",
+      "source": "https://www.pinterest.com/pin/80150068367040337/",
+      "dominant_color": "#1f4367",
+      "alt": "a woman sitting on top of a roof next to a man with an orange hair",
+      "bytes": 82693
+    },
+    {
+      "file": "refs/ref-03.png",
+      "pin_id": "58898707623254248",
+      "source": "https://www.pinterest.com/pin/58898707623254248/",
+      "dominant_color": "#c0b695",
+      "alt": "an aerial view of a building with people walking around",
+      "bytes": 2099123
+    },
+    {
+      "file": "refs/ref-04.png",
+      "pin_id": "1129207306679467719",
+      "source": "https://www.pinterest.com/pin/1129207306679467719/",
+      "dominant_color": "#a9b8c1",
+      "alt": "summer 1996.",
+      "bytes": 7738995
+    },
+    {
+      "file": "refs/ref-05.jpg",
+      "pin_id": "246290673366542226",
+      "source": "https://www.pinterest.com/pin/246290673366542226/",
+      "dominant_color": "#9f8266",
+      "alt": "a woman sitting on top of a building next to tall buildings",
+      "bytes": 370678
+    },
+    {
+      "file": "refs/ref-06.jpg",
+      "pin_id": "49610033391837702",
+      "source": "https://www.pinterest.com/pin/49610033391837702/",
+      "dominant_color": "#808eac",
+      "alt": "a street sign in front of a large building with cherry blossoms on the tree's branches",
+      "bytes": 114253
+    },
+    {
+      "file": "refs/ref-07.jpg",
+      "pin_id": "381046818495211247",
+      "source": "https://www.pinterest.com/pin/381046818495211247/",
+      "dominant_color": "#68664c",
+      "alt": "a woman sitting on top of a metal railing next to a dog",
+      "bytes": 123698
+    },
+    {
+      "file": "refs/ref-08.jpg",
+      "pin_id": "20758848278702353",
+      "source": "https://www.pinterest.com/pin/20758848278702353/",
+      "dominant_color": "#5b96b2",
+      "alt": "an animated view of a city with tall buildings and green metal railings on the roof",
+      "bytes": 86870
+    }
+  ],
+  "moodboard": {
+    "palette": [
+      "#343E49",
+      "#99A0A5",
+      "#7F756C",
+      "#B8C6C4",
+      "#E1DAD1",
+      "#426A84"
+    ],
+    "lighting": "해질녘 하늘 그라데이션이 유일한 광원. 인물 뒤로 역광, 셀 애니 특유의 2단 음영",
+    "composition": "16:9. 옥상 난간에 기댄 인물이 왼쪽 3분의 1, 오른쪽으로 도시 원경과 하늘이 넓게 열린다. 급수탑과 펜스가 실루엣",
+    "texture": "평면 2단 셀 셰이딩, 그라데이션 최소",
+    "avoid": "사진 같은 얼굴, 3D 렌더, 탁한 색, 해부학 붕괴"
+  },
+  "route": {
+    "chosen": {
+      "backend": "gemini",
+      "model": "default",
+      "slot": "fallback"
+    },
+    "candidates": [
+      {
+        "slot": "primary",
+        "backend": "higgsfield",
+        "model": "seedream_v4_5",
+        "available": false,
+        "why": "higgsfield credits unconfirmed (set RF_HIGGSFIELD_READY=1 after checking the MCP balance tool)"
+      },
+      {
+        "slot": "fallback",
+        "backend": "gemini",
+        "model": "default",
+        "available": true,
+        "why": "GEMINI_API_KEY set"
+      }
+    ],
+    "negative": "photorealistic face, 3d render, muddy colors, broken anatomy, extra limbs",
+    "prompt_template": "{style} illustration of {subject}, {action}.\nLine quality: {line}. Shading: {shading}.\nPalette: {palette}. Background: {background}. Mood: {mood}.\n",
+    "upscale": {
+      "backend": "higgsfield",
+      "model": "bytedance_image_upscale",
+      "params": {
+        "resolution": "4k"
+      }
+    }
+  },
+  "attempts": [
+    {
+      "n": 1,
+      "backend": "gemini",
+      "model": "gemini-3-pro-image",
+      "prompt": "1990s cel animation style illustration of a high-school student in uniform leaning on a rooftop railing, looking out over the city.\nLine quality: bold even black outlines, hand-inked feel.\nShading: flat two-tone cel shading with hard shadow edges, minimal gradients, visible cel paint texture.\nPalette: dusk slate #343E49, pale sky #B8C6C4, cream #E1DAD1, steel blue #426A84, warm grey #7F756C, muted silver #99A0A5.\nBackground: rooftop water tank, chain-link fence and vent pipes in silhouette, city skyline receding into a graduated dusk sky.\nMood: quiet, end of the day, still air.\nComposition: figure on the left third of a 16:9 frame, city and sky opening to the right.\n\nAvoid: photorealistic face, 3d render, muddy colors, broken anatomy, extra limbs, modern digital airbrush shading.",
+      "aspect": "16:9",
+      "file": "out/attempt-01.png",
+      "bytes": 573375,
+      "score": 87,
+      "critique": "옥상 난간, 급수탑, 철망 펜스, 배기관, 해질녘 그라데이션 하늘과 도시 원경까지 배경 구성은 레퍼런스와 정확히 맞다. 16:9 구도와 인물의 왼쪽 3분의 1 배치도 지시대로. 감점은 스타일 — 90년대 셀 애니를 요구했는데 음영이 거의 없는 균일한 선의 현대 벡터 일러스트로 나왔다. 2단 셀 셰이딩이 실종됐고 무릎 아래 다리 형태가 어색하다.",
+      "fix": "'two-tone cel shading with a hard shadow terminator on the face, uniform under-shadow on the skirt and legs'를 명시하고, 'vector-flat, no shading'을 네거티브에 추가할 것."
+    }
+  ],
+  "final": "out/attempt-01.png",
+  "status": "done",
+  "reference_query": "90s cel anime school rooftop illustration anime illustration concept art"
+}

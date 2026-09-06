@@ -1,0 +1,143 @@
+{
+  "slug": "makguksu",
+  "created_at": "2026-09-06T15:42:43+09:00",
+  "brief": {
+    "request": "들기름 막국수 오버헤드 컷",
+    "aspect": "1:1",
+    "mood": []
+  },
+  "genre": {
+    "confidence": 0.9,
+    "id": "food",
+    "label": "음식"
+  },
+  "references": [
+    {
+      "file": "refs/ref-01.png",
+      "pin_id": "140174607148193420",
+      "source": "https://www.pinterest.com/pin/140174607148193420/",
+      "dominant_color": "#9a8971",
+      "alt": "two bowls with noodles, meat and vegetables in them",
+      "bytes": 1482353
+    },
+    {
+      "file": "refs/ref-02.jpg",
+      "pin_id": "985231163228820",
+      "source": "https://www.pinterest.com/pin/985231163228820/",
+      "dominant_color": "#696754",
+      "alt": "Spicy Cold Noodle Salad",
+      "bytes": 4398145
+    },
+    {
+      "file": "refs/ref-03.jpg",
+      "pin_id": "228628118578601255",
+      "source": "https://www.pinterest.com/pin/228628118578601255/",
+      "dominant_color": "#c1ae97",
+      "alt": "a bowl filled with noodles, meat and an egg",
+      "bytes": 153392
+    },
+    {
+      "file": "refs/ref-04.jpg",
+      "pin_id": "913034524502400378",
+      "source": "https://www.pinterest.com/pin/913034524502400378/",
+      "dominant_color": "#5a3a27",
+      "alt": "Korean Naengmyeon",
+      "bytes": 471395
+    },
+    {
+      "file": "refs/ref-05.jpg",
+      "pin_id": "396035361003980048",
+      "source": "https://www.pinterest.com/pin/396035361003980048/",
+      "dominant_color": "#87512b",
+      "alt": "Spicy Bibim Naengmyeon Korean Cold Noodles On Plate",
+      "bytes": 180009
+    },
+    {
+      "file": "refs/ref-06.jpg",
+      "pin_id": "1028861477374871995",
+      "source": "https://www.pinterest.com/pin/1028861477374871995/",
+      "dominant_color": "#b2a58f",
+      "alt": "Craving Something Cold? Korean Somen Noodle Salad With Soy Sauce 💦",
+      "bytes": 128277
+    },
+    {
+      "file": "refs/ref-07.png",
+      "pin_id": "1055599908605001",
+      "source": "https://www.pinterest.com/pin/1055599908605001/",
+      "dominant_color": "#bb8b52",
+      "alt": "Spicy Noodle Salad Platter (Jaengban Guksu)",
+      "bytes": 1139633
+    },
+    {
+      "file": "refs/ref-08.jpg",
+      "pin_id": "14988611254970789",
+      "source": "https://www.pinterest.com/pin/14988611254970789/",
+      "dominant_color": "#a9966c",
+      "alt": "a bowl filled with noodles and an egg on top",
+      "bytes": 301852
+    }
+  ],
+  "moodboard": {
+    "palette": [
+      "#3A2F20",
+      "#8C6B4E",
+      "#AA9B7C",
+      "#CDCFBF",
+      "#EEE8DD",
+      "#80422A"
+    ],
+    "lighting": "확산된 자연광이 위에서 약간 뒤로. 국수 표면의 기름과 물기가 은은하게 반짝인다",
+    "composition": "정사각 오버헤드 90도. 그릇이 프레임 중앙을 크게 채우고 젓가락과 반찬 종지가 가장자리에 걸친다",
+    "texture": "메밀면의 거친 결, 들기름 윤기, 채썬 오이·배의 물기, 스테인리스 대접의 차가운 반사, 나무 상판",
+    "avoid": "플라스틱 같은 음식, 과한 광택, 잘못된 식기, 흐린 색"
+  },
+  "route": {
+    "chosen": {
+      "backend": "gemini",
+      "model": "default",
+      "slot": "fallback"
+    },
+    "candidates": [
+      {
+        "slot": "primary",
+        "backend": "higgsfield",
+        "model": "kling_omni_image",
+        "available": false,
+        "why": "higgsfield credits unconfirmed (set RF_HIGGSFIELD_READY=1 after checking the MCP balance tool)"
+      },
+      {
+        "slot": "fallback",
+        "backend": "gemini",
+        "model": "default",
+        "available": true,
+        "why": "GEMINI_API_KEY set"
+      }
+    ],
+    "negative": "plastic-looking food, wrong utensils, melted mess, artificial gloss, dull colors",
+    "prompt_template": "Food photograph of {subject}, {plating}.\n{angle} angle, {lighting}, shallow depth of field.\nFresh textures, visible steam/moisture where natural.\nProps: {props}. Palette: {palette}.\n",
+    "upscale": {
+      "backend": "higgsfield",
+      "model": "bytedance_image_upscale",
+      "params": {
+        "resolution": "4k"
+      }
+    }
+  },
+  "attempts": [
+    {
+      "n": 1,
+      "backend": "gemini",
+      "model": "gemini-3-pro-image",
+      "prompt": "Food photograph of a bowl of Korean cold buckwheat noodles dressed in perilla oil, shot straight down from overhead.\n90-degree overhead angle, diffused daylight from slightly behind, shallow gloss on the oiled noodles.\nFresh textures: coarse buckwheat strands, a sheen of perilla oil, julienned cucumber and pear still wet, toasted sesame, a halved soft-boiled egg with a jammy yolk, a small mound of red seasoning.\nPlating: brushed stainless bowl filling most of the square frame, wooden chopsticks resting on the rim, one small side dish clipped by the frame edge, aged wood tabletop.\nPalette: warm wood #8C6B4E, pale broth #CDCFBF, cream #EEE8DD, chili red #80422A, dark oak #3A2F20.\n\nAvoid: plastic-looking food, wrong utensils, melted mess, artificial gloss, dull colors, sushi or ramen styling.",
+      "aspect": "1:1",
+      "file": "out/attempt-01.png",
+      "bytes": 850052,
+      "score": 93,
+      "critique": "스테인리스 대접, 90도 오버헤드, 반숙란 노른자, 오이채와 배채, 통깨, 붉은 양념, 낡은 나무 상판까지 한국 냉면·막국수의 문법을 정확히 지켰다. 프레임 밖으로 걸친 무 접시도 레퍼런스의 스타일링 그대로. 감점은 젓가락이 대접을 가로질러 계란을 가리고, 들기름 윤기가 지시만큼 안 살았다는 점.",
+      "fix": "젓가락을 대접 밖 오른쪽 상판으로 옮기고, 면 표면의 오일 시닌을 'glossy sheen of perilla oil catching the light'로 강조할 것."
+    }
+  ],
+  "final": "out/attempt-01.png",
+  "status": "done",
+  "reference_query": "korean cold noodle bowl overhead food food photography styling overhead"
+}

@@ -1,0 +1,143 @@
+{
+  "slug": "cat-cityscape",
+  "created_at": "2026-09-06T15:43:22+09:00",
+  "brief": {
+    "request": "도시 야경 내려다보는 고양이, 손그림 2D",
+    "aspect": "4:5",
+    "mood": []
+  },
+  "genre": {
+    "confidence": 0.9,
+    "id": "anime_illustration",
+    "label": "애니 / 일러스트"
+  },
+  "references": [
+    {
+      "file": "refs/ref-01.jpg",
+      "pin_id": "563018698973682",
+      "source": "https://www.pinterest.com/pin/563018698973682/",
+      "dominant_color": "#625040",
+      "alt": "a cat that is standing in front of a food stand with many items on it",
+      "bytes": 113804
+    },
+    {
+      "file": "refs/ref-02.jpg",
+      "pin_id": "98657048082852182",
+      "source": "https://www.pinterest.com/pin/98657048082852182/",
+      "dominant_color": "#204363",
+      "alt": "a cat is sitting in the passenger seat of a car at night with city lights",
+      "bytes": 102014
+    },
+    {
+      "file": "refs/ref-03.jpg",
+      "pin_id": "96686723246139641",
+      "source": "https://www.pinterest.com/pin/96686723246139641/",
+      "dominant_color": "#434969",
+      "alt": "an animated image of a city at night",
+      "bytes": 88617
+    },
+    {
+      "file": "refs/ref-04.png",
+      "pin_id": "73113193946386261",
+      "source": "https://www.pinterest.com/pin/73113193946386261/",
+      "dominant_color": "#543736",
+      "alt": "an animated scene with cats and people in the city",
+      "bytes": 1480514
+    },
+    {
+      "file": "refs/ref-05.jpg",
+      "pin_id": "948781846515848688",
+      "source": "https://www.pinterest.com/pin/948781846515848688/",
+      "dominant_color": "#03518f",
+      "alt": "a cat sitting on top of a roof in front of a cityscape at night",
+      "bytes": 86708
+    },
+    {
+      "file": "refs/ref-06.jpg",
+      "pin_id": "49187820926581561",
+      "source": "https://www.pinterest.com/pin/49187820926581561/",
+      "dominant_color": "#272d62",
+      "alt": "Register - Login",
+      "bytes": 98753
+    },
+    {
+      "file": "refs/ref-07.jpg",
+      "pin_id": "12596073954329461",
+      "source": "https://www.pinterest.com/pin/12596073954329461/",
+      "dominant_color": "#2f3038",
+      "alt": "a painting of a cat sitting in the middle of an alleyway at night time",
+      "bytes": 214910
+    },
+    {
+      "file": "refs/ref-08.png",
+      "pin_id": "918523286481742391",
+      "source": "https://www.pinterest.com/pin/918523286481742391/",
+      "dominant_color": "#855842",
+      "alt": "three cats are playing music in the city",
+      "bytes": 1914755
+    }
+  ],
+  "moodboard": {
+    "palette": [
+      "#2F2F47",
+      "#121F34",
+      "#645A6E",
+      "#81838D",
+      "#B4C4A0",
+      "#603644"
+    ],
+    "lighting": "창문에서 새는 주황 불빛이 유일한 광원. 배경 하늘과 벽은 청보라로 가라앉는다",
+    "composition": "세로 4:5. 고양이가 옥상 난간 위 아래쪽 3분의 1에 앉아 있고 위로 도시 야경이 펼쳐진다",
+    "texture": "손그림 수채·과슈 느낌의 부드러운 면 채색",
+    "avoid": "사진 요소, 3D, 과한 디테일, 벡터 느낌의 매끈함"
+  },
+  "route": {
+    "chosen": {
+      "backend": "gemini",
+      "model": "default",
+      "slot": "fallback"
+    },
+    "candidates": [
+      {
+        "slot": "primary",
+        "backend": "higgsfield",
+        "model": "seedream_v4_5",
+        "available": false,
+        "why": "higgsfield credits unconfirmed (set RF_HIGGSFIELD_READY=1 after checking the MCP balance tool)"
+      },
+      {
+        "slot": "fallback",
+        "backend": "gemini",
+        "model": "default",
+        "available": true,
+        "why": "GEMINI_API_KEY set"
+      }
+    ],
+    "negative": "photorealistic face, 3d render, muddy colors, broken anatomy, extra limbs",
+    "prompt_template": "{style} illustration of {subject}, {action}.\nLine quality: {line}. Shading: {shading}.\nPalette: {palette}. Background: {background}. Mood: {mood}.\n",
+    "upscale": {
+      "backend": "higgsfield",
+      "model": "bytedance_image_upscale",
+      "params": {
+        "resolution": "4k"
+      }
+    }
+  },
+  "attempts": [
+    {
+      "n": 1,
+      "backend": "gemini",
+      "model": "gemini-3-pro-image",
+      "prompt": "Hand-painted 2D animation background illustration: a cat sitting on a rooftop parapet at night, looking down over a dense city.\nLine quality: soft brushed outlines that break and thin, visible painterly edges.\nShading: gouache-like flat washes with soft blending, no airbrush.\nPalette: night violet #2F2F47, deep navy #121F34, dusty plum #603644, cool grey #81838D, sage highlight #B4C4A0, muted mauve #645A6E.\nBackground: stacked low-rise rooftops, tangled wires, hundreds of small warm orange windows as the only light source, distant towers fading into haze.\nMood: still, solitary, late.\nComposition: cat on the lower third of a vertical frame in near-silhouette, city sprawling upward behind it.\n\nAvoid: photorealistic face, 3d render, muddy colors, broken anatomy, extra limbs, vector-smooth surfaces, photographic elements.",
+      "aspect": "4:5",
+      "file": "out/attempt-01.png",
+      "bytes": 663801,
+      "score": 91,
+      "critique": "과슈 붓질 느낌의 면 채색, 청보라 밤 배경에 주황 창문 불빛만 광원으로 남긴 처리가 무드보드와 정확히 맞다. 전선과 옥상 구조물, 고양이 실루엣의 배치도 지시대로. 감점은 상단 하늘의 붓질이 거칠어 미완성처럼 보이고, 고양이 외곽의 밝은 테두리가 배경과 분리돼 오려붙인 느낌을 준다는 점.",
+      "fix": "하늘을 'smooth blended gouache wash'로 지정하고, 고양이 외곽의 라이트 림을 빼서 배경 톤에 녹일 것."
+    }
+  ],
+  "final": "out/attempt-01.png",
+  "status": "done",
+  "reference_query": "hand painted 2d animation cat city night anime illustration concept art"
+}

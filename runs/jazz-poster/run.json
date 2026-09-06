@@ -130,13 +130,20 @@
       }
     }
   },
-  "attempts": {
-    "0": {
+  "attempts": [
+    {
+      "n": 1,
+      "backend": "gemini",
+      "model": "gemini-3-pro-image",
+      "prompt": "Graphic design poster, mid-century modern jazz club style, flat vector shapes with a subtle risograph ink texture on off-white paper.\nHeadline text reads exactly \"MIDNIGHT SET\" in a heavy condensed display typeface, filling the upper half of the poster.\nSecondary line reads exactly \"LIVE AT THE BLUE ROOM\". Small caption block at the bottom reads exactly \"FRIDAY 11PM\".\nTypeface feel: bold geometric sans, tight letter spacing, high contrast against the background.\nLayout: vertical 2:3, headline dominating the top half, a saxophone reduced to cut-paper geometric shapes laid diagonally across the middle, small caption block bottom-left, wide margins.\nPalette: exactly three colors — vermillion #E8452C, bone #F0E5D0, near-black #131313.\nGraphic elements: flat solid shapes only, no outlines, no shading.\nText must be spelled correctly and fully legible.\n\nAvoid: misspelled text, garbled letters, cropped words, cluttered hierarchy, gradients, 3d bevel, drop shadow, photographic elements, overlapping text.\n",
+      "aspect": "2:3",
+      "file": "out/attempt-01.png",
+      "bytes": 744015,
       "score": 95,
       "critique": "타이포 포스터에서 가장 잘 터지는 철자 오류가 전혀 없다. MIDNIGHT SET, LIVE AT THE BLUE ROOM, FRIDAY 11PM 세 줄 모두 정확하고 잘림도 없다. 색을 정확히 3색으로 지킨 점, 리소그래프 잉크 결이 살아있는 점이 레퍼런스와 일치. 감점은 색소폰 벨이 오른쪽 여백을 침범해 마진이 불균등하고, 두 번째 줄이 악기 몸통과 살짝 겹치는 부분.",
       "fix": "색소폰을 5퍼센트 축소해 오른쪽 마진을 헤드라인과 맞추고, 두 번째 줄을 악기와 겹치지 않게 아래로 내릴 것."
     }
-  },
+  ],
   "final": "out/attempt-01.png",
   "status": "done",
   "reference_query": "jazz concert poster minimal graphic design poster typography"

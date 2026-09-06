@@ -1,0 +1,143 @@
+{
+  "slug": "desert-road",
+  "created_at": "2026-09-06T15:42:23+09:00",
+  "brief": {
+    "request": "황혼의 사막 도로에 홀로 선 인물",
+    "aspect": "21:9",
+    "mood": []
+  },
+  "genre": {
+    "confidence": 0.9,
+    "id": "cinematic_still",
+    "label": "시네마틱 스틸"
+  },
+  "references": [
+    {
+      "file": "refs/ref-01.jpg",
+      "pin_id": "193162271514970704",
+      "source": "https://www.pinterest.com/pin/193162271514970704/",
+      "dominant_color": "#6d636b",
+      "alt": "a man walking across a field with a lantern in his hand at sunset or dawn",
+      "bytes": 20749
+    },
+    {
+      "file": "refs/ref-02.jpg",
+      "pin_id": "48976714688301561",
+      "source": "https://www.pinterest.com/pin/48976714688301561/",
+      "dominant_color": "#956348",
+      "alt": "a man standing on the side of a road next to a car at sunset with power lines in the background",
+      "bytes": 42735
+    },
+    {
+      "file": "refs/ref-03.jpg",
+      "pin_id": "850195235928029061",
+      "source": "https://www.pinterest.com/pin/850195235928029061/",
+      "dominant_color": "#224651",
+      "alt": "a man riding on the back of a horse across a grass covered field under a blue sky",
+      "bytes": 34656
+    },
+    {
+      "file": "refs/ref-04.jpg",
+      "pin_id": "25121710418763712",
+      "source": "https://www.pinterest.com/pin/25121710418763712/",
+      "dominant_color": "#d25f00",
+      "alt": "a person standing in the middle of an orange sky",
+      "bytes": 33077
+    },
+    {
+      "file": "refs/ref-05.png",
+      "pin_id": "1134696068638714002",
+      "source": "https://www.pinterest.com/pin/1134696068638714002/",
+      "dominant_color": "#6c462b",
+      "alt": "a man walking in the desert at sunset",
+      "bytes": 6367152
+    },
+    {
+      "file": "refs/ref-06.jpg",
+      "pin_id": "8725793025085183",
+      "source": "https://www.pinterest.com/pin/8725793025085183/",
+      "dominant_color": "#ca6206",
+      "alt": "a man walking down a foggy road towards an airplane flying in the sky above",
+      "bytes": 127960
+    },
+    {
+      "file": "refs/ref-07.jpg",
+      "pin_id": "354236326960753824",
+      "source": "https://www.pinterest.com/pin/354236326960753824/",
+      "dominant_color": "#362a23",
+      "alt": "The Fall Desert Scene, Lawrence Of Arabia Desert Cinematography, Mad Max Fury Road Desert Cinematography, Mad Max Cinematography, Lawrence Of Arabia Cinematography, Dune Cinematic Shots, Dune Cinematography, Mad Max Fury Road Cinematography, Dune Cinematic Landscape",
+      "bytes": 13317
+    },
+    {
+      "file": "refs/ref-08.png",
+      "pin_id": "690035974161065970",
+      "source": "https://www.pinterest.com/pin/690035974161065970/",
+      "dominant_color": "#1d1116",
+      "alt": "a man walking down the street at night next to a white van and lamp post",
+      "bytes": 290425
+    }
+  ],
+  "moodboard": {
+    "palette": [
+      "#31261D",
+      "#131418",
+      "#CA8539",
+      "#8A6037",
+      "#D3BD8F",
+      "#632810"
+    ],
+    "lighting": "황혼 역광. 하늘이 주황에서 청록으로 갈리고 지면은 거의 실루엣",
+    "composition": "21:9 초광각. 수평선을 아래 1/4에 두고 하늘이 화면을 지배. 인물은 아주 작게 중앙 약간 옆",
+    "texture": "흙먼지 대기, 미세한 헤이즈, 거친 노면, 필름 그레인",
+    "avoid": "인물 클로즈업, 채도 과다, 하늘 HDR 후광, 구름 없는 밋밋한 하늘"
+  },
+  "route": {
+    "chosen": {
+      "backend": "gemini",
+      "model": "default",
+      "slot": "fallback"
+    },
+    "candidates": [
+      {
+        "slot": "primary",
+        "backend": "higgsfield",
+        "model": "cinematic_studio_2_5",
+        "available": false,
+        "why": "higgsfield credits unconfirmed (set RF_HIGGSFIELD_READY=1 after checking the MCP balance tool)"
+      },
+      {
+        "slot": "fallback",
+        "backend": "gemini",
+        "model": "default",
+        "available": true,
+        "why": "GEMINI_API_KEY set"
+      }
+    ],
+    "negative": "flat lighting, video game render, oversaturated, watermark, text overlay",
+    "prompt_template": "Cinematic film still, {scene}. {subject} {action}.\nAnamorphic {lens}, {lighting}, {time_of_day}.\nColor grade: {palette}. Film grain, shallow depth of field.\nFraming: {composition}.\n",
+    "upscale": {
+      "backend": "higgsfield",
+      "model": "bytedance_image_upscale",
+      "params": {
+        "resolution": "4k"
+      }
+    }
+  },
+  "attempts": [
+    {
+      "n": 1,
+      "backend": "gemini",
+      "model": "gemini-3-pro-image",
+      "prompt": "Cinematic film still, a lone figure standing on an empty desert highway at dusk, seen from far away as a small silhouette.\nAnamorphic 24mm ultra-wide, deep focus.\nLighting: strong backlight from the setting sun, sky splitting from burnt orange at the horizon to cold teal overhead, ground reduced to near-silhouette, dust haze in the air.\nTime: last ten minutes of light.\nColor grade: ember orange #CA8539, rust #8A6037, pale sand #D3BD8F, deep teal #131418, dark earth #31261D. Film grain, gentle halation.\nFraming: horizon on the lower quarter, sky dominating the frame, road leading in from the bottom edge, figure small and slightly off-center.\n\nAvoid: flat lighting, video game render, oversaturated, watermark, text overlay, close-up of the figure, empty featureless sky.",
+      "aspect": "21:9",
+      "file": "out/attempt-01.png",
+      "bytes": 706410,
+      "score": 95,
+      "critique": "수평선을 아래 1/4에 두고 하늘이 화면을 지배하는 구성, 주황에서 청록으로 갈리는 황혼 그라데이션, 먼지 헤이즈와 필름 할레이션이 레퍼런스의 시네마틱 톤을 정확히 재현했다. 21:9도 맞다. 감점은 인물이 '아주 작게'라는 지시보다 크게 나와 고독의 스케일이 조금 덜하다는 점.",
+      "fix": "인물을 현재의 절반 크기로 줄이고 도로 소실점 쪽으로 더 밀어 스케일 대비를 키울 것."
+    }
+  ],
+  "final": "out/attempt-01.png",
+  "status": "done",
+  "reference_query": "lone figure desert road dusk cinematic cinematic film still color grading"
+}

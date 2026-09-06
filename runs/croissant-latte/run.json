@@ -1,0 +1,143 @@
+{
+  "slug": "croissant-latte",
+  "created_at": "2026-09-06T15:42:50+09:00",
+  "brief": {
+    "request": "크루아상과 라떼, 창가 아침",
+    "aspect": "4:5",
+    "mood": []
+  },
+  "genre": {
+    "confidence": 0.9,
+    "id": "food",
+    "label": "음식"
+  },
+  "references": [
+    {
+      "file": "refs/ref-01.jpg",
+      "pin_id": "38069559344804590",
+      "source": "https://www.pinterest.com/pin/38069559344804590/",
+      "dominant_color": "#999188",
+      "alt": "“A minimalist café table by a large window, featuring a ceramic cup of latte",
+      "bytes": 82708
+    },
+    {
+      "file": "refs/ref-02.jpg",
+      "pin_id": "140806233522100",
+      "source": "https://www.pinterest.com/pin/140806233522100/",
+      "dominant_color": "#8e7e65",
+      "alt": "a croissant on a plate next to a cup of coffee",
+      "bytes": 139660
+    },
+    {
+      "file": "refs/ref-03.jpg",
+      "pin_id": "68748585903",
+      "source": "https://www.pinterest.com/pin/68748585903/",
+      "dominant_color": "#9f7a53",
+      "alt": "FOOD",
+      "bytes": 67589
+    },
+    {
+      "file": "refs/ref-04.png",
+      "pin_id": "29484572558483063",
+      "source": "https://www.pinterest.com/pin/29484572558483063/",
+      "dominant_color": "#d6c4b2",
+      "alt": "Latte Art & Croissant Breakfast Flat Lay | Cozy Morning Coffee Aesthetic 2026",
+      "bytes": 2279032
+    },
+    {
+      "file": "refs/ref-05.jpg",
+      "pin_id": "29977153765746850",
+      "source": "https://www.pinterest.com/pin/29977153765746850/",
+      "dominant_color": "#392416",
+      "alt": "a cup of coffee and a croissant on a table",
+      "bytes": 71019
+    },
+    {
+      "file": "refs/ref-06.jpg",
+      "pin_id": "1829656095573083",
+      "source": "https://www.pinterest.com/pin/1829656095573083/",
+      "dominant_color": "#bd9675",
+      "alt": "croissants, coffee and other breakfast foods are laid out on the table",
+      "bytes": 177427
+    },
+    {
+      "file": "refs/ref-07.jpg",
+      "pin_id": "3166662233363784",
+      "source": "https://www.pinterest.com/pin/3166662233363784/",
+      "dominant_color": "#b08660",
+      "alt": "there is a croissant and a cup of coffee on top of the table",
+      "bytes": 249159
+    },
+    {
+      "file": "refs/ref-08.jpg",
+      "pin_id": "35536284556781059",
+      "source": "https://www.pinterest.com/pin/35536284556781059/",
+      "dominant_color": "#a79381",
+      "alt": "there is a cup of coffee and a croissant on the table",
+      "bytes": 73402
+    }
+  ],
+  "moodboard": {
+    "palette": [
+      "#3D281B",
+      "#BAA083",
+      "#D7C4AB",
+      "#9F7553",
+      "#726550",
+      "#EADFD2"
+    ],
+    "lighting": "아침 창가 대각선 직사광. 테이블 위에 창틀 그림자가 길게 떨어지고 하이키 웜",
+    "composition": "세로 4:5, 45도 하이앵글. 라떼잔과 크루아상이 대각선으로 놓이고 오른쪽 위에서 빛이 들어온다",
+    "texture": "크루아상의 층진 결과 부스러기, 라떼아트 미세 거품, 대리석 또는 원목 상판, 리넨 냅킨",
+    "avoid": "차가운 조명, 어수선한 배경, 부자연스러운 광택, 잘못된 라떼아트"
+  },
+  "route": {
+    "chosen": {
+      "backend": "gemini",
+      "model": "default",
+      "slot": "fallback"
+    },
+    "candidates": [
+      {
+        "slot": "primary",
+        "backend": "higgsfield",
+        "model": "kling_omni_image",
+        "available": false,
+        "why": "higgsfield credits unconfirmed (set RF_HIGGSFIELD_READY=1 after checking the MCP balance tool)"
+      },
+      {
+        "slot": "fallback",
+        "backend": "gemini",
+        "model": "default",
+        "available": true,
+        "why": "GEMINI_API_KEY set"
+      }
+    ],
+    "negative": "plastic-looking food, wrong utensils, melted mess, artificial gloss, dull colors",
+    "prompt_template": "Food photograph of {subject}, {plating}.\n{angle} angle, {lighting}, shallow depth of field.\nFresh textures, visible steam/moisture where natural.\nProps: {props}. Palette: {palette}.\n",
+    "upscale": {
+      "backend": "higgsfield",
+      "model": "bytedance_image_upscale",
+      "params": {
+        "resolution": "4k"
+      }
+    }
+  },
+  "attempts": [
+    {
+      "n": 1,
+      "backend": "gemini",
+      "model": "gemini-3-pro-image",
+      "prompt": "Food photograph of a butter croissant beside a latte in a ceramic cup on a cafe table by a window, morning.\n45-degree high angle, shallow depth of field.\nLighting: hard diagonal morning sunlight through the window casting a long window-frame shadow across the table, high-key and warm.\nFresh textures: visibly laminated flaky croissant layers with scattered crumbs, fine microfoam latte art, matte glazed ceramic, linen napkin, pale oak tabletop.\nProps: a linen napkin and one small spoon, nothing else.\nPalette: cream #EADFD2, oat #D7C4AB, caramel #BAA083, tan #9F7553, espresso #3D281B.\n\nAvoid: plastic-looking food, wrong utensils, melted mess, artificial gloss, dull colors, cold light, cluttered background.",
+      "aspect": "4:5",
+      "file": "out/attempt-01.png",
+      "bytes": 713864,
+      "score": 94,
+      "critique": "창틀 그림자가 테이블을 가로지르는 대각선 직사광이 레퍼런스의 아침 카페 무드를 정확히 잡았다. 크루아상의 층진 결과 흩어진 부스러기, 라떼아트 미세거품, 리넨 냅킨 모두 살아있다. 감점은 크루아상만 냅킨 밖 맨 테이블에 놓여 스타일링이 어긋난 점과 상단 여백이 과한 점.",
+      "fix": "크루아상을 냅킨 위 또는 작은 접시에 올리고, 크롭을 아래로 내려 상단 빈 공간을 줄일 것."
+    }
+  ],
+  "final": "out/attempt-01.png",
+  "status": "done",
+  "reference_query": "croissant latte cafe window morning food food photography styling overhead"
+}

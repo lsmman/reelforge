@@ -73,7 +73,7 @@
   .swatch { width: 26px; height: 26px; border-radius: 6px; border: 1px solid var(--line); }
   .attempt { display: grid; grid-template-columns: 260px 1fr; gap: 16px; margin-bottom: 14px; }
   @media (max-width: 700px) { .attempt { grid-template-columns: 1fr; } }
-  .attempt img { width: 100%; border-radius: 10px; border: 1px solid var(--line); }
+  .attempt img, .attempt video { width: 100%; border-radius: 10px; border: 1px solid var(--line); }
   .score { font-size: 26px; font-weight: 700; letter-spacing: -.02em; }
   .score.good { color: var(--good); } .score.warn { color: var(--warn); } .score.bad { color: var(--bad); }
   pre {
@@ -128,6 +128,7 @@ function render(i) {
   const base = `../runs/${r.slug}/`;
   const mb = r.moodboard || {};
   const attempts = r.attempts || [];
+  const videos = r.videos || [];
 
   $("#main").innerHTML = `
   <section>
@@ -172,6 +173,26 @@ function render(i) {
         </div>
       </div>`).join("") : `<p class="empty">아직 생성된 이미지 없음</p>`}
   </section>
+
+  ${videos.length ? `<section>
+    <h2>영상 (${videos.length})</h2>
+    ${videos.map(v => `
+      <div class="card attempt">
+        <div><video src="${base + esc(v.file)}" controls loop muted playsinline preload="metadata"></video></div>
+        <div>
+          <div class="score ${scoreClass(v.score ?? 0)}">${v.score ?? "–"}<span style="font-size:13px;color:var(--dim)"> / 100</span></div>
+          <div class="chips">
+            <span class="chip">#${v.n}</span>
+            <span class="chip">${esc(v.model)}</span>
+            <span class="chip">${esc(v.aspect)}</span>
+            <span class="chip">${esc(v.from)} 에서</span>
+          </div>
+          ${v.motion ? `<p style="margin:10px 0 0"><strong>무브:</strong> ${esc(v.motion)}</p>` : ""}
+          ${v.critique ? `<p style="margin:6px 0 0">${esc(v.critique)}</p>` : ""}
+          ${v.fix ? `<p style="margin:6px 0 0;color:var(--dim)"><strong>다음 수정:</strong> ${esc(v.fix)}</p>` : ""}
+        </div>
+      </div>`).join("")}
+  </section>` : ""}
 
   ${Object.keys(mb).length ? `<section>
     <h2>무드보드</h2>

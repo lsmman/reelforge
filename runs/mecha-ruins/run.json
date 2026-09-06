@@ -1,0 +1,143 @@
+{
+  "slug": "mecha-ruins",
+  "created_at": "2026-09-06T15:43:28+09:00",
+  "brief": {
+    "request": "폐허 도시 위 거대 로봇",
+    "aspect": "21:9",
+    "mood": []
+  },
+  "genre": {
+    "confidence": 0.9,
+    "id": "concept_art",
+    "label": "컨셉 아트 / 3D"
+  },
+  "references": [
+    {
+      "file": "refs/ref-01.jpg",
+      "pin_id": "53621051810591558",
+      "source": "https://www.pinterest.com/pin/53621051810591558/",
+      "dominant_color": "#788489",
+      "alt": "@asteroid_ill",
+      "bytes": 147238
+    },
+    {
+      "file": "refs/ref-02.jpg",
+      "pin_id": "1145040274137656170",
+      "source": "https://www.pinterest.com/pin/1145040274137656170/",
+      "dominant_color": "#272d33",
+      "alt": "Mecha Scale Shot Prompt — Flooded Hangar",
+      "bytes": 159868
+    },
+    {
+      "file": "refs/ref-03.jpg",
+      "pin_id": "616500636504930424",
+      "source": "https://www.pinterest.com/pin/616500636504930424/",
+      "dominant_color": "#46535f",
+      "alt": "an image of a futuristic city with tall buildings and green plants in the foreground",
+      "bytes": 155208
+    },
+    {
+      "file": "refs/ref-04.jpg",
+      "pin_id": "17240411069083133",
+      "source": "https://www.pinterest.com/pin/17240411069083133/",
+      "dominant_color": "#53585a",
+      "alt": "an anime character standing in the middle of a city with tall buildings behind her and trees on either side",
+      "bytes": 130060
+    },
+    {
+      "file": "refs/ref-05.jpg",
+      "pin_id": "4925880839660047",
+      "source": "https://www.pinterest.com/pin/4925880839660047/",
+      "dominant_color": "#4d4a31",
+      "alt": "a futuristic city filled with lots of neon lights and giant robots standing in front of tall buildings",
+      "bytes": 1376479
+    },
+    {
+      "file": "refs/ref-06.jpg",
+      "pin_id": "515873332342735389",
+      "source": "https://www.pinterest.com/pin/515873332342735389/",
+      "dominant_color": "#bfcbcc",
+      "alt": "an image of a giant robot standing in the fog",
+      "bytes": 76210
+    },
+    {
+      "file": "refs/ref-07.jpg",
+      "pin_id": "38351034332369796",
+      "source": "https://www.pinterest.com/pin/38351034332369796/",
+      "dominant_color": "#0c111f",
+      "alt": "an image of a man standing in the middle of a city at night with lights on",
+      "bytes": 87040
+    },
+    {
+      "file": "refs/ref-08.jpg",
+      "pin_id": "651403533652635285",
+      "source": "https://www.pinterest.com/pin/651403533652635285/",
+      "dominant_color": "#2e413e",
+      "alt": "Austin Auston @austinaust0n",
+      "bytes": 132572
+    }
+  ],
+  "moodboard": {
+    "palette": [
+      "#13181C",
+      "#6C736E",
+      "#2D3436",
+      "#444845",
+      "#A3ACAD",
+      "#D9E1DF"
+    ],
+    "lighting": "흐린 하늘의 확산광. 안개가 거리별로 대비를 깎아 스케일을 만든다",
+    "composition": "21:9. 거대 로봇이 오른쪽에서 무릎 꿇은 자세로 프레임을 채우고, 왼쪽 아래에 아주 작은 인물이 스케일을 잡아준다",
+    "texture": "",
+    "avoid": "평평한 조명, 스톡 사진 느낌, 읽히지 않는 실루엣, 대칭 뭉개짐"
+  },
+  "route": {
+    "chosen": {
+      "backend": "gemini",
+      "model": "default",
+      "slot": "fallback"
+    },
+    "candidates": [
+      {
+        "slot": "primary",
+        "backend": "higgsfield",
+        "model": "soul_cinematic",
+        "available": false,
+        "why": "higgsfield credits unconfirmed (set RF_HIGGSFIELD_READY=1 after checking the MCP balance tool)"
+      },
+      {
+        "slot": "fallback",
+        "backend": "gemini",
+        "model": "default",
+        "available": true,
+        "why": "GEMINI_API_KEY set"
+      }
+    ],
+    "negative": "flat lighting, stock photo look, unreadable silhouette, symmetrical mush",
+    "prompt_template": "Concept art of {subject}. {style}, {medium}.\nScale reference: {scale}. Lighting: {lighting}.\nDetail density high on {focus}, loose elsewhere. Palette: {palette}.\n",
+    "upscale": {
+      "backend": "higgsfield",
+      "model": "bytedance_image_upscale",
+      "params": {
+        "resolution": "4k"
+      }
+    }
+  },
+  "attempts": [
+    {
+      "n": 1,
+      "backend": "gemini",
+      "model": "gemini-3-pro-image",
+      "prompt": "Concept art of a colossal derelict humanoid mech kneeling among the ruins of a flooded city, overgrown with vegetation. Painterly digital matte painting, industrial design realism.\nScale reference: a single human figure standing on rubble in the lower left, tiny against the machine.\nLighting: flat diffuse light from a heavy overcast sky, aerial perspective washing out contrast with distance so the far towers read as pale silhouettes.\nDetail density high on the mech's shoulder and chest armor plating with visible panel lines, weld seams, rust streaks and creeping ivy; loose and atmospheric everywhere else.\nPalette: cold slate #13181C, weathered steel #2D3436, moss grey #6C736E, pale fog #A3ACAD, misted white #D9E1DF.\nComposition: 21:9 ultra-wide, mech filling the right two-thirds, ruined skyline receding left.\n\nAvoid: flat lighting, stock photo look, unreadable silhouette, symmetrical mush, cartoon proportions, text overlay.",
+      "aspect": "21:9",
+      "file": "out/attempt-01.png",
+      "bytes": 762361,
+      "score": 96,
+      "critique": "21:9 프레임을 오른쪽 3분의 2로 채운 기체와 왼쪽 하단의 작은 인물이 스케일 대비를 정확히 만들었다. 안개가 거리별로 대비를 깎아 원근이 살고, 패널 라인·용접선·녹·담쟁이의 디테일 밀도도 근경에만 집중돼 있다. 실루엣이 명확히 읽힌다.",
+      "fix": "전경 잔해가 하단에서 다소 어수선하니 정리하고 인물 주변에 여백을 줄 것."
+    }
+  ],
+  "final": "out/attempt-01.png",
+  "status": "done",
+  "reference_query": "giant mech ruined city concept art concept art environment design"
+}

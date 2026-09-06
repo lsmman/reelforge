@@ -1,0 +1,143 @@
+{
+  "slug": "portrait-chef-bw",
+  "created_at": "2026-09-06T15:42:10+09:00",
+  "brief": {
+    "request": "중년 남성 셰프 흑백 에디토리얼 인물",
+    "aspect": "3:2",
+    "mood": []
+  },
+  "genre": {
+    "confidence": 0.9,
+    "id": "portrait",
+    "label": "인물 / 포트레이트"
+  },
+  "references": [
+    {
+      "file": "refs/ref-01.jpg",
+      "pin_id": "34902965860443907",
+      "source": "https://www.pinterest.com/pin/34902965860443907/",
+      "dominant_color": "#020202",
+      "alt": "a black and white photo of a man with long hair wearing a dress shirt looking to the side",
+      "bytes": 100528
+    },
+    {
+      "file": "refs/ref-02.jpg",
+      "pin_id": "4644405861679722",
+      "source": "https://www.pinterest.com/pin/4644405861679722/",
+      "dominant_color": "#262626",
+      "alt": "a black and white photo of a chef in a kitchen",
+      "bytes": 40694
+    },
+    {
+      "file": "refs/ref-03.jpg",
+      "pin_id": "560768591125014203",
+      "source": "https://www.pinterest.com/pin/560768591125014203/",
+      "dominant_color": "#030303",
+      "alt": "black and white photograph of a man in an apron looking off to the side with his arms crossed",
+      "bytes": 39010
+    },
+    {
+      "file": "refs/ref-04.jpg",
+      "pin_id": "19210735904972683",
+      "source": "https://www.pinterest.com/pin/19210735904972683/",
+      "dominant_color": "#2c2c2c",
+      "alt": "black and white photograph of a smiling chef sitting on a chair with his arms crossed",
+      "bytes": 43210
+    },
+    {
+      "file": "refs/ref-05.jpg",
+      "pin_id": "4598738242744470400",
+      "source": "https://www.pinterest.com/pin/4598738242744470400/",
+      "dominant_color": "#181818",
+      "alt": "John Paul Alberti",
+      "bytes": 62581
+    },
+    {
+      "file": "refs/ref-06.jpg",
+      "pin_id": "73394668924383948",
+      "source": "https://www.pinterest.com/pin/73394668924383948/",
+      "dominant_color": "#e4e5e7",
+      "alt": "a black and white photo of a man making a face",
+      "bytes": 120656
+    },
+    {
+      "file": "refs/ref-07.jpg",
+      "pin_id": "4591982889032166016",
+      "source": "https://www.pinterest.com/pin/4591982889032166016/",
+      "dominant_color": "#333333",
+      "alt": "The Scout Guide: On His Radar",
+      "bytes": 45569
+    },
+    {
+      "file": "refs/ref-08.png",
+      "pin_id": "3799980924257378",
+      "source": "https://www.pinterest.com/pin/3799980924257378/",
+      "dominant_color": "#454442",
+      "alt": "Pedro Abascal",
+      "bytes": 436987
+    }
+  ],
+  "moodboard": {
+    "palette": [
+      "#020202",
+      "#424241",
+      "#1E1E1E",
+      "#888887",
+      "#0A0A0A",
+      "#E0E0E0"
+    ],
+    "lighting": "한쪽에서 들어오는 강한 측광. 배경은 거의 검게 떨어지고 흰 조리복만 밝게 남는다. 고대비 흑백",
+    "composition": "가로 3:2 상반신, 정면 응시, 팔짱 또는 손을 앞으로. 인물이 중앙, 배경은 어둠",
+    "texture": "면 조리복의 두꺼운 직조, 수염과 주름의 디테일, 거친 은염 그레인",
+    "avoid": "컬러 잔상, 평평한 조명, 웃는 홍보사진 톤, 배경 소품"
+  },
+  "route": {
+    "chosen": {
+      "backend": "gemini",
+      "model": "default",
+      "slot": "fallback"
+    },
+    "candidates": [
+      {
+        "slot": "primary",
+        "backend": "higgsfield",
+        "model": "soul_2",
+        "available": false,
+        "why": "higgsfield credits unconfirmed (set RF_HIGGSFIELD_READY=1 after checking the MCP balance tool)"
+      },
+      {
+        "slot": "fallback",
+        "backend": "gemini",
+        "model": "default",
+        "available": true,
+        "why": "GEMINI_API_KEY set"
+      }
+    ],
+    "negative": "plastic skin, over-smoothed face, extra fingers, warped hands, uncanny eyes, heavy HDR",
+    "prompt_template": "{shot_type} portrait of {subject}, {styling}.\nLighting: {lighting}. Lens: {lens}. Mood: {mood}.\nSkin texture natural and unretouched, sharp focus on eyes.\nColor palette: {palette}. Background: {background}.\n",
+    "upscale": {
+      "backend": "higgsfield",
+      "model": "bytedance_image_upscale",
+      "params": {
+        "resolution": "4k"
+      }
+    }
+  },
+  "attempts": [
+    {
+      "n": 1,
+      "backend": "gemini",
+      "model": "gemini-3-pro-image",
+      "prompt": "Black and white editorial portrait of a chef in his fifties, chest-up, arms crossed, looking straight into the lens.\nLighting: hard single sidelight from camera left, background falling to near black, only the white chef jacket and the lit half of his face holding value. High contrast monochrome.\nLens: 50mm at f/2.8.\nMood: serious, weathered, unsmiling.\nHeavy cotton weave in the jacket, deep skin and beard detail, coarse silver-halide grain.\nTonal range: near-black #020202, shadow #1E1E1E, mid grey #424241, highlight #E0E0E0.\nBackground: unlit kitchen, unreadable.\n\nAvoid: color cast, flat lighting, promotional smiling tone, background props, plastic skin, over-smoothed face.",
+      "aspect": "3:2",
+      "file": "out/attempt-01.png",
+      "bytes": 746369,
+      "score": 95,
+      "critique": "고대비 흑백 측광, 어둠에 잠긴 주방 배경, 흰 조리복만 밝게 남는 톤 분리가 레퍼런스와 정확히 일치한다. 주름과 수염의 디테일, 팔짱 낀 손가락 모두 정상이고 정면 응시의 압이 살아있다. 감점은 프롬프트에 지시한 거친 은염 그레인이 거의 안 보이고, 오른쪽 여백이 다소 비어 있다는 점.",
+      "fix": "그레인을 'heavy visible silver-halide grain'으로 강조하고, 크롭을 좁혀 오른쪽 빈 공간을 줄일 것."
+    }
+  ],
+  "final": "out/attempt-01.png",
+  "status": "done",
+  "reference_query": "black and white editorial chef portrait portrait photography lighting editorial"
+}

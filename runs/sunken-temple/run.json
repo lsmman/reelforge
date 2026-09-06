@@ -1,0 +1,143 @@
+{
+  "slug": "sunken-temple",
+  "created_at": "2026-09-06T15:43:34+09:00",
+  "brief": {
+    "request": "수중 고대 유적",
+    "aspect": "16:9",
+    "mood": []
+  },
+  "genre": {
+    "confidence": 0.9,
+    "id": "concept_art",
+    "label": "컨셉 아트 / 3D"
+  },
+  "references": [
+    {
+      "file": "refs/ref-01.jpg",
+      "pin_id": "3799980930278503",
+      "source": "https://www.pinterest.com/pin/3799980930278503/",
+      "dominant_color": "#20578e",
+      "alt": "an image of a sci - fi city with lots of space and debris in the foreground",
+      "bytes": 105060
+    },
+    {
+      "file": "refs/ref-02.jpg",
+      "pin_id": "993325261583215953",
+      "source": "https://www.pinterest.com/pin/993325261583215953/",
+      "dominant_color": "#053654",
+      "alt": "an underwater view of a building in the middle of the ocean with sunlight streaming through it",
+      "bytes": 121511
+    },
+    {
+      "file": "refs/ref-03.jpg",
+      "pin_id": "9429480467009033",
+      "source": "https://www.pinterest.com/pin/9429480467009033/",
+      "dominant_color": "#054351",
+      "alt": "an underwater cave with many fish swimming in it",
+      "bytes": 140987
+    },
+    {
+      "file": "refs/ref-04.jpg",
+      "pin_id": "382735668360518997",
+      "source": "https://www.pinterest.com/pin/382735668360518997/",
+      "dominant_color": "#052b44",
+      "alt": "two different views of an underwater cave with people in it, and one is diving into the water",
+      "bytes": 391186
+    },
+    {
+      "file": "refs/ref-05.jpg",
+      "pin_id": "918452917779111612",
+      "source": "https://www.pinterest.com/pin/918452917779111612/",
+      "dominant_color": "#0d4e4d",
+      "alt": "minecraft version wallpaper",
+      "bytes": 144031
+    },
+    {
+      "file": "refs/ref-06.jpg",
+      "pin_id": "232428030764833033",
+      "source": "https://www.pinterest.com/pin/232428030764833033/",
+      "dominant_color": "#1a6170",
+      "alt": "an underwater scene with rocks and water",
+      "bytes": 141265
+    },
+    {
+      "file": "refs/ref-07.png",
+      "pin_id": "86623992828098676",
+      "source": "https://www.pinterest.com/pin/86623992828098676/",
+      "dominant_color": "#1d4450",
+      "alt": "An ancient underwater temple with tall stone columns and glowing ocean light filtering from above. Coral lines the sand, and fish swim through the calm, deep blue structure.",
+      "bytes": 724921
+    },
+    {
+      "file": "refs/ref-08.jpg",
+      "pin_id": "42432421485868089",
+      "source": "https://www.pinterest.com/pin/42432421485868089/",
+      "dominant_color": "#208a97",
+      "alt": "two people are standing in front of a waterfall with an elephant and car on it",
+      "bytes": 196416
+    }
+  ],
+  "moodboard": {
+    "palette": [
+      "#1B607A",
+      "#042536",
+      "#26859C",
+      "#1E3442",
+      "#0D2C39",
+      "#46BECA"
+    ],
+    "lighting": "수면을 통과한 광선이 기둥 사이로 갈라져 내려온다. 청록 단색조에 부유물이 빛을 받는다",
+    "composition": "16:9. 무너진 신전 열주가 좌우로 도열하고 중앙 소실점 너머 빛이 쏟아진다. 다이버 실루엣이 스케일",
+    "texture": "",
+    "avoid": "평평한 조명, 스톡 느낌, 실루엣 뭉개짐, 지나친 채도"
+  },
+  "route": {
+    "chosen": {
+      "backend": "gemini",
+      "model": "default",
+      "slot": "fallback"
+    },
+    "candidates": [
+      {
+        "slot": "primary",
+        "backend": "higgsfield",
+        "model": "soul_cinematic",
+        "available": false,
+        "why": "higgsfield credits unconfirmed (set RF_HIGGSFIELD_READY=1 after checking the MCP balance tool)"
+      },
+      {
+        "slot": "fallback",
+        "backend": "gemini",
+        "model": "default",
+        "available": true,
+        "why": "GEMINI_API_KEY set"
+      }
+    ],
+    "negative": "flat lighting, stock photo look, unreadable silhouette, symmetrical mush",
+    "prompt_template": "Concept art of {subject}. {style}, {medium}.\nScale reference: {scale}. Lighting: {lighting}.\nDetail density high on {focus}, loose elsewhere. Palette: {palette}.\n",
+    "upscale": {
+      "backend": "higgsfield",
+      "model": "bytedance_image_upscale",
+      "params": {
+        "resolution": "4k"
+      }
+    }
+  },
+  "attempts": [
+    {
+      "n": 1,
+      "backend": "gemini",
+      "model": "gemini-3-pro-image",
+      "prompt": "Concept art of a sunken ancient temple colonnade on the seabed, shafts of light cutting down between the pillars. Painterly digital matte painting.\nScale reference: a single diver silhouette drifting near the base of one column, small against the architecture.\nLighting: god rays refracted through the surface far above, split into hard shafts between the columns, suspended particulate catching the light, deep falloff into blue-black at the edges.\nDetail density high on the nearest carved column capitals and the coral encrusting them, loose and hazy in the depth behind.\nPalette: bright cyan #46BECA, teal #26859C, ocean blue #1B607A, slate blue #1E3442, deep #0D2C39, near-black #042536.\nComposition: 16:9, symmetrical colonnade receding to a lit vanishing point, foreground column cropped at the left edge.\n\nAvoid: flat lighting, stock photo look, unreadable silhouette, symmetrical mush, oversaturation, text overlay.",
+      "aspect": "16:9",
+      "file": "out/attempt-01.png",
+      "bytes": 625991,
+      "score": 95,
+      "critique": "수면을 통과한 광선이 기둥 사이로 갈라지는 처리와 부유물, 산호가 붙은 기둥, 다이버 실루엣의 스케일 참조가 모두 정확하다. 청록 단색조의 깊이감도 무드보드 그대로. 감점은 열주가 좌우 대칭에 가깝게 기계적으로 배열돼 회화적 긴장이 덜하고, 기둥 양식이 코린트식이라 '고대 유적'이 그리스로 특정된 점.",
+      "fix": "기둥 배열을 비대칭으로 흐트러뜨리고 하나를 무너뜨리며, 양식을 문화 중립적인 각기둥으로 바꿀 것."
+    }
+  ],
+  "final": "out/attempt-01.png",
+  "status": "done",
+  "reference_query": "underwater ancient ruins concept art concept art environment design"
+}

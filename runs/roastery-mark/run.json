@@ -1,0 +1,155 @@
+{
+  "slug": "roastery-mark",
+  "created_at": "2026-09-06T15:43:45+09:00",
+  "brief": {
+    "request": "커피 로스터리 로고 마크",
+    "aspect": "1:1",
+    "mood": []
+  },
+  "genre": {
+    "confidence": 0.9,
+    "id": "logo_icon",
+    "label": "로고 / 아이콘"
+  },
+  "references": [
+    {
+      "file": "refs/ref-01.png",
+      "pin_id": "635570566209483743",
+      "source": "https://www.pinterest.com/pin/635570566209483743/",
+      "dominant_color": "#f4f4f4",
+      "alt": "Logo for high quality coffee roastery | Logo design contest",
+      "bytes": 769417
+    },
+    {
+      "file": "refs/ref-02.jpg",
+      "pin_id": "129337820546106168",
+      "source": "https://www.pinterest.com/pin/129337820546106168/",
+      "dominant_color": "#ece9e8",
+      "alt": "Minimalist Coffee Branding: The Power of Geometric Symbols",
+      "bytes": 67299
+    },
+    {
+      "file": "refs/ref-03.png",
+      "pin_id": "8303580556188121",
+      "source": "https://www.pinterest.com/pin/8303580556188121/",
+      "dominant_color": "#f7f2f2",
+      "alt": "ALEXANDER ROASTERY - Branding - Bettermade Design Agency",
+      "bytes": 73932
+    },
+    {
+      "file": "refs/ref-04.png",
+      "pin_id": "263812490668954014",
+      "source": "https://www.pinterest.com/pin/263812490668954014/",
+      "dominant_color": "#eae6e4",
+      "alt": "Coffee illustrations",
+      "bytes": 48302
+    },
+    {
+      "file": "refs/ref-05.jpg",
+      "pin_id": "721279696617838621",
+      "source": "https://www.pinterest.com/pin/721279696617838621/",
+      "dominant_color": "#fcfcfc",
+      "alt": "fluid subtle clever minimal specialty coffee shop line art logo symbol branding design",
+      "bytes": 20052
+    },
+    {
+      "file": "refs/ref-06.jpg",
+      "pin_id": "50313720832426436",
+      "source": "https://www.pinterest.com/pin/50313720832426436/",
+      "dominant_color": "#f1f0eb",
+      "alt": "HEGS Coffee & Roastery logo by Jefry Abrianto",
+      "bytes": 29093
+    },
+    {
+      "file": "refs/ref-07.webp",
+      "pin_id": "106327241197976113",
+      "source": "https://www.pinterest.com/pin/106327241197976113/",
+      "dominant_color": "#eae1d7",
+      "alt": "Oval Coffee Roasters Branding and Packaging Design — Crafted Wild",
+      "bytes": 27720
+    },
+    {
+      "file": "refs/ref-08.jpg",
+      "pin_id": "2392606049052661",
+      "source": "https://www.pinterest.com/pin/2392606049052661/",
+      "dominant_color": "#e9e5e2",
+      "alt": "SAKURAYAMA COFFEE ROASTER［ブランディング/ポスター/パッケージ/名刺・ビジネスツール］｜制作実績｜熊本のデザイン会社｜株式会社ジャム",
+      "bytes": 29515
+    }
+  ],
+  "moodboard": {
+    "palette": [
+      "#EAE2DE",
+      "#FEFEFE",
+      "#E8E8E8",
+      "#EDEBE8",
+      "#6A7572",
+      "#F7F7F7"
+    ],
+    "lighting": "평면. 조명 없음",
+    "composition": "정사각 중앙에 마크 하나. 상하좌우 여백 넉넉. 워드마크 없음",
+    "texture": "",
+    "avoid": "그라데이션, 사진 질감, 드롭섀도, 목업 배경, 잔 디테일"
+  },
+  "route": {
+    "chosen": {
+      "backend": "gemini",
+      "model": "default",
+      "slot": "fallback"
+    },
+    "candidates": [
+      {
+        "slot": "primary",
+        "backend": "higgsfield",
+        "model": "recraft_v4_1",
+        "available": false,
+        "why": "higgsfield credits unconfirmed (set RF_HIGGSFIELD_READY=1 after checking the MCP balance tool)"
+      },
+      {
+        "slot": "fallback",
+        "backend": "gemini",
+        "model": "default",
+        "available": true,
+        "why": "GEMINI_API_KEY set"
+      }
+    ],
+    "negative": "gradient mesh, photographic texture, tiny illegible detail, drop shadow, mockup context",
+    "prompt_template": "Minimal {kind} mark for {subject}. {style} style.\nGeometry: {geometry}. Flat solid colors: {palette}.\nCentered on plain {background} background, generous margin.\n",
+    "upscale": {
+      "backend": "higgsfield",
+      "model": "bytedance_image_upscale",
+      "params": {
+        "resolution": "4k"
+      }
+    }
+  },
+  "attempts": [
+    {
+      "n": 1,
+      "backend": "gemini",
+      "model": "gemini-3-pro-image",
+      "prompt": "Minimal logo mark for a coffee roastery. Geometric monoline style.\nGeometry: a single continuous stroke that reads simultaneously as a coffee bean and a rising curl of steam, built from two arcs and one straight, even stroke weight throughout, perfectly balanced.\nFlat solid colors: near-black #2B2B2B mark on a warm off-white #EAE2DE field, one muted green #6A7572 accent at most.\nCentered in a square frame on a plain flat background, generous margin on all sides, no wordmark, no text.\n\nAvoid: gradient mesh, photographic texture, tiny illegible detail, drop shadow, mockup context, letters, words, coffee cup photograph.",
+      "aspect": "1:1",
+      "file": "out/attempt-01.png",
+      "bytes": 306797,
+      "score": 72,
+      "critique": "실패. 마크가 커피콩으로도 김으로도 읽히지 않는다. 두 개의 호와 직선이 교차하며 서로를 자르는 바람에 정체불명의 도형이 됐고, 로고로 쓸 수 없다. 중앙 배치와 넉넉한 여백, 단색 처리 자체는 지시대로다.",
+      "fix": "'one continuous stroke that reads as both a bean and steam'이라는 이중 의미 요구가 형태를 무너뜨렸다. 의미를 하나로 줄여 'a coffee bean seen from above: an oval with a single S-curve seam through it'로 단순화하고 획 수를 셋 이하로 제한할 것."
+    },
+    {
+      "n": 2,
+      "backend": "gemini",
+      "model": "gemini-3-pro-image",
+      "prompt": "Minimal logo mark for a coffee roastery. Geometric monoline style.\nGeometry: a single coffee bean seen from above — one clean oval outline with one S-curve seam running through its long axis. Three strokes total, even weight, nothing else. Instantly readable as a coffee bean at any size.\nFlat solid colors: near-black #2B2B2B mark on a warm off-white #EAE2DE field. No second color.\nCentered in a square frame on a plain flat background, generous margin on all sides, no wordmark, no text, no container shape, no circle around the mark.\n\nAvoid: gradient mesh, photographic texture, tiny illegible detail, drop shadow, mockup context, letters, words, coffee cup, steam, overlapping strokes, crossing lines, abstract shapes that do not read as a bean.\n",
+      "aspect": "1:1",
+      "file": "out/attempt-02.png",
+      "bytes": 125286,
+      "score": 93,
+      "critique": "커피콩으로 즉시 읽힌다. 타원 외곽선 하나와 S커브 심 하나, 획 세 개로 끝냈고 굵기가 균일하다. 교차하며 뭉개지던 1차 시도의 문제가 완전히 해소됐다. 중앙 배치와 여백, 단색 처리, 워드마크 없음까지 지시대로이고 아주 작게 줄여도 형태가 유지된다. 감점은 차별성 — 레퍼런스의 마크들이 각자 한 끗씩 비틀어 놓은 데 비해 이건 교과서적인 커피콩이라 기억에 남지 않는다.",
+      "fix": "심의 S커브를 한쪽으로 치우치게 하거나 타원을 살짝 기울여 정형성을 깨면 개성이 생긴다."
+    }
+  ],
+  "final": "out/attempt-02.png",
+  "status": "done",
+  "reference_query": "coffee roastery logo mark minimal logo design minimal mark"
+}

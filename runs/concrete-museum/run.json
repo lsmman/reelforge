@@ -1,0 +1,143 @@
+{
+  "slug": "concrete-museum",
+  "created_at": "2026-09-06T15:43:05+09:00",
+  "brief": {
+    "request": "노출 콘크리트 미술관 로비",
+    "aspect": "3:2",
+    "mood": []
+  },
+  "genre": {
+    "confidence": 0.9,
+    "id": "architecture",
+    "label": "건축 / 인테리어"
+  },
+  "references": [
+    {
+      "file": "refs/ref-02.webp",
+      "pin_id": "424112489935687299",
+      "source": "https://www.pinterest.com/pin/424112489935687299/",
+      "dominant_color": "#6b5c4c",
+      "alt": "the interior of a modern building with concrete walls and floor to ceiling windows on both sides",
+      "bytes": 65976
+    },
+    {
+      "file": "refs/ref-03.png",
+      "pin_id": "413134965821666146",
+      "source": "https://www.pinterest.com/pin/413134965821666146/",
+      "dominant_color": "#595958",
+      "alt": "Gallery of Xie Zilong Photography Museum / WCY Regional Studio  - 30",
+      "bytes": 555729
+    },
+    {
+      "file": "refs/ref-04.png",
+      "pin_id": "4362930885158812",
+      "source": "https://www.pinterest.com/pin/4362930885158812/",
+      "dominant_color": "#8e7a66",
+      "alt": "Contemporary Museum Gallery with Natural Light & Minimalist Architecture",
+      "bytes": 2069001
+    },
+    {
+      "file": "refs/ref-05.jpg",
+      "pin_id": "307370743342659208",
+      "source": "https://www.pinterest.com/pin/307370743342659208/",
+      "dominant_color": "#848385",
+      "alt": "a person sitting on a bench in an empty building",
+      "bytes": 182349
+    },
+    {
+      "file": "refs/ref-06.jpg",
+      "pin_id": "8233211828773518",
+      "source": "https://www.pinterest.com/pin/8233211828773518/",
+      "dominant_color": "#898482",
+      "alt": "Our Building",
+      "bytes": 94372
+    },
+    {
+      "file": "refs/ref-07.jpg",
+      "pin_id": "30751209953959237",
+      "source": "https://www.pinterest.com/pin/30751209953959237/",
+      "dominant_color": "#64686c",
+      "alt": "an empty room with concrete walls and windows",
+      "bytes": 89899
+    },
+    {
+      "file": "refs/ref-08.jpg",
+      "pin_id": "52706258128540024",
+      "source": "https://www.pinterest.com/pin/52706258128540024/",
+      "dominant_color": "#adadab",
+      "alt": "James-Simon-Galerie",
+      "bytes": 152595
+    },
+    {
+      "file": "refs/ref-09.png",
+      "pin_id": "125749014594077562",
+      "source": "https://www.pinterest.com/pin/125749014594077562/",
+      "dominant_color": "#7b6b5c",
+      "alt": "Minimalist Museum Interior | Contemporary Architecture & Natural Light",
+      "bytes": 1812509
+    }
+  ],
+  "moodboard": {
+    "palette": [
+      "#928D87",
+      "#443E38",
+      "#AAA7A3",
+      "#636261",
+      "#7C6E60",
+      "#C7C5C1"
+    ],
+    "lighting": "천창에서 떨어지는 슬릿 형태의 자연광. 콘크리트 면을 스치듯 흘러 질감을 드러낸다",
+    "composition": "가로 3:2, 눈높이 1점 투시. 긴 로비가 소실점으로 이어지고 오른쪽 벽이 광원 쪽",
+    "texture": "폼타이 자국이 남은 노출 콘크리트, 광택 테라조 바닥의 반사, 유리 난간",
+    "avoid": "수직선 왜곡, 어안, 사람 얼굴, 잡동사니, 하이라이트 날림"
+  },
+  "route": {
+    "chosen": {
+      "backend": "gemini",
+      "model": "default",
+      "slot": "fallback"
+    },
+    "candidates": [
+      {
+        "slot": "primary",
+        "backend": "higgsfield",
+        "model": "nano_banana_pro",
+        "available": false,
+        "why": "higgsfield credits unconfirmed (set RF_HIGGSFIELD_READY=1 after checking the MCP balance tool)"
+      },
+      {
+        "slot": "fallback",
+        "backend": "gemini",
+        "model": "default",
+        "available": true,
+        "why": "GEMINI_API_KEY set"
+      }
+    ],
+    "negative": "warped verticals, impossible geometry, fisheye distortion, clutter, blown highlights",
+    "prompt_template": "Architectural photograph of {space}. {style} style.\nMaterials: {material}. Lighting: {lighting}.\nStraight vertical lines, {lens} perspective.\nPalette: {palette}. Composition: {composition}.\n",
+    "upscale": {
+      "backend": "higgsfield",
+      "model": "bytedance_image_upscale",
+      "params": {
+        "resolution": "4k"
+      }
+    }
+  },
+  "attempts": [
+    {
+      "n": 1,
+      "backend": "gemini",
+      "model": "gemini-3-pro-image",
+      "prompt": "Architectural photograph of the entrance hall of a concrete art museum. Brutalist minimalist style.\nMaterials: board-formed exposed concrete with visible form-tie holes, polished terrazzo floor holding a soft reflection, frameless glass balustrade, one pale timber bench.\nLighting: a slit skylight dropping a hard band of daylight that rakes across the concrete wall and reveals its texture, everything else in cool ambient shade.\nStraight vertical lines, 24mm perspective, no distortion, eye-level one-point perspective down the length of the hall.\nPalette: concrete grey #928D87, light grey #AAA7A3, pale #C7C5C1, mid grey #636261, warm timber #7C6E60, shadow #443E38.\nComposition: hall receding to a vanishing point, lit wall on the right, generous empty floor.\n\nAvoid: warped verticals, impossible geometry, fisheye distortion, clutter, blown highlights, recognizable faces, signage text.",
+      "aspect": "3:2",
+      "file": "out/attempt-01.png",
+      "bytes": 766505,
+      "score": 96,
+      "critique": "폼타이 자국이 남은 노출 콘크리트, 슬릿 천창에서 떨어지는 하드한 빛띠, 광택 테라조 바닥의 반사, 목재 벤치 하나까지 레퍼런스의 어휘를 정확히 썼다. 수직선이 완벽히 곧고 1점 투시 소실점도 정확. 감점은 오른쪽 벽의 하이라이트가 일부 날아간 지점.",
+      "fix": "천창 빛띠의 노출을 반 스톱 낮춰 벽면 하이라이트의 질감을 살릴 것."
+    }
+  ],
+  "final": "out/attempt-01.png",
+  "status": "done",
+  "reference_query": "concrete museum lobby interior architecture interior architecture photography"
+}

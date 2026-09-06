@@ -21,6 +21,11 @@ Codex / Gemini CLI 라면 그 파일을 직접 읽어라.
 7 generate   이미지 생성
 8 critique   결과물을 실제로 보고 0~100 채점
 9 refine     80점 미만이면 고쳐서 7로. 최대 3회
+
+영상까지 원할 때만:
+10 motion    장르별 카메라 무브 결정
+11 animate   최종 이미지를 첫 프레임으로 image-to-video
+12 critique  프레임을 뽑아 실제로 보고 채점
 ```
 
 ## 규칙

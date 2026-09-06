@@ -1,0 +1,143 @@
+{
+  "slug": "hanok-yard",
+  "created_at": "2026-09-06T15:43:11+09:00",
+  "brief": {
+    "request": "한옥 마당, 늦은 오후",
+    "aspect": "3:2",
+    "mood": []
+  },
+  "genre": {
+    "confidence": 0.9,
+    "id": "architecture",
+    "label": "건축 / 인테리어"
+  },
+  "references": [
+    {
+      "file": "refs/ref-01.png",
+      "pin_id": "33214116019054957",
+      "source": "https://www.pinterest.com/pin/33214116019054957/",
+      "dominant_color": "#865e32",
+      "alt": "✨A Hanok Morning in Seoul",
+      "bytes": 1551062
+    },
+    {
+      "file": "refs/ref-02.jpg",
+      "pin_id": "58546863902947869",
+      "source": "https://www.pinterest.com/pin/58546863902947869/",
+      "dominant_color": "#906f53",
+      "alt": "©️ caroline_hu",
+      "bytes": 561047
+    },
+    {
+      "file": "refs/ref-03.jpg",
+      "pin_id": "349521621104640738",
+      "source": "https://www.pinterest.com/pin/349521621104640738/",
+      "dominant_color": "#636e78",
+      "alt": "Modern Traditional Korean Hanok Estate Courtyard & Layout",
+      "bytes": 117093
+    },
+    {
+      "file": "refs/ref-04.webp",
+      "pin_id": "24347654232451599",
+      "source": "https://www.pinterest.com/pin/24347654232451599/",
+      "dominant_color": "#5a4a3f",
+      "alt": "[MOONCHILD HANOK] :: Behance Japanese Monastery Architecture, Hanok Architecture Style, Hanok Traditional Architecture, Hanok Design, Traditional Asian Architecture Details, Hanok Interior Design Ideas, Hanok Design Inspiration, Rustic Chinese Architecture, Korean Traditional Architecture Design",
+      "bytes": 1121432
+    },
+    {
+      "file": "refs/ref-06.jpg",
+      "pin_id": "141722719520036886",
+      "source": "https://www.pinterest.com/pin/141722719520036886/",
+      "dominant_color": "#44371e",
+      "alt": "Trust Me—This Grounding Fragrance Note Is...",
+      "bytes": 282854
+    },
+    {
+      "file": "refs/ref-07.jpg",
+      "pin_id": "1075304848513032679",
+      "source": "https://www.pinterest.com/pin/1075304848513032679/",
+      "dominant_color": "#816a5b",
+      "alt": "The CHAE: GALLERY - Book on STAYFOLIO",
+      "bytes": 502694
+    },
+    {
+      "file": "refs/ref-08.jpg",
+      "pin_id": "300193131437218277",
+      "source": "https://www.pinterest.com/pin/300193131437218277/",
+      "dominant_color": "#404c31",
+      "alt": "a courtyard with potted plants in the middle",
+      "bytes": 191822
+    },
+    {
+      "file": "refs/ref-09.jpg",
+      "pin_id": "210613720071737984",
+      "source": "https://www.pinterest.com/pin/210613720071737984/",
+      "dominant_color": "#919385",
+      "alt": "Teo Yang Redesigns a Hanok for Blue Bottle Studio",
+      "bytes": 691002
+    }
+  ],
+  "moodboard": {
+    "palette": [
+      "#241E16",
+      "#867B6E",
+      "#665444",
+      "#A7A8A3",
+      "#55341F",
+      "#D9DCDB"
+    ],
+    "lighting": "늦은 오후 낮은 해가 처마 밑으로 들어와 마루와 마당에 긴 그림자를 만든다",
+    "composition": "가로 3:2. 마루에서 마당을 내다보는 시점. 기둥과 처마가 프레임을 만들고 마당이 중앙에 열린다",
+    "texture": "한지 창호의 확산광, 결이 굵은 소나무 기둥, 기와의 곡선, 마당 자갈과 디딤돌, 화강암",
+    "avoid": "수직 왜곡, 관광객, 현대식 가구, 과한 채도"
+  },
+  "route": {
+    "chosen": {
+      "backend": "gemini",
+      "model": "default",
+      "slot": "fallback"
+    },
+    "candidates": [
+      {
+        "slot": "primary",
+        "backend": "higgsfield",
+        "model": "nano_banana_pro",
+        "available": false,
+        "why": "higgsfield credits unconfirmed (set RF_HIGGSFIELD_READY=1 after checking the MCP balance tool)"
+      },
+      {
+        "slot": "fallback",
+        "backend": "gemini",
+        "model": "default",
+        "available": true,
+        "why": "GEMINI_API_KEY set"
+      }
+    ],
+    "negative": "warped verticals, impossible geometry, fisheye distortion, clutter, blown highlights",
+    "prompt_template": "Architectural photograph of {space}. {style} style.\nMaterials: {material}. Lighting: {lighting}.\nStraight vertical lines, {lens} perspective.\nPalette: {palette}. Composition: {composition}.\n",
+    "upscale": {
+      "backend": "higgsfield",
+      "model": "bytedance_image_upscale",
+      "params": {
+        "resolution": "4k"
+      }
+    }
+  },
+  "attempts": [
+    {
+      "n": 1,
+      "backend": "gemini",
+      "model": "gemini-3-pro-image",
+      "prompt": "Architectural photograph of the inner courtyard of a Korean hanok, seen from the raised wooden veranda looking out. Traditional Korean vernacular style.\nMaterials: hanji paper sliding doors diffusing light, coarse-grained pine columns and beams, dark curved roof tiles, granite stepping stones set in raked gravel, a single clay water jar.\nLighting: low late-afternoon sun slipping in under the deep eaves, laying long shadows across the veranda boards and the gravel.\nStraight vertical lines, 35mm perspective, no distortion.\nPalette: pine #665444, timber shadow #241E16, warm wood #867B6E, granite #A7A8A3, pale sky #D9DCDB, earth #55341F.\nComposition: columns and the eave line framing the opening, courtyard centered, roofline of the far wing above.\n\nAvoid: warped verticals, impossible geometry, fisheye distortion, clutter, blown highlights, tourists, modern furniture, Chinese or Japanese architectural details.",
+      "aspect": "3:2",
+      "file": "out/attempt-01.png",
+      "bytes": 810007,
+      "score": 95,
+      "critique": "처마 서까래, 기와 곡선, 창호지 문, 마루 널, 디딤돌, 항아리까지 한옥의 요소를 정확히 배치했고 중국·일본 건축과 섞이지 않았다. 마루에서 마당을 내다보는 시점과 기둥 프레이밍도 지시대로. 감점은 마당이 지시한 자갈보다 흙에 가깝고, 늦은 오후의 긴 그림자가 약하다는 점.",
+      "fix": "마당을 'raked white gravel'로 명시하고, 태양 고도를 낮춰 처마 그림자가 마당을 가로지르게 할 것."
+    }
+  ],
+  "final": "out/attempt-01.png",
+  "status": "done",
+  "reference_query": "hanok courtyard traditional korean house interior architecture photography"
+}

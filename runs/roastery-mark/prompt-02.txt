@@ -1,0 +1,6 @@
+Minimal logo mark for a coffee roastery. Geometric monoline style.
+Geometry: a single coffee bean seen from above — one clean oval outline with one S-curve seam running through its long axis. Three strokes total, even weight, nothing else. Instantly readable as a coffee bean at any size.
+Flat solid colors: near-black #2B2B2B mark on a warm off-white #EAE2DE field. No second color.
+Centered in a square frame on a plain flat background, generous margin on all sides, no wordmark, no text, no container shape, no circle around the mark.
+
+Avoid: gradient mesh, photographic texture, tiny illegible detail, drop shadow, mockup context, letters, words, coffee cup, steam, overlapping strokes, crossing lines, abstract shapes that do not read as a bean.

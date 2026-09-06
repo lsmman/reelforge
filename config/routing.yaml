@@ -170,3 +170,35 @@ genres:
       {subject}, {style}. Lighting: {lighting}. Mood: {mood}.
       Composition: {composition}. Palette: {palette}.
     negative: watermark, text overlay, low resolution, jpeg artifacts
+
+# ---------------------------------------------------------------------------
+# 영상 라우팅
+#
+# 이미지와 같은 발상 — 장르마다 어울리는 카메라 무브가 다르다. 인물 컷을
+# 휘두르면 안 되고 컨셉 아트를 가만히 두면 심심하다. 여기 있는 한 줄이
+# 그 장르의 기본 무브가 된다. `rf.py video` 가 최종 이미지에 이걸 붙여
+# image-to-video 로 넘긴다.
+#
+# Veo 는 16:9 와 9:16 만 받는다. 원본 이미지가 가로면 16:9, 세로면 9:16 으로
+# 자동 매핑된다.
+video:
+  defaults:
+    backend: gemini
+    model: veo-3.1-generate-preview
+    cheap_model: veo-3.1-fast-generate-preview
+    duration: 8
+    resolution: 720p
+    generate_audio: false
+  motion:
+    portrait: 아주 느린 푸시인. 인물은 정지해 있고 머리카락과 옷자락, 커튼만 미세하게 흔들린다
+    cinematic_still: 느린 좌우 트래킹 또는 완만한 푸시인. 대기 중의 비·먼지·연기가 흐르고 반사광이 일렁인다
+    product: 제품을 축으로 한 아주 느린 오빗. 제품 자체는 움직이지 않고 하이라이트만 표면을 타고 이동한다
+    food: 미세한 푸시인과 함께 김이 피어오르고 소스나 국물 표면이 아주 약하게 흔들린다
+    landscape: 고정 또는 아주 느린 크레인 업. 구름과 안개가 흐르고 물결이 반짝인다
+    architecture: 느리고 곧은 돌리인. 수직선을 유지하며 빛의 각도만 서서히 변한다
+    anime_illustration: 배경 레이어를 느리게 패닝하는 2D 팔로우. 인물은 눈 깜빡임과 옷자락만 움직인다
+    concept_art: 아주 느린 푸시인과 함께 안개층이 흘러 스케일을 드러낸다
+    typography_poster: 움직이지 않는다. 종이 질감 위 미세한 그레인 흔들림만
+    logo_icon: 움직이지 않는다. 획이 그려지는 듯한 미세한 리빌만
+    diagram: 움직이지 않는다. 화살표를 따라가는 미세한 강조만
+    general: 아주 느린 푸시인. 광원과 그림자만 서서히 이동한다

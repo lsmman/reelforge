@@ -1,0 +1,143 @@
+{
+  "slug": "rag-diagram",
+  "created_at": "2026-09-06T15:43:53+09:00",
+  "brief": {
+    "request": "RAG 파이프라인 설명 다이어그램",
+    "aspect": "16:9",
+    "mood": []
+  },
+  "genre": {
+    "confidence": 0.9,
+    "id": "diagram",
+    "label": "다이어그램 / 인포그래픽"
+  },
+  "references": [
+    {
+      "file": "refs/ref-01.jpg",
+      "pin_id": "2111131073260454",
+      "source": "https://www.pinterest.com/pin/2111131073260454/",
+      "dominant_color": "#f8f8f8",
+      "alt": "Flowchart",
+      "bytes": 84763
+    },
+    {
+      "file": "refs/ref-02.jpg",
+      "pin_id": "68749073650",
+      "source": "https://www.pinterest.com/pin/68749073650/",
+      "dominant_color": "#f2f2f2",
+      "alt": "infographic",
+      "bytes": 45507
+    },
+    {
+      "file": "refs/ref-03.jpg",
+      "pin_id": "809310995584506723",
+      "source": "https://www.pinterest.com/pin/809310995584506723/",
+      "dominant_color": "#f7f8fa",
+      "alt": "Flow chart infographic template, a Presentation Template by TotallypicRF",
+      "bytes": 102548
+    },
+    {
+      "file": "refs/ref-04.png",
+      "pin_id": "1900024839785148",
+      "source": "https://www.pinterest.com/pin/1900024839785148/",
+      "dominant_color": "#fdfdfd",
+      "alt": "Aryan",
+      "bytes": 187185
+    },
+    {
+      "file": "refs/ref-05.jpg",
+      "pin_id": "1029635533579321857",
+      "source": "https://www.pinterest.com/pin/1029635533579321857/",
+      "dominant_color": "#eeeeee",
+      "alt": "Simple Business Process Flowchart for Office Presentations",
+      "bytes": 27295
+    },
+    {
+      "file": "refs/ref-06.png",
+      "pin_id": "180073685097077090",
+      "source": "https://www.pinterest.com/pin/180073685097077090/",
+      "dominant_color": "#f1ebde",
+      "alt": "How an Import-Export Business Works: USA–Asia Supply Chain Explained (2026 Guide)",
+      "bytes": 1955848
+    },
+    {
+      "file": "refs/ref-07.jpg",
+      "pin_id": "613263674306067706",
+      "source": "https://www.pinterest.com/pin/613263674306067706/",
+      "dominant_color": "#ffffff",
+      "alt": "FLOW CHART",
+      "bytes": 252448
+    },
+    {
+      "file": "refs/ref-08.jpg",
+      "pin_id": "142918988171570924",
+      "source": "https://www.pinterest.com/pin/142918988171570924/",
+      "dominant_color": "#f9f9f9",
+      "alt": "info graphics with blue circles and arrows on the white background - free vector eps file",
+      "bytes": 24577
+    }
+  ],
+  "moodboard": {
+    "palette": [
+      "#EDEEEE",
+      "#F7F7F8",
+      "#FFFFFF",
+      "#CCD1CF",
+      "#F2F1EF",
+      "#FDFCFC"
+    ],
+    "lighting": "평면 인포그래픽. 조명 없음",
+    "composition": "16:9 가로 흐름. 왼쪽에서 오른쪽으로 5단계, 각 노드는 둥근 사각형, 화살표로 연결",
+    "texture": "",
+    "avoid": "철자 오류, 라벨 겹침, 무지개 색, 3D 베벨, 드롭섀도"
+  },
+  "route": {
+    "chosen": {
+      "backend": "gemini",
+      "model": "default",
+      "slot": "fallback"
+    },
+    "candidates": [
+      {
+        "slot": "primary",
+        "backend": "higgsfield",
+        "model": "nano_banana_pro",
+        "available": false,
+        "why": "higgsfield credits unconfirmed (set RF_HIGGSFIELD_READY=1 after checking the MCP balance tool)"
+      },
+      {
+        "slot": "fallback",
+        "backend": "gemini",
+        "model": "default",
+        "available": true,
+        "why": "GEMINI_API_KEY set"
+      }
+    ],
+    "negative": "gibberish text, overlapping labels, rainbow colors, 3d bevel, drop shadow",
+    "prompt_template": "Clean infographic diagram explaining {topic}.\nElements: {elements}. Flow direction: {flow}.\nAll labels spelled correctly: {labels}.\nPalette: {palette}. Plenty of whitespace, consistent stroke weight.\n",
+    "upscale": {
+      "backend": "higgsfield",
+      "model": "bytedance_image_upscale",
+      "params": {
+        "resolution": "4k"
+      }
+    }
+  },
+  "attempts": [
+    {
+      "n": 1,
+      "backend": "gemini",
+      "model": "gemini-3-pro-image",
+      "prompt": "Clean infographic diagram explaining a retrieval-augmented generation pipeline, flat vector, white background.\nElements: five rounded rectangular nodes connected left to right by thin arrows, each node with a small simple line icon above its label.\nNode labels read exactly, in order: \"QUERY\", \"EMBED\", \"VECTOR SEARCH\", \"RERANK\", \"GENERATE\". A caption under the third node reads exactly \"top-k documents\".\nFlow direction: strictly left to right, single horizontal row, arrows of equal length.\nAll labels spelled correctly, uppercase, generously spaced.\nPalette: white #FFFFFF background, light grey #EDEEEE node fills, cool grey #CCD1CF borders, near-black text, one single blue accent for the arrows.\nPlenty of whitespace, consistent stroke weight, no decoration.\n\nAvoid: gibberish text, overlapping labels, rainbow colors, 3d bevel, drop shadow, isometric perspective, photographic elements.",
+      "aspect": "16:9",
+      "file": "out/attempt-01.png",
+      "bytes": 256891,
+      "score": 97,
+      "critique": "라벨 다섯 개 QUERY EMBED VECTOR SEARCH RERANK GENERATE와 캡션 top-k documents가 모두 철자 정확하고 겹침이 없다. 화살표 길이와 노드 크기가 균일하고 아이콘이 단순하며 흰 여백이 넉넉하다. 다이어그램 장르에서 가장 잘 터지는 실패인 라벨 뭉개짐이 전혀 없다.",
+      "fix": "VECTOR SEARCH만 두 줄로 접혀 다른 노드와 리듬이 어긋나니, 노드 폭을 넓혀 한 줄로 맞출 것."
+    }
+  ],
+  "final": "out/attempt-01.png",
+  "status": "done",
+  "reference_query": "clean technical diagram infographic flow infographic diagram design"
+}

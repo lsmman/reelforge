@@ -1,0 +1,9 @@
+Clean infographic diagram explaining a retrieval-augmented generation pipeline, flat vector, white background.
+Elements: five rounded rectangular nodes connected left to right by thin arrows, each node with a small simple line icon above its label.
+Node labels read exactly, in order: "QUERY", "EMBED", "VECTOR SEARCH", "RERANK", "GENERATE". A caption under the third node reads exactly "top-k documents".
+Flow direction: strictly left to right, single horizontal row, arrows of equal length.
+All labels spelled correctly, uppercase, generously spaced.
+Palette: white #FFFFFF background, light grey #EDEEEE node fills, cool grey #CCD1CF borders, near-black text, one single blue accent for the arrows.
+Plenty of whitespace, consistent stroke weight, no decoration.
+
+Avoid: gibberish text, overlapping labels, rainbow colors, 3d bevel, drop shadow, isometric perspective, photographic elements.

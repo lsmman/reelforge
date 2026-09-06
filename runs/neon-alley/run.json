@@ -1,0 +1,160 @@
+{
+  "slug": "neon-alley",
+  "created_at": "2026-09-06T15:42:15+09:00",
+  "brief": {
+    "request": "비 오는 밤 서울 골목, 네온 간판",
+    "aspect": "21:9",
+    "mood": []
+  },
+  "genre": {
+    "confidence": 0.9,
+    "id": "cinematic_still",
+    "label": "시네마틱 스틸"
+  },
+  "references": [
+    {
+      "file": "refs/ref-01.png",
+      "pin_id": "853221092044191659",
+      "source": "https://www.pinterest.com/pin/853221092044191659/",
+      "dominant_color": "#233330",
+      "alt": "a person sitting at a table in front of a window with rain pouring down on them",
+      "bytes": 2167289
+    },
+    {
+      "file": "refs/ref-02.jpg",
+      "pin_id": "778208010648833518",
+      "source": "https://www.pinterest.com/pin/778208010648833518/",
+      "dominant_color": "#161311",
+      "alt": "a person with an umbrella walking down the street in the rain at night, while it's raining",
+      "bytes": 140555
+    },
+    {
+      "file": "refs/ref-03.jpg",
+      "pin_id": "70437490869433",
+      "source": "https://www.pinterest.com/pin/70437490869433/",
+      "dominant_color": "#01232f",
+      "alt": "an empty street at night with lights reflecting off the wet ground and buildings in the background",
+      "bytes": 85587
+    },
+    {
+      "file": "refs/ref-04.png",
+      "pin_id": "25051341672018393",
+      "source": "https://www.pinterest.com/pin/25051341672018393/",
+      "dominant_color": "#425530",
+      "alt": "a man is walking down the street in the rain",
+      "bytes": 7214884
+    },
+    {
+      "file": "refs/ref-05.jpg",
+      "pin_id": "16184879908501654",
+      "source": "https://www.pinterest.com/pin/16184879908501654/",
+      "dominant_color": "#101b19",
+      "alt": "Scene Inspiration, Cinematic Night, Cinematography Stills, Dark Film Aesthetic, Cinematographic Photography, 90s Film Photography, Film Shots, Nightlife Photoshoot, Cinematography Aesthetic",
+      "bytes": 89437
+    },
+    {
+      "file": "refs/ref-06.jpg",
+      "pin_id": "9570217953719107",
+      "source": "https://www.pinterest.com/pin/9570217953719107/",
+      "dominant_color": "#1c482a",
+      "alt": "a person with an umbrella standing in the rain on a city street at night time",
+      "bytes": 719747
+    },
+    {
+      "file": "refs/ref-07.jpg",
+      "pin_id": "194217802675551192",
+      "source": "https://www.pinterest.com/pin/194217802675551192/",
+      "dominant_color": "#26281b",
+      "alt": "a man walking down the street in the rain",
+      "bytes": 121800
+    },
+    {
+      "file": "refs/ref-08.jpg",
+      "pin_id": "3025924747175436",
+      "source": "https://www.pinterest.com/pin/3025924747175436/",
+      "dominant_color": "#17290d",
+      "alt": "Wong Kar-Wai inspo",
+      "bytes": 174373
+    }
+  ],
+  "moodboard": {
+    "palette": [
+      "#061214",
+      "#313D30",
+      "#141616",
+      "#48664D",
+      "#271D15",
+      "#749980"
+    ],
+    "lighting": "네온 간판이 유일한 광원. 젖은 노면이 빛을 통째로 반사한다. 청록과 주황이 정면 충돌",
+    "composition": "21:9 와이드. 골목이 소실점으로 빨려들고 인물은 실루엣으로 중경에 작게. 상단은 간판과 전선",
+    "texture": "빗줄기, 젖은 아스팔트 반사, 습기 낀 공기, 굵은 필름 그레인",
+    "avoid": "깨끗한 노면, 평평한 조명, 게임 렌더 느낌, 얼굴 클로즈업"
+  },
+  "route": {
+    "chosen": {
+      "backend": "gemini",
+      "model": "default",
+      "slot": "fallback"
+    },
+    "candidates": [
+      {
+        "slot": "primary",
+        "backend": "higgsfield",
+        "model": "cinematic_studio_2_5",
+        "available": false,
+        "why": "higgsfield credits unconfirmed (set RF_HIGGSFIELD_READY=1 after checking the MCP balance tool)"
+      },
+      {
+        "slot": "fallback",
+        "backend": "gemini",
+        "model": "default",
+        "available": true,
+        "why": "GEMINI_API_KEY set"
+      }
+    ],
+    "negative": "flat lighting, video game render, oversaturated, watermark, text overlay",
+    "prompt_template": "Cinematic film still, {scene}. {subject} {action}.\nAnamorphic {lens}, {lighting}, {time_of_day}.\nColor grade: {palette}. Film grain, shallow depth of field.\nFraming: {composition}.\n",
+    "upscale": {
+      "backend": "higgsfield",
+      "model": "bytedance_image_upscale",
+      "params": {
+        "resolution": "4k"
+      }
+    }
+  },
+  "attempts": [
+    {
+      "n": 1,
+      "backend": "gemini",
+      "model": "gemini-3-pro-image",
+      "prompt": "Cinematic film still, a narrow Seoul back alley at night in heavy rain. A lone figure walks away from camera, seen only as a silhouette in the mid-ground.\nAnamorphic 40mm, shallow depth of field, horizontal flare from the signs.\nLighting: stacked neon signage is the only light source, teal and orange colliding, the wet asphalt mirroring every sign; damp air, visible rain streaks.\nTime: past midnight.\nColor grade: teal #061214, deep green #313D30, sign orange, muted jade #48664D, cool highlight #749980. Film grain, crushed blacks.\nFraming: alley receding to a vanishing point, tangled overhead wires and signs filling the upper third.\n\nAvoid: flat lighting, video game render, oversaturated, watermark, text overlay, clean dry pavement, close-up face.",
+      "aspect": "21:9",
+      "file": "out/attempt-01.png",
+      "bytes": 784031,
+      "score": 92,
+      "critique": "젖은 노면의 전면 반사, 청록과 주황의 정면 충돌, 우산 실루엣, 아나모픽 수평 플레어까지 시네마틱 스틸의 관용구가 모두 들어갔다. 21:9 비율과 소실점 구도도 정확. 감점은 한글 간판이 대부분 비문이라는 점 — '몬라' '가두복장' '양인잘' 같은 존재하지 않는 조합이라 한국인이 보면 바로 걸린다.",
+      "fix": "간판을 읽히지 않을 만큼 흐리게(out of focus, illegible) 처리하거나, 실제 존재하는 짧은 단어를 따옴표로 고정할 것."
+    }
+  ],
+  "final": "out/attempt-01.png",
+  "status": "done",
+  "reference_query": "rainy night neon alley cinematic cinematic film still color grading",
+  "videos": [
+    {
+      "n": 1,
+      "backend": "gemini",
+      "model": "veo-3.1-generate-preview",
+      "from": "out/attempt-01.png",
+      "prompt": "A rainy Seoul back alley at night, neon signs reflected in the wet asphalt, a lone figure with an umbrella walking away from camera. Camera: 느린 좌우 트래킹 또는 완만한 푸시인. 대기 중의 비·먼지·연기가 흐르고 반사광이 일렁인다.",
+      "motion": "느린 좌우 트래킹 또는 완만한 푸시인. 대기 중의 비·먼지·연기가 흐르고 반사광이 일렁인다",
+      "aspect": "16:9",
+      "file": "out/video-01.mp4",
+      "bytes": 4431644,
+      "created_at": "2026-09-06T16:01:06+09:00",
+      "score": 88,
+      "critique": "정지 이미지의 색·구도·비를 그대로 유지한 채 느린 돌리인이 들어갔다. 빗줄기가 지속되고 젖은 노면의 네온 반사가 카메라 이동에 맞춰 흐르며, 인물이 자연스럽게 멀어진다. 8초 내내 형태 붕괴가 없다. 감점은 원본이 21:9인데 Veo가 16:9만 받아 좌우가 잘렸고, 정지 이미지에서 이미 비문이던 한글 간판이 움직이면서 더 눈에 띈다는 점.",
+      "fix": "21:9 컷은 16:9로 만든 뒤 영상화하거나, 간판을 초점 밖으로 밀어 글자가 안 읽히게 할 것."
+    }
+  ]
+}

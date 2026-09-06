@@ -131,13 +131,20 @@
       }
     }
   },
-  "attempts": {
-    "0": {
+  "attempts": [
+    {
+      "n": 1,
+      "backend": "gemini",
+      "model": "gemini-3-pro-image",
+      "prompt": "Commercial product photograph of a single handmade ceramic mug on a crumpled oatmeal linen cloth over a pale oak surface.\nSoft window sidelight, warm neutral background, long faint shadow, restrained highlights so the matte glaze reads as matte.\nCrisp edges, accurate material rendering: hand-thrown stoneware with visible throwing rings, speckled matte glaze, a slightly uneven rim, raw clay foot.\nComposition: single mug centered in a square frame, slight three-quarter high angle, one small linen fold and a closed book as low props, generous negative space.\nPalette: cream #F2EBE1, oatmeal #D9CDBE, oak #B08968, muted blue glaze #6E8CA0, olive #7C8C61, dark clay #2E2A26.\n\nAvoid: distorted logo, any readable label text, floating shadow, dirty surface, cluttered background, glossy specular reflections, cold white balance.\n",
+      "aspect": "1:1",
+      "file": "out/attempt-01.png",
+      "bytes": 630345,
       "score": 92,
       "critique": "레퍼런스의 리넨·원목·창가 자연광 조합을 그대로 재현했다. 손물레 자국, 스페클, 굽의 raw clay까지 무드보드 지시가 살아있고 유광 반사가 없어 무광 유약이 제대로 읽힌다. 손잡이 형태와 접합부도 정확. 감점은 구도 — 오른쪽 아래 녹색 책이 크게 잘린 채 시선을 뺏고, 머그가 프레임 대비 작아 썸네일로 축소하면 임팩트가 준다.",
       "fix": "머그를 프레임 대비 15퍼센트 키우고 정확히 중앙에 배치. 책은 더 작게 뒤로 물리거나 빼고 리넨만 남길 것."
     }
-  },
+  ],
   "final": "out/attempt-01.png",
   "status": "done",
   "reference_query": "handmade ceramic mug still life product photography studio commercial"
