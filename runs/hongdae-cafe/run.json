@@ -117,7 +117,11 @@
     "avoid": "어수선한 소품, 얼굴이 또렷한 사람, 차가운 푸른 조명, 번들거리는 유광 마감, 큰 간판 글씨"
   },
   "route": {
-    "chosen": null,
+    "chosen": {
+      "backend": "gemini",
+      "model": "default",
+      "slot": "fallback"
+    },
     "candidates": [
       {
         "slot": "primary",
@@ -130,8 +134,8 @@
         "slot": "fallback",
         "backend": "gemini",
         "model": "default",
-        "available": false,
-        "why": "GEMINI_API_KEY not set"
+        "available": true,
+        "why": "GEMINI_API_KEY set"
       }
     ],
     "negative": "warped verticals, impossible geometry, fisheye distortion, clutter, blown highlights",
@@ -146,6 +150,6 @@
   },
   "attempts": [],
   "final": null,
-  "status": "prompt",
+  "status": "route",
   "reference_query": "warm minimal cafe interior daylight interior architecture photography"
 }

@@ -3,3 +3,4 @@ runs/*/out/
 viewer/data.js
 __pycache__/
 .DS_Store
+.env

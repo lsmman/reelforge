@@ -43,7 +43,7 @@ viewer/index.html     대시보드. file:// 로 열면 됨
 
 | 백엔드 | 필요한 것 |
 |---|---|
-| gemini | `GEMINI_API_KEY` 환경변수 |
+| gemini | `GEMINI_API_KEY`. 환경변수 또는 저장소 루트 `.env` (gitignore 됨) |
 | higgsfield | Higgsfield MCP 연결 + 크레딧. 확인 후 `RF_HIGGSFIELD_READY=1` |
 
 둘 다 없으면 6단계까지만 진행된다 (프롬프트까지 완성, 생성은 중단).

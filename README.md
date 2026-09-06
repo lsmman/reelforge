@@ -25,7 +25,7 @@ Gemini·Higgsfield 는 그 밑에서 이미지를 만드는 도구고,
 
 ```bash
 # 1. 생성 백엔드 하나는 있어야 한다
-export GEMINI_API_KEY=...        # https://aistudio.google.com/apikey
+echo 'GEMINI_API_KEY=...' > .env   # https://aistudio.google.com/apikey (.env 는 gitignore)
 
 # 2. Claude Code 를 이 폴더에서 띄우고 그냥 말한다
 claude

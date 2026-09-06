@@ -44,6 +44,25 @@ UA = ("Mozilla/5.0 (Macintosh; Intel Mac OS X 10_15_7) AppleWebKit/537.36 "
       "(KHTML, like Gecko) Chrome/126.0.0.0 Safari/537.36")
 
 
+def load_dotenv():
+    """Read repo-root .env so keys survive between tool calls and shells.
+
+    Real environment variables win — .env is the fallback, not an override.
+    """
+    f = ROOT / ".env"
+    if not f.exists():
+        return
+    for line in f.read_text(encoding="utf-8").splitlines():
+        line = line.strip()
+        if not line or line.startswith("#") or "=" not in line:
+            continue
+        k, v = line.split("=", 1)
+        os.environ.setdefault(k.strip(), v.strip().strip("'\""))
+
+
+load_dotenv()
+
+
 def die(msg: str, code: int = 1):
     print(f"error: {msg}", file=sys.stderr)
     sys.exit(code)
@@ -331,12 +350,33 @@ def cmd_route(a):
 GEMINI_DEFAULT_MODEL = os.environ.get("RF_GEMINI_MODEL", "gemini-3-pro-image-preview")
 
 
-def gemini_generate(prompt: str, aspect: str, model: str) -> bytes:
+def gemini_key() -> str:
     key = os.environ.get("GEMINI_API_KEY") or os.environ.get("GOOGLE_API_KEY")
     if not key:
-        die("GEMINI_API_KEY not set")
-    if model in (None, "", "default"):
-        model = GEMINI_DEFAULT_MODEL
+        die("GEMINI_API_KEY not set. get one at https://aistudio.google.com/apikey")
+    return key
+
+
+def gemini_image_models(key: str) -> list[str]:
+    """Image-capable models this key can actually reach, newest-looking first."""
+    req = urllib.request.Request(
+        "https://generativelanguage.googleapis.com/v1beta/models?pageSize=200",
+        headers={"x-goog-api-key": key})
+    try:
+        with urllib.request.urlopen(req, timeout=60) as r:
+            payload = json.loads(r.read())
+    except urllib.error.HTTPError as e:
+        die(f"gemini ListModels HTTP {e.code}: {e.read().decode('utf-8', 'replace')[:300]}")
+    names = [m["name"].split("/")[-1] for m in payload.get("models", [])
+             if "generateContent" in m.get("supportedGenerationMethods", [])
+             and "image" in m["name"].lower()]
+    # "-image" models that are not the deprecated preview line come first.
+    names.sort(key=lambda n: ("preview" in n, n), reverse=False)
+    names.sort(key=lambda n: ("pro" not in n, "preview" in n))
+    return names
+
+
+def _gemini_call(model: str, prompt: str, aspect: str, key: str):
     url = (f"https://generativelanguage.googleapis.com/v1beta/models/"
            f"{model}:generateContent")
     body = json.dumps({
@@ -346,17 +386,42 @@ def gemini_generate(prompt: str, aspect: str, model: str) -> bytes:
     }).encode()
     req = urllib.request.Request(url, data=body, headers={
         "content-type": "application/json", "x-goog-api-key": key})
+    with urllib.request.urlopen(req, timeout=300) as r:
+        return json.loads(r.read())
+
+
+def gemini_generate(prompt: str, aspect: str, model: str) -> tuple[bytes, str]:
+    key = gemini_key()
+    if model in (None, "", "default"):
+        model = GEMINI_DEFAULT_MODEL
+
+    # A wrong or retired model id is the most common failure here, so ask the
+    # API which image models the key can reach rather than guessing again.
     try:
-        with urllib.request.urlopen(req, timeout=180) as r:
-            payload = json.loads(r.read())
+        payload = _gemini_call(model, prompt, aspect, key)
     except urllib.error.HTTPError as e:
-        detail = e.read().decode("utf-8", "replace")[:600]
-        die(f"gemini HTTP {e.code}: {detail}")
+        detail = e.read().decode("utf-8", "replace")
+        if e.code not in (400, 404):
+            die(f"gemini HTTP {e.code}: {detail[:600]}")
+        available = gemini_image_models(key)
+        alt = next((m for m in available if m != model), None)
+        if not alt:
+            die(f"gemini rejected '{model}' ({e.code}) and this key has no other "
+                f"image model. detail: {detail[:400]}")
+        print(f"  '{model}' rejected ({e.code}); falling back to '{alt}'", file=sys.stderr)
+        model = alt
+        try:
+            payload = _gemini_call(model, prompt, aspect, key)
+        except urllib.error.HTTPError as e2:
+            die(f"gemini HTTP {e2.code} on '{model}': "
+                f"{e2.read().decode('utf-8', 'replace')[:600]}\n"
+                f"image models on this key: {', '.join(available)}")
+
     for cand in payload.get("candidates", []):
         for part in cand.get("content", {}).get("parts", []):
             inline = part.get("inlineData") or part.get("inline_data")
             if inline and inline.get("data"):
-                return base64.b64decode(inline["data"])
+                return base64.b64decode(inline["data"]), model
     die(f"gemini returned no image: {json.dumps(payload)[:600]}")
 
 
@@ -378,12 +443,11 @@ def cmd_gen(a):
     aspect = a.aspect or run["brief"].get("aspect") or "3:2"
 
     n = next_attempt(run)
-    blob = gemini_generate(prompt, aspect, route.get("model"))
+    blob, used_model = gemini_generate(prompt, aspect, route.get("model"))
     rel = f"out/attempt-{n:02d}.png"
     (run_dir(a.slug) / rel).write_bytes(blob)
     run.setdefault("attempts", []).append({
-        "n": n, "backend": "gemini",
-        "model": route.get("model") or GEMINI_DEFAULT_MODEL,
+        "n": n, "backend": "gemini", "model": used_model,
         "prompt": prompt, "aspect": aspect, "file": rel,
         "bytes": len(blob), "created_at": now(),
         "score": None, "critique": None, "fix": None,
