@@ -1,0 +1,151 @@
+{
+  "slug": "hongdae-cafe",
+  "created_at": "2026-09-06T14:46:30+09:00",
+  "brief": {
+    "request": "홍대 감성 카페 인테리어, 따뜻한 오후 햇살",
+    "aspect": "3:2",
+    "subject": "홍대 감성 미니멀 카페 실내",
+    "purpose": "인스타그램 피드 게시물",
+    "mood": [
+      "따뜻한",
+      "차분한",
+      "자연광",
+      "미니멀",
+      "우드톤"
+    ]
+  },
+  "genre": {
+    "id": "architecture",
+    "label": "건축 / 인테리어",
+    "confidence": 0.9,
+    "why": "건물 실내 공간이 주인공, 사람·제품은 부수적. architecture 장르의 match 설명과 정확히 일치"
+  },
+  "references": [
+    {
+      "file": "refs/ref-01.jpg",
+      "pin_id": "819936675943668887",
+      "source": "https://www.pinterest.com/pin/819936675943668887/",
+      "dominant_color": "#b0a387",
+      "alt": "the sun shines through the windows onto an empty room with stools and tables",
+      "bytes": 187130
+    },
+    {
+      "file": "refs/ref-02.jpg",
+      "pin_id": "13370130139993091",
+      "source": "https://www.pinterest.com/pin/13370130139993091/",
+      "dominant_color": "#8b7d6c",
+      "alt": "the inside of a restaurant with wooden tables, chairs and planters on the wall",
+      "bytes": 100057
+    },
+    {
+      "file": "refs/ref-03.jpg",
+      "pin_id": "4574037117680682",
+      "source": "https://www.pinterest.com/pin/4574037117680682/",
+      "dominant_color": "#4b402d",
+      "alt": "an empty restaurant with tables and chairs in front of large windows that are reflecting the sun",
+      "bytes": 105418
+    },
+    {
+      "file": "refs/ref-04.jpg",
+      "pin_id": "11681280281004608",
+      "source": "https://www.pinterest.com/pin/11681280281004608/",
+      "dominant_color": "#bdb8b0",
+      "alt": "an empty restaurant with wooden tables and chairs, shelves on the wall and plants in pots",
+      "bytes": 220716
+    },
+    {
+      "file": "refs/ref-05.jpg",
+      "pin_id": "1829656095992454",
+      "source": "https://www.pinterest.com/pin/1829656095992454/",
+      "dominant_color": "#ae9f8c",
+      "alt": "Coffee shop design aesthetic",
+      "bytes": 71979
+    },
+    {
+      "file": "refs/ref-06.png",
+      "pin_id": "1829656095992455",
+      "source": "https://www.pinterest.com/pin/1829656095992455/",
+      "dominant_color": "#8c765d",
+      "alt": "Minimalist Café Aesthetic ☕️ | Neutral Coffee Shop",
+      "bytes": 2132661
+    },
+    {
+      "file": "refs/ref-07.jpg",
+      "pin_id": "942026449136371583",
+      "source": "https://www.pinterest.com/pin/942026449136371583/",
+      "dominant_color": "#be9a76",
+      "alt": "Warm And Inviting Café Interior In Sacramento With People Enjoying A Relaxing Atmosphere.",
+      "bytes": 26495
+    },
+    {
+      "file": "refs/ref-08.jpg",
+      "pin_id": "31384528649348798",
+      "source": "https://www.pinterest.com/pin/31384528649348798/",
+      "dominant_color": "#987a5a",
+      "alt": "an empty room with wooden benches and plants in the window sill, next to a large painting on the wall",
+      "bytes": 223069
+    },
+    {
+      "file": "refs/ref-09.jpg",
+      "pin_id": "1118792732491599800",
+      "source": "https://www.pinterest.com/pin/1118792732491599800/",
+      "dominant_color": "#866856",
+      "alt": "Photorealistic Architectural Photography for Cafe Lighting Inspiration with Stainless Work Zone & Wa",
+      "bytes": 79691
+    },
+    {
+      "file": "refs/ref-10.jpg",
+      "pin_id": "1142366261764817512",
+      "source": "https://www.pinterest.com/pin/1142366261764817512/",
+      "dominant_color": "#6f451d",
+      "alt": "an empty restaurant with wooden chairs and tables",
+      "bytes": 137352
+    }
+  ],
+  "moodboard": {
+    "palette": [
+      "#EFE6D8",
+      "#C9A87C",
+      "#8A6A4B",
+      "#B9B2A6",
+      "#6E7A5E",
+      "#3A3128"
+    ],
+    "lighting": "오후 직사광이 통창으로 깊게 들어와 바닥과 벽에 선명한 빛 웅덩이를 만든다. 4000K 정도의 따뜻한 색온도, 그림자 가장자리는 부드럽고 전체적으로 하이키",
+    "composition": "눈높이 1점 투시. 한쪽 벽면 전체가 통창이라 광원이 되고, 중경에 바 카운터가 앵커로 놓인다. 수직선이 곧게 서 있고 여백이 넉넉하다",
+    "texture": "무광 라임 플라스터·미장 벽, 결이 보이는 밝은 오크와 월넛 가구, 폴리싱 콘크리트 바닥, 브러시드 스틸 에스프레소 머신, 한지 느낌 펜던트 조명, 올리브·유칼립투스 화분",
+    "avoid": "어수선한 소품, 얼굴이 또렷한 사람, 차가운 푸른 조명, 번들거리는 유광 마감, 큰 간판 글씨"
+  },
+  "route": {
+    "chosen": null,
+    "candidates": [
+      {
+        "slot": "primary",
+        "backend": "higgsfield",
+        "model": "nano_banana_pro",
+        "available": false,
+        "why": "higgsfield credits unconfirmed (set RF_HIGGSFIELD_READY=1 after checking the MCP balance tool)"
+      },
+      {
+        "slot": "fallback",
+        "backend": "gemini",
+        "model": "default",
+        "available": false,
+        "why": "GEMINI_API_KEY not set"
+      }
+    ],
+    "negative": "warped verticals, impossible geometry, fisheye distortion, clutter, blown highlights",
+    "prompt_template": "Architectural photograph of {space}. {style} style.\nMaterials: {material}. Lighting: {lighting}.\nStraight vertical lines, {lens} perspective.\nPalette: {palette}. Composition: {composition}.\n",
+    "upscale": {
+      "backend": "higgsfield",
+      "model": "bytedance_image_upscale",
+      "params": {
+        "resolution": "4k"
+      }
+    }
+  },
+  "attempts": [],
+  "final": null,
+  "status": "prompt",
+  "reference_query": "warm minimal cafe interior daylight interior architecture photography"
+}

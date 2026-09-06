@@ -1,0 +1,203 @@
+<!doctype html>
+<html lang="ko">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>reelforge</title>
+<style>
+  :root {
+    color-scheme: light dark;
+    --bg: #fbfaf8;        --panel: #ffffff;   --line: #e6e2dc;
+    --ink: #1c1a17;       --dim: #6d675f;     --accent: #b4531f;
+    --chip: #f1ede7;      --good: #2f7d4f;    --warn: #a8761b;   --bad: #a83232;
+    --shadow: 0 1px 2px rgba(0,0,0,.05), 0 8px 24px rgba(0,0,0,.05);
+  }
+  @media (prefers-color-scheme: dark) {
+    :root {
+      --bg: #16151a;      --panel: #1e1d23;   --line: #302e37;
+      --ink: #eceaf2;     --dim: #9a95a5;     --accent: #ff9d5c;
+      --chip: #2a2831;    --good: #6bd39a;    --warn: #e3b45f;   --bad: #ef7a7a;
+      --shadow: 0 1px 2px rgba(0,0,0,.4), 0 8px 24px rgba(0,0,0,.35);
+    }
+  }
+  * { box-sizing: border-box; }
+  body {
+    margin: 0; background: var(--bg); color: var(--ink);
+    font: 15px/1.6 -apple-system, BlinkMacSystemFont, "Pretendard", "Apple SD Gothic Neo",
+          "Segoe UI", system-ui, sans-serif;
+  }
+  header {
+    display: flex; align-items: baseline; gap: 12px;
+    padding: 18px 24px; border-bottom: 1px solid var(--line);
+    position: sticky; top: 0; background: var(--bg); z-index: 5;
+  }
+  header h1 { margin: 0; font-size: 19px; letter-spacing: -.02em; }
+  header .sub { color: var(--dim); font-size: 13px; }
+  .layout { display: grid; grid-template-columns: 260px 1fr; gap: 0; align-items: start; }
+  @media (max-width: 820px) { .layout { grid-template-columns: 1fr; } }
+
+  nav { border-right: 1px solid var(--line); padding: 16px 12px; }
+  @media (max-width: 820px) { nav { border-right: 0; border-bottom: 1px solid var(--line); } }
+  nav button {
+    display: block; width: 100%; text-align: left; border: 0; cursor: pointer;
+    background: transparent; color: var(--ink); font: inherit;
+    padding: 10px 12px; border-radius: 8px; margin-bottom: 2px;
+  }
+  nav button:hover { background: var(--chip); }
+  nav button[aria-current="true"] { background: var(--chip); font-weight: 600; }
+  nav button small { display: block; color: var(--dim); font-weight: 400; font-size: 12px; }
+
+  main { padding: 24px; max-width: 1100px; }
+  section { margin-bottom: 34px; }
+  h2 {
+    font-size: 12px; text-transform: uppercase; letter-spacing: .1em;
+    color: var(--dim); margin: 0 0 12px; font-weight: 600;
+  }
+  .card {
+    background: var(--panel); border: 1px solid var(--line);
+    border-radius: 12px; padding: 16px; box-shadow: var(--shadow);
+  }
+  .chips { display: flex; flex-wrap: wrap; gap: 6px; margin-top: 10px; }
+  .chip {
+    background: var(--chip); border-radius: 999px; padding: 3px 10px;
+    font-size: 12px; color: var(--dim);
+  }
+  .chip.on { background: var(--accent); color: #fff; }
+  .grid {
+    display: grid; gap: 10px;
+    grid-template-columns: repeat(auto-fill, minmax(150px, 1fr));
+  }
+  .grid a { display: block; border-radius: 10px; overflow: hidden; border: 1px solid var(--line); }
+  .grid img { display: block; width: 100%; height: 170px; object-fit: cover; }
+  .swatches { display: flex; gap: 6px; margin-top: 8px; }
+  .swatch { width: 26px; height: 26px; border-radius: 6px; border: 1px solid var(--line); }
+  .attempt { display: grid; grid-template-columns: 260px 1fr; gap: 16px; margin-bottom: 14px; }
+  @media (max-width: 700px) { .attempt { grid-template-columns: 1fr; } }
+  .attempt img { width: 100%; border-radius: 10px; border: 1px solid var(--line); }
+  .score { font-size: 26px; font-weight: 700; letter-spacing: -.02em; }
+  .score.good { color: var(--good); } .score.warn { color: var(--warn); } .score.bad { color: var(--bad); }
+  pre {
+    background: var(--chip); border-radius: 8px; padding: 12px; overflow-x: auto;
+    font-size: 12.5px; line-height: 1.55; white-space: pre-wrap; word-break: break-word; margin: 8px 0 0;
+  }
+  .kv { display: grid; grid-template-columns: 110px 1fr; gap: 6px 14px; font-size: 14px; }
+  .kv dt { color: var(--dim); } .kv dd { margin: 0; }
+  .empty { color: var(--dim); padding: 40px 0; text-align: center; }
+  .status { font-size: 12px; padding: 3px 10px; border-radius: 999px; background: var(--chip); color: var(--dim); }
+  .status.done { background: var(--good); color: #fff; }
+  .status.blocked_no_backend, .status.needs_human { background: var(--bad); color: #fff; }
+</style>
+</head>
+<body>
+<header>
+  <h1>reelforge</h1>
+  <span class="sub" id="meta"></span>
+</header>
+<div class="layout">
+  <nav id="nav"></nav>
+  <main id="main"></main>
+</div>
+
+<script src="data.js"></script>
+<script>
+const D = window.RF_DATA || { runs: [], generated_at: null };
+const $ = (s) => document.querySelector(s);
+const esc = (s) => String(s ?? "").replace(/[&<>"]/g, c => (
+  { "&": "&amp;", "<": "&lt;", ">": "&gt;", '"': "&quot;" }[c]));
+
+$("#meta").textContent = D.runs.length
+  ? `${D.runs.length}개 런 · ${(D.generated_at || "").slice(0, 16).replace("T", " ")} 기준`
+  : "런 없음";
+
+function scoreClass(n) { return n >= 80 ? "good" : n >= 60 ? "warn" : "bad"; }
+
+function renderNav(active) {
+  $("#nav").innerHTML = D.runs.map((r, i) => `
+    <button data-i="${i}" aria-current="${i === active}">
+      ${esc(r.slug)}
+      <small>${esc(r.genre?.label || r.status || "")}</small>
+    </button>`).join("");
+  $("#nav").querySelectorAll("button").forEach(b =>
+    b.onclick = () => render(+b.dataset.i));
+}
+
+function render(i) {
+  renderNav(i);
+  const r = D.runs[i];
+  if (!r) { $("#main").innerHTML = `<p class="empty">런이 없다. <code>rf.py new</code> 로 시작.</p>`; return; }
+  const base = `../runs/${r.slug}/`;
+  const mb = r.moodboard || {};
+  const attempts = r.attempts || [];
+
+  $("#main").innerHTML = `
+  <section>
+    <h2>브리프</h2>
+    <div class="card">
+      <dl class="kv">
+        <dt>요청</dt><dd>${esc(r.brief?.request)}</dd>
+        ${r.brief?.subject ? `<dt>주제</dt><dd>${esc(r.brief.subject)}</dd>` : ""}
+        ${r.brief?.purpose ? `<dt>용도</dt><dd>${esc(r.brief.purpose)}</dd>` : ""}
+        <dt>비율</dt><dd>${esc(r.brief?.aspect)}</dd>
+        <dt>장르</dt><dd>${esc(r.genre?.label || "-")}
+          ${r.genre?.confidence != null ? `<span class="chip">확신 ${r.genre.confidence}</span>` : ""}</dd>
+        <dt>모델</dt><dd>${r.route?.chosen
+          ? `${esc(r.route.chosen.backend)} / <code>${esc(r.route.chosen.model)}</code>`
+          : `<span class="status blocked_no_backend">백엔드 없음</span>`}</dd>
+        <dt>상태</dt><dd><span class="status ${esc(r.status)}">${esc(r.status)}</span></dd>
+      </dl>
+      ${r.brief?.mood?.length ? `<div class="chips">${r.brief.mood.map(m =>
+        `<span class="chip">${esc(m)}</span>`).join("")}</div>` : ""}
+    </div>
+  </section>
+
+  ${r.final ? `<section><h2>최종</h2>
+    <div class="card"><img src="${base + esc(r.final)}" style="width:100%;border-radius:8px"></div>
+  </section>` : ""}
+
+  <section>
+    <h2>시도 ${attempts.length ? `(${attempts.length})` : ""}</h2>
+    ${attempts.length ? attempts.map(a => `
+      <div class="card attempt">
+        <div>${a.file ? `<img src="${base + esc(a.file)}" loading="lazy">` : "<em>이미지 없음</em>"}</div>
+        <div>
+          <div class="score ${scoreClass(a.score ?? 0)}">${a.score ?? "–"}<span style="font-size:13px;color:var(--dim)"> / 100</span></div>
+          <div class="chips">
+            <span class="chip">#${a.n}</span>
+            <span class="chip">${esc(a.backend)}</span>
+            <span class="chip">${esc(a.model)}</span>
+          </div>
+          ${a.critique ? `<p style="margin:10px 0 0">${esc(a.critique)}</p>` : ""}
+          ${a.fix ? `<p style="margin:6px 0 0;color:var(--dim)"><strong>다음 수정:</strong> ${esc(a.fix)}</p>` : ""}
+          ${a.prompt ? `<pre>${esc(a.prompt)}</pre>` : ""}
+        </div>
+      </div>`).join("") : `<p class="empty">아직 생성된 이미지 없음</p>`}
+  </section>
+
+  ${Object.keys(mb).length ? `<section>
+    <h2>무드보드</h2>
+    <div class="card">
+      <dl class="kv">
+        ${mb.lighting ? `<dt>조명</dt><dd>${esc(mb.lighting)}</dd>` : ""}
+        ${mb.composition ? `<dt>구도</dt><dd>${esc(mb.composition)}</dd>` : ""}
+        ${mb.texture ? `<dt>질감</dt><dd>${esc(mb.texture)}</dd>` : ""}
+        ${mb.avoid ? `<dt>피할 것</dt><dd>${esc(mb.avoid)}</dd>` : ""}
+      </dl>
+      ${mb.palette?.length ? `<div class="swatches">${mb.palette.map(c =>
+        `<span class="swatch" style="background:${esc(c)}" title="${esc(c)}"></span>`).join("")}</div>` : ""}
+    </div>
+  </section>` : ""}
+
+  <section>
+    <h2>레퍼런스 ${r.references?.length ? `(${r.references.length})` : ""}</h2>
+    ${r.reference_query ? `<p style="color:var(--dim);margin:0 0 10px;font-size:13px">검색어: ${esc(r.reference_query)}</p>` : ""}
+    ${r.references?.length ? `<div class="grid">${r.references.map(f => `
+      <a href="${esc(f.source)}" target="_blank" rel="noopener" title="${esc(f.alt)}">
+        <img src="${base + esc(f.file)}" loading="lazy" alt="${esc(f.alt)}">
+      </a>`).join("")}</div>` : `<p class="empty">레퍼런스 없음</p>`}
+  </section>`;
+}
+
+render(0);
+</script>
+</body>
+</html>
