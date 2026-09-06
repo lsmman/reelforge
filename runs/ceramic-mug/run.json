@@ -1,0 +1,144 @@
+{
+  "slug": "ceramic-mug",
+  "created_at": "2026-09-06T15:35:44+09:00",
+  "brief": {
+    "request": "핸드메이드 세라믹 머그 커머스 썸네일",
+    "aspect": "1:1",
+    "subject": "핸드메이드 세라믹 머그 한 점",
+    "purpose": "온라인 스토어 썸네일",
+    "mood": [
+      "따뜻한",
+      "수공예",
+      "차분한",
+      "자연광"
+    ]
+  },
+  "genre": {
+    "id": "product",
+    "label": "제품 / 커머스",
+    "confidence": 0.92,
+    "why": "물건 하나가 주인공인 커머스 컷. product 장르 정의와 일치"
+  },
+  "references": [
+    {
+      "file": "refs/ref-01.jpg",
+      "pin_id": "21321798232490251",
+      "source": "https://www.pinterest.com/pin/21321798232490251/",
+      "dominant_color": "#ab957c",
+      "alt": "Нейрофотосессии для товаров | Промпты | ИИ фото",
+      "bytes": 131500
+    },
+    {
+      "file": "refs/ref-02.jpg",
+      "pin_id": "70861394134414728",
+      "source": "https://www.pinterest.com/pin/70861394134414728/",
+      "dominant_color": "#9d9693",
+      "alt": "Craft ceramics. Product photoshoot",
+      "bytes": 239850
+    },
+    {
+      "file": "refs/ref-03.jpg",
+      "pin_id": "5066618331551730",
+      "source": "https://www.pinterest.com/pin/5066618331551730/",
+      "dominant_color": "#8b7958",
+      "alt": "a cup of coffee sitting on top of a stack of books",
+      "bytes": 114464
+    },
+    {
+      "file": "refs/ref-04.jpg",
+      "pin_id": "43136108928208256",
+      "source": "https://www.pinterest.com/pin/43136108928208256/",
+      "dominant_color": "#f4880e",
+      "alt": "four hands holding coffee cups and saucers on an orange background",
+      "bytes": 109607
+    },
+    {
+      "file": "refs/ref-05.jpg",
+      "pin_id": "20266267069419071",
+      "source": "https://www.pinterest.com/pin/20266267069419071/",
+      "dominant_color": "#706038",
+      "alt": "two mugs sitting on top of a table next to each other",
+      "bytes": 289678
+    },
+    {
+      "file": "refs/ref-06.jpg",
+      "pin_id": "72339137760106784",
+      "source": "https://www.pinterest.com/pin/72339137760106784/",
+      "dominant_color": "#b6b2ab",
+      "alt": "two blue and white cups sitting on top of a wooden table next to a white backdrop",
+      "bytes": 550294
+    },
+    {
+      "file": "refs/ref-07.png",
+      "pin_id": "128282289382784923",
+      "source": "https://www.pinterest.com/pin/128282289382784923/",
+      "dominant_color": "#8d7547",
+      "alt": "Handmade Ceramic Mug | Cozy Slow Living Style",
+      "bytes": 3077151
+    },
+    {
+      "file": "refs/ref-08.jpg",
+      "pin_id": "3870349675167658",
+      "source": "https://www.pinterest.com/pin/3870349675167658/",
+      "dominant_color": "#c4ad95",
+      "alt": "a white cup sitting on top of a stack of books",
+      "bytes": 109989
+    }
+  ],
+  "moodboard": {
+    "palette": [
+      "#F2EBE1",
+      "#D9CDBE",
+      "#B08968",
+      "#6E8CA0",
+      "#7C8C61",
+      "#2E2A26"
+    ],
+    "lighting": "창가 측광 느낌의 부드러운 자연광. 그림자는 길고 옅으며 하이라이트가 절제돼 유약의 무광 질감이 살아난다",
+    "composition": "정사각 프레임 중앙에 머그 하나. 살짝 위에서 내려다보는 3/4 각. 리넨 천이나 책을 낮은 받침으로 깔고 여백을 넉넉히 둔다",
+    "texture": "손물레 자국이 남은 무광 유약, 점점이 박힌 스페클, 구겨진 오트밀색 리넨, 원목 결",
+    "avoid": "번들거리는 유광 반사, 브랜드 로고나 글자, 어수선한 배경 소품, 차가운 색온도"
+  },
+  "route": {
+    "chosen": {
+      "backend": "gemini",
+      "model": "default",
+      "slot": "fallback"
+    },
+    "candidates": [
+      {
+        "slot": "primary",
+        "backend": "higgsfield",
+        "model": "marketing_studio_image",
+        "available": false,
+        "why": "higgsfield credits unconfirmed (set RF_HIGGSFIELD_READY=1 after checking the MCP balance tool)"
+      },
+      {
+        "slot": "fallback",
+        "backend": "gemini",
+        "model": "default",
+        "available": true,
+        "why": "GEMINI_API_KEY set"
+      }
+    ],
+    "negative": "distorted logo, unreadable label text, floating shadow, dirty surface, cluttered background",
+    "prompt_template": "Commercial product photograph of {subject} on {surface}.\n{lighting} studio lighting, {background} background.\nCrisp edges, accurate material rendering ({material}).\nComposition: {composition}. Palette: {palette}.\n",
+    "upscale": {
+      "backend": "higgsfield",
+      "model": "bytedance_image_upscale",
+      "params": {
+        "resolution": "4k"
+      }
+    }
+  },
+  "attempts": {
+    "0": {
+      "score": 92,
+      "critique": "레퍼런스의 리넨·원목·창가 자연광 조합을 그대로 재현했다. 손물레 자국, 스페클, 굽의 raw clay까지 무드보드 지시가 살아있고 유광 반사가 없어 무광 유약이 제대로 읽힌다. 손잡이 형태와 접합부도 정확. 감점은 구도 — 오른쪽 아래 녹색 책이 크게 잘린 채 시선을 뺏고, 머그가 프레임 대비 작아 썸네일로 축소하면 임팩트가 준다.",
+      "fix": "머그를 프레임 대비 15퍼센트 키우고 정확히 중앙에 배치. 책은 더 작게 뒤로 물리거나 빼고 리넨만 남길 것."
+    }
+  },
+  "final": "out/attempt-01.png",
+  "status": "done",
+  "reference_query": "handmade ceramic mug still life product photography studio commercial"
+}

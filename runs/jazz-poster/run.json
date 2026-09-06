@@ -1,0 +1,143 @@
+{
+  "slug": "jazz-poster",
+  "created_at": "2026-09-06T15:35:50+09:00",
+  "brief": {
+    "request": "재즈 바 라이브 공연 포스터, 제목은 MIDNIGHT SET",
+    "aspect": "2:3",
+    "subject": "재즈 바 라이브 공연 포스터, 헤드라인 MIDNIGHT SET",
+    "purpose": "공연장 벽면 포스터 및 SNS 공유",
+    "mood": [
+      "대담한",
+      "레트로",
+      "고대비",
+      "미드센추리"
+    ]
+  },
+  "genre": {
+    "id": "typography_poster",
+    "label": "타이포 / 포스터",
+    "confidence": 0.95,
+    "why": "글자가 주인공인 인쇄물. typography_poster 정의와 정확히 일치"
+  },
+  "references": [
+    {
+      "file": "refs/ref-01.jpg",
+      "pin_id": "422281212885040",
+      "source": "https://www.pinterest.com/pin/422281212885040/",
+      "dominant_color": "#0f5eb1",
+      "alt": "a poster with an image of a man holding a trumpet and the words jazz on it",
+      "bytes": 217606
+    },
+    {
+      "file": "refs/ref-02.jpg",
+      "pin_id": "774124931655594",
+      "source": "https://www.pinterest.com/pin/774124931655594/",
+      "dominant_color": "#c52418",
+      "alt": "jazz poster",
+      "bytes": 197840
+    },
+    {
+      "file": "refs/ref-03.jpg",
+      "pin_id": "492649951537068",
+      "source": "https://www.pinterest.com/pin/492649951537068/",
+      "dominant_color": "#ff5a00",
+      "alt": "an orange and black poster with a saxophone on it",
+      "bytes": 408791
+    },
+    {
+      "file": "refs/ref-04.jpg",
+      "pin_id": "9922061674713731",
+      "source": "https://www.pinterest.com/pin/9922061674713731/",
+      "dominant_color": "#060709",
+      "alt": "a poster for the san francisco jazz festival",
+      "bytes": 46612
+    },
+    {
+      "file": "refs/ref-05.jpg",
+      "pin_id": "17310779815072910",
+      "source": "https://www.pinterest.com/pin/17310779815072910/",
+      "dominant_color": "#fceecf",
+      "alt": "Kimpton Los Monteros Marbella",
+      "bytes": 338296
+    },
+    {
+      "file": "refs/ref-06.jpg",
+      "pin_id": "422281211985932",
+      "source": "https://www.pinterest.com/pin/422281211985932/",
+      "dominant_color": "#645231",
+      "alt": "JAZZ poster",
+      "bytes": 85172
+    },
+    {
+      "file": "refs/ref-07.png",
+      "pin_id": "7810999350305888",
+      "source": "https://www.pinterest.com/pin/7810999350305888/",
+      "dominant_color": "#081b2d",
+      "alt": "the poster for jazz festival in paris",
+      "bytes": 467889
+    },
+    {
+      "file": "refs/ref-08.png",
+      "pin_id": "139330182217664254",
+      "source": "https://www.pinterest.com/pin/139330182217664254/",
+      "dominant_color": "#febf0f",
+      "alt": "stress relief wall art",
+      "bytes": 179600
+    }
+  ],
+  "moodboard": {
+    "palette": [
+      "#E8452C",
+      "#F0E5D0",
+      "#131313",
+      "#2B5FA8",
+      "#E8B23A"
+    ],
+    "lighting": "사진 조명 없음. 완전 평면 그래픽, 리소그래프 인쇄 질감",
+    "composition": "세로 2:3. 상단 절반을 대형 디스플레이 타이포가 지배하고, 색소폰을 잘라낸 종이처럼 기하학적으로 단순화해 대각선으로 얹는다. 하단에 작은 캡션 블록",
+    "texture": "평면 단색 면, 미세한 리소그래프 잉크 결과 종이 질감",
+    "avoid": "그라데이션, 3D 베벨, 드롭섀도, 사진 요소, 글자 겹침, 색 3개 초과"
+  },
+  "route": {
+    "chosen": {
+      "backend": "gemini",
+      "model": "default",
+      "slot": "fallback"
+    },
+    "candidates": [
+      {
+        "slot": "primary",
+        "backend": "higgsfield",
+        "model": "openai_hazel",
+        "available": false,
+        "why": "higgsfield credits unconfirmed (set RF_HIGGSFIELD_READY=1 after checking the MCP balance tool)"
+      },
+      {
+        "slot": "fallback",
+        "backend": "gemini",
+        "model": "default",
+        "available": true,
+        "why": "GEMINI_API_KEY set"
+      }
+    ],
+    "negative": "misspelled text, garbled letters, cropped words, cluttered hierarchy",
+    "prompt_template": "Graphic design poster. Headline text reads exactly \"{headline}\".\nTypeface feel: {type_style}. Layout: {layout}.\nPalette: {palette}. Graphic elements: {elements}.\nText must be spelled correctly and fully legible.\n",
+    "upscale": {
+      "backend": "higgsfield",
+      "model": "bytedance_image_upscale",
+      "params": {
+        "resolution": "4k"
+      }
+    }
+  },
+  "attempts": {
+    "0": {
+      "score": 95,
+      "critique": "타이포 포스터에서 가장 잘 터지는 철자 오류가 전혀 없다. MIDNIGHT SET, LIVE AT THE BLUE ROOM, FRIDAY 11PM 세 줄 모두 정확하고 잘림도 없다. 색을 정확히 3색으로 지킨 점, 리소그래프 잉크 결이 살아있는 점이 레퍼런스와 일치. 감점은 색소폰 벨이 오른쪽 여백을 침범해 마진이 불균등하고, 두 번째 줄이 악기 몸통과 살짝 겹치는 부분.",
+      "fix": "색소폰을 5퍼센트 축소해 오른쪽 마진을 헤드라인과 맞추고, 두 번째 줄을 악기와 겹치지 않게 아래로 내릴 것."
+    }
+  },
+  "final": "out/attempt-01.png",
+  "status": "done",
+  "reference_query": "jazz concert poster minimal graphic design poster typography"
+}

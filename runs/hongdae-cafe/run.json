@@ -148,8 +148,22 @@
       }
     }
   },
-  "attempts": [],
-  "final": null,
-  "status": "route",
+  "attempts": [
+    {
+      "n": 1,
+      "backend": "gemini",
+      "model": "gemini-3-pro-image",
+      "prompt": "Architectural photograph of a small minimal Seoul coffee shop interior, seen at eye level in one-point perspective. Warm Japandi style.\nMaterials: matte lime-plaster walls, light oak counter and stools, walnut accents, polished microcement floor, brushed steel espresso machine, rice-paper pendant lamps, a few olive and eucalyptus plants.\nLighting: strong late-afternoon daylight raking through a full-height window wall on the left, casting crisp pools of sun across the floor and wall, warm 4000K, high-key with soft shadow edges.\nStraight vertical lines, 35mm perspective, no distortion.\nPalette: cream #EFE6D8, light oak #C9A87C, walnut #8A6A4B, concrete grey #B9B2A6, sage #6E7A5E, deep brown #3A3128.\nComposition: window wall on the left as the light source, bar counter anchoring the mid-ground, generous negative space, no people in focus.\n\nAvoid: warped verticals, impossible geometry, fisheye distortion, clutter, blown highlights, busy props, sharp human faces, cold blue light, glossy finishes, large signage text.\n",
+      "aspect": "4:5",
+      "file": "out/attempt-01.png",
+      "bytes": 719235,
+      "created_at": "2026-09-06T15:35:08+09:00",
+      "score": 89,
+      "critique": "브리프·레퍼런스 일치도 높음. 크림 플라스터 벽, 오크 카운터와 스툴, 통창 직사광의 빛 웅덩이, 한지 펜던트, 올리브·유칼립투스 화분까지 무드보드 그대로 나왔다. 수직선 곧고 왜곡 없음. 4:5 비율 정확. 감점 지점은 구도 — 1점 투시로 지시했으나 2점 투시에 가깝고, 오른쪽 펜던트와 스툴이 프레임에 잘렸다. 하단 1/3이 빈 바닥이라 피드 썸네일에서 밀도가 낮다.",
+      "fix": "카운터를 프레임 중앙으로 당기고 카메라를 정면 1점 투시로 고정. 오른쪽 펜던트가 잘리지 않도록 화각을 좁히고, 바닥 여백을 줄여 시선을 카운터에 모을 것."
+    }
+  ],
+  "final": "out/attempt-01.png",
+  "status": "done",
   "reference_query": "warm minimal cafe interior daylight interior architecture photography"
 }

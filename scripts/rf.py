@@ -496,8 +496,12 @@ def set_path(obj, dotted: str, value):
     for k in keys[:-1]:
         if k.isdigit() and isinstance(cur, list):
             cur = cur[int(k)]
-        else:
-            cur = cur.setdefault(k, {})
+            continue
+        # A key can exist holding null (a fresh run.json has genre: null),
+        # so setdefault is not enough — replace anything that is not a dict.
+        if not isinstance(cur.get(k), dict):
+            cur[k] = {}
+        cur = cur[k]
     last = keys[-1]
     if last.isdigit() and isinstance(cur, list):
         cur[int(last)] = value

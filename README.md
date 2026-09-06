@@ -42,6 +42,21 @@ claude
 ./scripts/rf.py index && open viewer/index.html
 ```
 
+## 실제 결과
+
+세 장르를 같은 파이프라인으로 돌린 것. 프롬프트는 장르별 템플릿에서 나왔고,
+점수는 파이프라인이 결과물을 직접 보고 매긴 것이다.
+
+| | | |
+|---|---|---|
+| <img src="docs/examples/hongdae-cafe.png" width="260"> | <img src="docs/examples/ceramic-mug.png" width="260"> | <img src="docs/examples/jazz-poster.png" width="260"> |
+| `architecture` · 89점 | `product` · 92점 | `typography_poster` · 95점 |
+| "홍대 감성 카페 인테리어" | "핸드메이드 세라믹 머그 썸네일" | "재즈 바 포스터, MIDNIGHT SET" |
+
+포스터의 세 줄(`MIDNIGHT SET` / `LIVE AT THE BLUE ROOM` / `FRIDAY 11PM`)이
+전부 정확히 나온 건 우연이 아니라 `typography_poster` 템플릿이 헤드라인을
+따옴표로 고정하고 네거티브에 철자 오류를 넣기 때문이다.
+
 ## 9단계
 
 | # | 단계 | 하는 일 |
